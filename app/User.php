@@ -11,7 +11,8 @@ use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
 class User extends Authenticatable
 {
     use Notifiable;
-    use SoftDeletes;
+    use SoftDeletes;//utilizo borrado suave, quiere decir que solamente cambio el 
+                    // estado de una variable en la Base de Datos.
     use HasRolesAndPermissions;
     
 
@@ -41,7 +42,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    /**
+     * Atributo para utilizar borrado suave, el cual guardara la fecha de cuando se borre
+     */
     protected $dates = [
         'deleted_at'
     ];

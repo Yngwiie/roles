@@ -10,9 +10,9 @@ use Caffeinated\Shinobi\Models\Role;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Función para listar en pantalla todos los usuarios que no estan eliminados.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response la vista index junto con los usuarios no eliminados.
      */
     public function index()
     {
@@ -22,9 +22,9 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * función para obtener datos personales del usuario.
      *
-     * @param  int  $id
+     * @param  User $user usuario que se desea mostrar.
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -33,9 +33,9 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * función para obtener los datos del usuario , tanto datos personales como roles.
      *
-     * @param  int  $id
+     * @param  User  $user usuario que se desea editar.
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
@@ -45,11 +45,10 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Actualiza el usuario y su rol.
+     * 
+     *@param User $user usuario que se actualiza
+     * @return \Illuminate\Http\Response Respuesta de confirmación
      */
     public function update(Request $request,User $user)
     {
@@ -61,20 +60,20 @@ class UserController extends Controller
         $user->roles()->sync($request->get('roles'));
 
         return redirect()->route('users.edit',$user->id)
-            ->with('info','Usuario actualizado con éxito');
+            ->with('success','Usuario actualizado con éxito');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Esta funcion elimina a un usuario.
+     * 
+     * @param User $user es el usuario que se desea eliminar
+     * @return \Illuminate\Http\Response Respuesta de confirmación
      */
     public function destroy(User $user)
-    {
+    {   
         $user-> delete();
 
-        return redirect()->back()->with('info', 'Eliminado Correctamente.');
+        return redirect()->back()->with('success', 'Eliminado Correctamente.');
     }
     public function editarDatosPropios(User $user)
     {

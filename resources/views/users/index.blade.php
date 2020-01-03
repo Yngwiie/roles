@@ -24,23 +24,23 @@
                                 <td>{{$user->id}}</td>
                                 <td >{{$user->name}}</td>
                                 <td width="10px">
-                                    @can('users.show')
+                                    @can('users.show')<!-- Si tiene permiso para ver usuario se mostrara el boton-->
                                         <a href="{{route('users.show',$user->id)}}" 
                                         class="btn btn-secondary btn-sm">Ver</a>
                                     @endcan
                                 </td>
                                 <td width="10px">
-                                    @can('users.edit')
+                                    @can('users.edit')<!-- Si tiene permiso para editar usuario se mostrara el boton-->
                                         <a href="{{route('users.edit',$user->id)}}" 
                                         class="btn btn-secondary btn-sm">Editar</a>
                                     @endcan
                                 </td>
                                 
                                 <td width="10px">
-                                    @can('users.destroy')
+                                    @can('users.destroy')<!-- Si tiene permiso para eliminar usuario se mostrara el boton-->
                                         {!!Form::open(['route' => ['users.destroy',$user->id],
                                         'method' => 'DELETE' ]) !!}
-                                            <button  class="btn btn-sm btn-danger">
+                                            <button onclick="return confirm('¿Estas seguro?')" class="btn btn-sm btn-danger">
                                             Eliminar
                                             </button>
                                         {!!Form::close()!!}

@@ -21,6 +21,7 @@
 </head>
 <body style="background-color: #E5E5E5;">
     <div id="app">
+    @include('mensajes-flash')   
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -31,7 +32,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
+                    <!-- lado izquierdo de la barra de navegación -->
                     <ul class="navbar-nav mr-auto">
                         <!-- -->
                         <li class="nav-item">   
@@ -48,9 +49,9 @@
 
                     </ul>
 
-                    <!-- Right Side Of Navbar -->
+                    <!-- Lado derecho de la barra de navegación -->
                     <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
+                        <!-- Links de autenticación -->
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Inicio Sesión') }}</a>

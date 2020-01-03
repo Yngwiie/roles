@@ -52,7 +52,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {   
-        return view('roles.show',compact('Role'));
+        return view('roles.show',compact('role'));
     }
 
     /**
@@ -84,11 +84,11 @@ class RoleController extends Controller
         $role->permissions()->sync($request->get('permissions'));
 
         return redirect()->route('roles.edit',$role->id)
-            ->with('info','Rol actualizado con éxito');
+            ->with('success','Rol actualizado con éxito');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * función para eliminar un rol.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -97,7 +97,7 @@ class RoleController extends Controller
     {
         $role-> delete();
 
-        return redirect()->back()->with('info', 'Eliminado Correctamente.');
+        return redirect()->back()->with('success', 'Eliminado Correctamente.');
     }
 
 
