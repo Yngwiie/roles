@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Event;
 use Caffeinated\Shinobi\Models\Role;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class UserController extends Controller
 {
@@ -16,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::withoutTrashed()->get();
+        $users = User::withTrashed()->paginate(15);
 
         return view('users.index',compact('users'));
     }
@@ -29,7 +30,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {   
-        return view('users.show',compact('user'));
+        $roles = Role::get();//obtengo los roles que tiene el usuario
+        return view('users.show',compact('user','roles'));
     }
 
     /**
@@ -42,9 +44,7 @@ class UserController extends Controller
     {
         $roles = Role::get();//obtengo los roles que tiene el usuario
         return view('users.edit',compact('user','roles'));
-    }
-
-    
+    }    
 
     /**
      * Esta funcion elimina a un usuario.
@@ -95,5 +95,11 @@ class UserController extends Controller
 
         return redirect()->route('users.edit',$user->id)
             ->with('success','Usuario actualizado con éxito');
+    }
+
+    public function exportarpdf(User $user)
+    {
+        $roles = Role::get();//obtengo los roles que tiene el usuario
+        $pdf = PDF::loadView('pdf.users');
     }
 }

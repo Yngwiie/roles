@@ -4,17 +4,18 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card" style="width: 75rem; margin-left:-220px;">
                 <div class="card-header">
                     Usuarios
                 </div>
                     
                 <div class="card-body">
                     <table class="table table-striped table-hover">
-                        <thead>
+                        <thead class="thead-dark">
                             <tr>
                                 <th widht="10px">ID</th>
                                 <th>Nombre</th>
+                                <th>Rut</th>
                                 <th colspan="3">&nbsp;</th>
                             </tr>
                         </thead>
@@ -22,7 +23,8 @@
                             @foreach($users as $user)
                             <tr>
                                 <td>{{$user->id}}</td>
-                                <td >{{$user->name}}</td>
+                                <td>{{$user->name}}</td>
+                                <td>{{$user->rut}}
                                 <td width="10px">
                                     @can('users.show')<!-- Si tiene permiso para ver usuario se mostrara el boton-->
                                         <a href="{{route('users.show',$user->id)}}" 

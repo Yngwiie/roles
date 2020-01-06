@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card" >
                 <div class="card-header">
                     Roles
                     @can('roles.create')
@@ -14,9 +14,9 @@
                     @endcan
                 </div>
                     
-                <div class="card-body">
-                    <table class="table table-striped table-hover">
-                        <thead>
+                <div class="card-body" >
+                    <table class="table table-striped table-hover" >
+                        <thead class="thead-dark">
                             <tr>
                                 <th widht="10px">ID</th>
                                 <th>Nombre Rol</th>

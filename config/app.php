@@ -177,6 +177,8 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
         Caffeinated\shinobi\ShinobiServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+        Freshwork\ChileanBundle\Laravel\ChileanBundleServiceProvider::class,    
 
     ],
 
@@ -228,6 +230,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Rut'   => Freshwork\ChileanBundle\Laravel\Facades\Rut::class,
 
     ],
 

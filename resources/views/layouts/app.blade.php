@@ -15,6 +15,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/df11a4c4b4.js" crossorigin="anonymous"></script>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -35,17 +36,17 @@
                     <!-- lado izquierdo de la barra de navegación -->
                     <ul class="navbar-nav mr-auto">
                         <!-- -->
-                        <li class="nav-item">   
-                            <a class="nav-link" href="{{ route('roles.index') }}">Roles</a>
-                        </li>
-            
-                        <li class="nav-item">   
-                            <a class="nav-link" href="{{ route('users.index') }}">Usuarios</a>
-                        </li>
-
-                        <li class="nav-item">   
-                            <a class="nav-link" href="{{ route('users.index') }}">Informes</a>
-                        </li>
+                        @can('roles.index')
+                            <li class="nav-item">   
+                                <a class="nav-link" href="{{ route('roles.index') }}">Roles</a>
+                            </li>
+                        @endcan
+                        @can('users.index')
+                            <li class="nav-item">   
+                                <a class="nav-link" href="{{ route('users.index') }}">Usuarios</a>
+                            </li>
+                        @endcan
+                        
 
                     </ul>
 

@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Freshwork\ChileanBundle\Rut;
 
 class RegisterController extends Controller
 {
@@ -49,10 +50,12 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'rut' => ['required','cl_rut']
         ]);
     }
 
@@ -64,9 +67,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $rutNuevo = Rut::parse($data['rut'])->fix()->format();
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'rut' => $rutNuevo,
             'password' => Hash::make($data['password']),
         ]);
     }

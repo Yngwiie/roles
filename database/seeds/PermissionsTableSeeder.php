@@ -34,7 +34,7 @@ class PermissionsTableSeeder extends Seeder
             'description' => 'Eliminar cualquier usuario del sistema',
         ]);
 
-         //permisos de usuario
+         //permisos de roles
         Permission::create([
             'name' => 'Navegar roles',
             'slug' => 'roles.index',
@@ -61,5 +61,6 @@ class PermissionsTableSeeder extends Seeder
             'description' => 'Eliminar cualquier usuario del sistema',
         ]);
         
+       
     }
 }
