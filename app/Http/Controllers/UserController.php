@@ -44,6 +44,40 @@ class UserController extends Controller
         return view('users.edit',compact('user','roles'));
     }
 
+    
+
+    /**
+     * Esta funcion elimina a un usuario.
+     * 
+     * @param User $user es el usuario que se desea eliminar
+     * @return \Illuminate\Http\Response Respuesta de confirmación
+     */
+    public function destroy(User $user)
+    {   
+        $user-> delete();
+
+        return redirect()->back()->with('success', 'Eliminado Correctamente.');
+    }
+    public function editarDatosPersonales(User $user)
+    {
+        return view('users.editPersonal',compact('user'));
+    }
+
+    /**
+     * Actualiza datos personales del usuario
+     * 
+     *@param User $user usuario que se actualiza
+     * @return \Illuminate\Http\Response Respuesta de confirmación
+     */
+    public function actualizarDatosPersonales(Request $request,User $user)
+    {
+        //actualizar usuario
+        $user->update($request->all());
+
+        return redirect()->route('users.editPersonal',$user->id)
+            ->with('success','Usuario actualizado con éxito');
+    }
+
     /**
      * Actualiza el usuario y su rol.
      * 
@@ -61,22 +95,5 @@ class UserController extends Controller
 
         return redirect()->route('users.edit',$user->id)
             ->with('success','Usuario actualizado con éxito');
-    }
-
-    /**
-     * Esta funcion elimina a un usuario.
-     * 
-     * @param User $user es el usuario que se desea eliminar
-     * @return \Illuminate\Http\Response Respuesta de confirmación
-     */
-    public function destroy(User $user)
-    {   
-        $user-> delete();
-
-        return redirect()->back()->with('success', 'Eliminado Correctamente.');
-    }
-    public function editarDatosPropios(User $user)
-    {
-
     }
 }

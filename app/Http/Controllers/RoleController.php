@@ -10,7 +10,7 @@ use Caffeinated\Shinobi\Models\Permission;
 class RoleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Funcion para listar los roles y devolverlos a la vista roles.index
      *
      * @return \Illuminate\Http\Response
      */
@@ -20,19 +20,20 @@ class RoleController extends Controller
 
         return view('roles.index',compact('roles'));
     }
-
+    /**
+     * Función para crear rol con sus permisos. 
+     * 
+     */
     public function create()
     {
         $permissions = Permission::get();
         return view('roles.create',compact('permissions'));
     }
-         /**
-     * Store a newly created resource in storage.
+     /**
+     * Función para guardar los datos de un rol y sus permisos.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
 
     public function store(Request $request)
     {
@@ -45,10 +46,10 @@ class RoleController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * funcion para mostrar el detalle de un rol.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Role $role rol que se desea mostrar.
+     * @return \Illuminate\Http\Response se devuelve la vista show y los datos del rol.
      */
     public function show(Role $role)
     {   
@@ -56,10 +57,10 @@ class RoleController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * función para obtener los datos de un rol y poder editarlos.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Role $role rol que se desea editar.
+     * @return \Illuminate\Http\Response devuelve la vista de editar y los datos del rol y sus permisos.
      */
     public function edit(Role $role)
     {   
@@ -68,11 +69,10 @@ class RoleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Función para actualizar rol y sus permisos.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Role $role rol que se desea actualizar.
+     * @return \Illuminate\Http\Response se devuelve la vista de edit y un mensaje de éxito.
      */
     public function update(Request $request,Role $role)
     {

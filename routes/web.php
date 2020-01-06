@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('users','UserController@index')->name('users.index')
         ->middleware('can:users.index');
 
-    Route::put('users/{user}','UserController@update')->name('users.update')
+    Route::put('users/{user}/edit','UserController@update')->name('users.update')
         ->middleware('can:users.create');
 
     Route::get('users/{user}','UserController@show')->name('users.show')
@@ -62,6 +62,7 @@ Route::middleware(['auth'])->group(function(){
         ->middleware('can:users.edit');
         
    
-    
-
+    //otros
+    Route::get('users/{user}/editar','UserController@editarDatosPersonales')->name('users.edicionPersonal');
+    Route::put('users/{user}','UserController@actualizarDatosPersonales')->name('users.actualizarDatosPersonales');
 });

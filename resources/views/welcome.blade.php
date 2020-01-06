@@ -79,8 +79,9 @@
                 </div>
             @endif
 
-            <div class="content" >
-                <div class="title m-b-md">
+            <div class="content">
+                <div class="title m-b-md"  >
+                    
                     Roles y Permisos
                 </div>
 
