@@ -58,7 +58,7 @@
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
+                                <i id="mostrar" class="fas fa-eye float-right" style="margin:2px;"></i>
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -71,7 +71,8 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirmar Contraseña') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" class="form-control" name="password-confirmation" required autocomplete="new-password">
+                                <i id="mostrar1" class="fas fa-eye float-right" style="margin:2px;"></i>
                             </div>
                         </div>
 
@@ -89,3 +90,24 @@
     </div>
 </div>
 @endsection
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script >
+            $(document).ready(function(){
+                $('#mostrar').mousedown(function(){
+                    $('#password').removeAttr('type');
+                });
+                $('#mostrar').mouseup(function(){
+                    $('#password').attr('type','password');
+                });
+            });
+</script>
+<script >
+            $(document).ready(function(){
+                $('#mostrar1').mousedown(function(){
+                    $('#password-confirm').removeAttr('type');
+                });
+               $('#mostrar1').mouseup(function(){
+                    $('#password-confirm').attr('type','password');
+                });
+            });
+</script>

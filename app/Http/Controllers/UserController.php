@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Event;
 use Caffeinated\Shinobi\Models\Role;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
 use Barryvdh\DomPDF\Facade as PDF;
 
 class UserController extends Controller
@@ -28,9 +30,10 @@ class UserController extends Controller
      * @param  User $user usuario que se desea mostrar.
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {   
-        $roles = Role::get();//obtengo los roles que tiene el usuario
+        $user = User::withTrashed()->find($id);
+        $roles = $user->roles;//obtengo los roles que tiene el usuario
         return view('users.show',compact('user','roles'));
     }
 
@@ -40,8 +43,9 @@ class UserController extends Controller
      * @param  User  $user usuario que se desea editar.
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
+        $user = User::withTrashed()->find($id);
         $roles = Role::get();//obtengo los roles que tiene el usuario
         return view('users.edit',compact('user','roles'));
     }    
@@ -84,9 +88,9 @@ class UserController extends Controller
      *@param User $user usuario que se actualiza
      * @return \Illuminate\Http\Response Respuesta de confirmación
      */
-    public function update(Request $request,User $user)
+    public function update(Request $request,$id)
     {
-        
+        $user = User::withTrashed()->find($id);
         //actualizar usuario
         $user->update($request->all());
 

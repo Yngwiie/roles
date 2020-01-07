@@ -9,7 +9,7 @@
 </div>
 
 <div class="form-group ">
-    <label class="float-left">
+    <label >
     {{ Form::label('password','Antigua Contraseña')}}
     {{ Form::password(null,null,['class' => 'form-control']) }}
     </label>
@@ -17,9 +17,21 @@
 
 <div class="form-group">
     {{ Form::label('password','Nueva Contraseña')}}
-    {{ Form::password(null,null,['class' => 'form-control']) }}
+    {{ Form::password('password',null,['class' => 'form-control']) }}
+    <i id="mostrar" class="fas fa-eye " style="margin:2px;"></i>
 </div>
 
 <div>
     {{ Form::submit('Guardar', ['class' =>'btn-sm btn-secondary'])}}
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script >
+            $(document).ready(function(){
+                $('#mostrar').mousedown(function(){
+                    $('#password').removeAttr('type');
+                });
+                $('#mostrar').mouseup(function(){
+                    $('#password').attr('type','password');
+                });
+            });
+</script>

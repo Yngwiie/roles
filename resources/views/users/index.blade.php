@@ -16,6 +16,7 @@
                                 <th widht="10px">ID</th>
                                 <th>Nombre</th>
                                 <th>Rut</th>
+                                <th>estado</th>
                                 <th colspan="3">&nbsp;</th>
                             </tr>
                         </thead>
@@ -24,7 +25,12 @@
                             <tr>
                                 <td>{{$user->id}}</td>
                                 <td>{{$user->name}}</td>
-                                <td>{{$user->rut}}
+                                <td>{{$user->rut}}</td>
+                                @if (empty($user->deleted_at))
+                                    <td>Activo</td>
+                                @else
+                                    <td>Eliminado</td>
+                                @endif
                                 <td width="10px">
                                     @can('users.show')<!-- Si tiene permiso para ver usuario se mostrara el boton-->
                                         <a href="{{route('users.show',$user->id)}}" 
@@ -42,6 +48,7 @@
                                     @can('users.destroy')<!-- Si tiene permiso para eliminar usuario se mostrara el boton-->
                                         {!!Form::open(['route' => ['users.destroy',$user->id],
                                         'method' => 'DELETE' ]) !!}
+                                            
                                             <button onclick="return confirm('¿Estas seguro?')" class="btn btn-sm btn-danger">
                                             Eliminar
                                             </button>

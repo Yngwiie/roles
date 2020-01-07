@@ -1,0 +1,9 @@
+$(document).ready(function(){
+    console.log("hola");
+    $('#mostrar').mousedown(function(){
+        $('#password').removeAttr('type');
+    });
+    $('#mostrar').mouseup(function(){
+        $('#password').attr('type','password');
+    });
+});

@@ -27,10 +27,9 @@
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Contraseña') }}</label>
-
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
+                                <i id="mostrar" class="fas fa-eye float-right" style="margin:2px;"></i>
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -38,7 +37,7 @@
                                 @enderror
                             </div>
                         </div>
-
+                        
                         <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
@@ -70,4 +69,16 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script >
+            $(document).ready(function(){
+                console.log("hola");
+                $('#mostrar').mousedown(function(){
+                    $('#password').removeAttr('type');
+                });
+                $('#mostrar').mouseup(function(){
+                    $('#password').attr('type','password');
+                });
+            });
+</script>
 @endsection
