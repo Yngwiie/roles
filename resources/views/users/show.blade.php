@@ -4,8 +4,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header ">
                     Usuario
+                    <a href="{{ route('roles.create') }}" 
+                    class="btn btn-sm btn-secondary float-right">
+                    Descargar PDF</a>
                 </div>
                     
                 <div class="card-body">

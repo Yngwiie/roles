@@ -64,7 +64,7 @@ Route::middleware(['auth'])->group(function(){
    
     //edicion datos personales
     Route::get('users/{user}/editar','UserController@editarDatosPersonales')->name('users.edicionPersonal');
-    Route::put('users/{user}','UserController@actualizarDatosPersonales')->name('users.actualizarDatosPersonales');
+    Route::put('users/{user}/editar','UserController@actualizarDatosPersonales')->name('users.actualizarDatosPersonales');
 
 
 });

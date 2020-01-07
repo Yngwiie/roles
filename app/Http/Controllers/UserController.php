@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Event;
+use Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
@@ -67,21 +70,36 @@ class UserController extends Controller
         return view('users.editPersonal',compact('user'));
     }
 
-    /**
-     * Actualiza datos personales del usuario
-     * 
-     *@param User $user usuario que se actualiza
-     * @return \Illuminate\Http\Response Respuesta de confirmación
-     */
-    public function actualizarDatosPersonales(Request $request,User $user)
-    {
-        //actualizar usuario
-        $user->update($request->all());
+    public function actualizarDatosPersonales(Request $request,User $user){
+        $rules = [
+            'passantigua' => 'required',
+            'password' => 'required|min:8|max:18',
+        ];
 
-        return redirect()->route('users.editPersonal',$user->id)
-            ->with('success','Usuario actualizado con éxito');
+        $messages = [
+            'passantigua.required' => 'El campo es requerido',
+            'password.required' => 'El campo es requerido',
+            'password.min' => 'El mínimo permitido son 8 caracteres',
+            'password.max' => 'El máximo permitido son 18 caracteres',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if($validator->fails()){
+            return redirect()->route('users.edicionPersonal',$user->id)->withErrors($validator);
+        }
+        else{
+            if(Hash::check($request->passantigua,Auth::user()->password)){
+                $user = new User;
+                $user->where('email', '=', Auth::user()->email)
+                     ->update(['password' => Hash::make($request['password'])]);
+                return redirect()->back()->with('success', 'actualizado correctamente.');
+            }
+            else{
+                return redirect()->route('users.edicionPersonal',$user->id)->with('error','Credenciales incorrectas');
+            }
+        }
     }
-
     /**
      * Actualiza el usuario y su rol.
      * 

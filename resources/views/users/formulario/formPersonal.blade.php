@@ -11,7 +11,7 @@
 <div class="form-group ">
     <label >
     {{ Form::label('password','Antigua Contraseña')}}
-    {{ Form::password(null,null,['class' => 'form-control']) }}
+    {{ Form::password('passantigua',null,['class' => 'form-control']) }}
     </label>
 </div>
 
@@ -21,7 +21,7 @@
     <i id="mostrar" class="fas fa-eye " style="margin:2px;"></i>
 </div>
 
-<div>
+<div >
     {{ Form::submit('Guardar', ['class' =>'btn-sm btn-secondary'])}}
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
