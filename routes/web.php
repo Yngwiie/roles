@@ -15,7 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
+Route::get('profile',function(){
+    return 'this is profile';
+})->middleware('verified');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -66,5 +69,10 @@ Route::middleware(['auth'])->group(function(){
     Route::get('users/{user}/editar','UserController@editarDatosPersonales')->name('users.edicionPersonal');
     Route::put('users/{user}/editar','UserController@actualizarDatosPersonales')->name('users.actualizarDatosPersonales');
 
+    //imprimir pdf
+    Route::get('users/{user}/pdf','UserController@exportarpdf')->name('users.usuariopdf');
 
+    //enviar correo al administrador
+
+    Route::post('users/{user}','UserController@enviarCorreoAdmin')->name('users.enviarcorreo');
 });

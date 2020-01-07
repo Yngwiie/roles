@@ -122,6 +122,20 @@ class UserController extends Controller
     public function exportarpdf(User $user)
     {
         $roles = Role::get();//obtengo los roles que tiene el usuario
-        $pdf = PDF::loadView('pdf.users');
+
+ //       $pdf = PDF::loadView('users.show',compact('user','roles'));
+        $pdf = PDF::loadView('users.usuariopdf',compact('user','roles'));
+        return $pdf->download("usuario.pdf");
+    }
+
+    public function enviarCorreoAdmin(User $user)
+    {
+        Mail::send('emails.emailAdmin',$user,function($message){
+            $message->from('yngwie00@gmail.com','Roles');
+
+            $message->to('yngwie00@gmail.com')->subject('Email test');
+        });
+
+        return redirect()->back();
     }
 }

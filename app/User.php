@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
 use App\Notifications\ResetPasswordNotification;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     use SoftDeletes;//utilizo borrado suave, quiere decir que solamente cambio el 
