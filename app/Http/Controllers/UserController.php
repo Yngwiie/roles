@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Event;
 use Auth;
+use Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Caffeinated\Shinobi\Models\Role;
@@ -20,9 +21,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response la vista index junto con los usuarios no eliminados.
      */
-    public function index()
-    {
-        $users = User::withTrashed()->paginate(15);
+    public function index(Request $request)
+    {   
+                       //scope
+        $users = User::busqueda($request->get('busqueda'))->withTrashed()->paginate(15);
 
         return view('users.index',compact('users'));
     }
@@ -71,12 +73,12 @@ class UserController extends Controller
     }
 
     public function actualizarDatosPersonales(Request $request,User $user){
-        $rules = [
+        $rules = [//reglas para los campos de contraseña
             'passantigua' => 'required',
             'password' => 'required|min:8|max:18',
         ];
 
-        $messages = [
+        $messages = [ //mensajes que se devolvera dependiendo el error.
             'passantigua.required' => 'El campo es requerido',
             'password.required' => 'El campo es requerido',
             'password.min' => 'El mínimo permitido son 8 caracteres',
@@ -90,10 +92,12 @@ class UserController extends Controller
         }
         else{
             if(Hash::check($request->passantigua,Auth::user()->password)){
-                $user = new User;
+                $user = User::find(Auth::user()->id);
+                $user->name = $request['name'];
                 $user->where('email', '=', Auth::user()->email)
                      ->update(['password' => Hash::make($request['password'])]);
-                return redirect()->back()->with('success', 'actualizado correctamente.');
+                $user->save();
+                return redirect()->route('home')->with('success', 'actualizado correctamente.');
             }
             else{
                 return redirect()->route('users.edicionPersonal',$user->id)->with('error','Credenciales incorrectas');
@@ -128,14 +132,25 @@ class UserController extends Controller
         return $pdf->download("usuario.pdf");
     }
 
-    public function enviarCorreoAdmin(User $user)
+
+    /**
+     * Metodo para enviar correo a administrador
+     */
+    public function enviarCorreoAdmin($id)
     {
-        Mail::send('emails.emailAdmin',$user,function($message){
-            $message->from('yngwie00@gmail.com','Roles');
+        $user = User::withTrashed()->find($id);
+        $data = array(
+            'name'=>$user->name,
+            'email'=>$user->email,
+            'rut'=>$user->rut,
+        );  
+        Mail::send('emails.emailAdmin',$data,function($message){
+            $message->from('yngwiie00@gmail.com','Roles y Permisos');
 
-            $message->to('yngwie00@gmail.com')->subject('Email test');
-        });
+            $message->to('yngwiie00@gmail.com')->subject('Petición para asignar rol');
+        }); 
 
-        return redirect()->back();
+        return redirect()->route('home')
+        ->with('success','Correo enviado');
     }
 }

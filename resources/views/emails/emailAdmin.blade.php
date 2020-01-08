@@ -10,7 +10,10 @@
     <h2>Hola</h2>
 
     <div>
-        el usuario nesesita que se le asignen roles.
+        El usuario {!!$name!!} con los siguientes datos:
+        <li>{!!$rut!!}</li>
+        <li>{!!$email!!}</li>
+        Nesesita que le asignes roles.
     </div>
 </body>
 </html>

@@ -4,23 +4,32 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card" >
+            <div class="card" style="width: 75rem; margin-left:-220px;" >
                 <div class="card-header">
-                    Roles
-                    @can('roles.create')
-                    <a href="{{ route('roles.create') }}" 
-                    class="btn btn-sm btn-secondary float-right">
-                    Crear</a>
-                    @endcan
+                    <strong>Roles</strong>                    
+                    {!! Form::open(['route'=>'roles.index','method' =>'GET',
+                    'class'=>'form-inline float-right']) !!}
+                        {!! Form::text('busqueda',null,['class'=>'form-control form-control mr-3 w-30',
+                        'placeholder'=>'Buscar','aria-label'=>'Search'])!!}
+                        {{ Form::button('<i class="fas fa-search" aria-hidden="true"></i>', ['type' => 'submit', 
+                        'class' => 'btn btn-sm'] )  }}
+                    {!!Form::close()!!}
+                   
                 </div>
-                    
+
                 <div class="card-body" >
                     <table class="table table-striped table-hover" >
                         <thead class="thead-dark">
                             <tr>
                                 <th widht="10px">ID</th>
                                 <th>Nombre Rol</th>
-                                <th colspan="3">&nbsp;</th>
+                                <th colspan="3">
+                                    @can('roles.create')
+                                        <a href="{{ route('roles.create') }}" 
+                                        class="btn btn-sm btn-secondary float-left">
+                                        Crear Rol
+                                    @endcan
+                                </a>&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>

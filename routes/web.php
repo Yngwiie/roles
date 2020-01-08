@@ -74,5 +74,5 @@ Route::middleware(['auth'])->group(function(){
 
     //enviar correo al administrador
 
-    Route::post('users/{user}','UserController@enviarCorreoAdmin')->name('users.enviarcorreo');
+    Route::get('enviarcorreo/{user}','UserController@enviarCorreoAdmin')->name('users.enviarcorreo');
 });

@@ -6,7 +6,16 @@
         <div class="col-md-8">
             <div class="card" style="width: 75rem; margin-left:-220px;">
                 <div class="card-header">
-                    Usuarios
+                    <strong >Usuarios</strong>
+                    
+                    {!! Form::open(['route'=>'users.index','method' =>'GET',
+                    'class'=>'form-inline float-right']) !!}
+                        {!! Form::text('busqueda',null,['class'=>'form-control form-control mr-3 w-30',
+                        'placeholder'=>'Buscar','aria-label'=>'Search'])!!}
+                        
+                        {{ Form::button('<i class="fas fa-search" aria-hidden="true"></i>', ['type' => 'submit', 
+                        'class' => 'btn btn-sm'] )  }}
+                    {!!Form::close()!!}
                 </div>
                     
                 <div class="card-body">
@@ -16,7 +25,8 @@
                                 <th widht="10px">ID</th>
                                 <th>Nombre</th>
                                 <th>Rut</th>
-                                <th>estado</th>
+                                <th>Eliminado</th>
+                                <th>Estado</th>
                                 <th colspan="3">&nbsp;</th>
                             </tr>
                         </thead>
@@ -27,9 +37,14 @@
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->rut}}</td>
                                 @if (empty($user->deleted_at))
-                                    <td>Activo</td>
+                                    <td>No</td>
                                 @else
-                                    <td>Eliminado</td>
+                                    <td>Si</td>
+                                @endif
+                                @if (empty($user->email_verified_at))
+                                    <td>No verificado</td>
+                                @else
+                                    <td>Verificado</td>
                                 @endif
                                 <td width="10px">
                                     @can('users.show')<!-- Si tiene permiso para ver usuario se mostrara el boton-->

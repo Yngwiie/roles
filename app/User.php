@@ -23,7 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'rut','email', 'password',
+        'name', 'rut','email', 'password','estado',
     ];
 
     /**
@@ -59,5 +59,20 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
+    }
+
+    /**
+     * Metodo para poder realizar la busqueda o filtrado.
+     * Se puede hacer por nombre, rut , email o estado(verificado o no verificado).
+     */
+    public function scopeBusqueda($query,$busqueda)
+    {
+        if($busqueda!=""){
+            $query->where('name','LIKE',"%$busqueda%")
+                  ->orWhere('rut','LIKE',"%$busqueda%")
+                  ->orwhere('email','LIKE',"%$busqueda%")
+                  ->orWhere('estado','LIKE',"%$busqueda%");
+        }
+       
     }
 }

@@ -5,6 +5,7 @@ namespace Illuminate\Foundation\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
+use App\User;
 
 trait VerifiesEmails
 {
@@ -33,6 +34,7 @@ trait VerifiesEmails
      */
     public function verify(Request $request)
     {
+        $request->user()->estado = "verificado";
         if (! hash_equals((string) $request->route('id'), (string) $request->user()->getKey())) {
             throw new AuthorizationException;
         }

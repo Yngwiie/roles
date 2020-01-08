@@ -5,18 +5,17 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Bienvenido!</div>
-    
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                        
+                <div class="card-header">
+                    Bienvenido!!
+                </div>
+
+                <div class="card-body"  >
+                    
+                    @if(auth()->user()->roles->count()==0)
+                        <li><strong><i>No tiene un rol asignado haga click en el boton para informar al administrador.</i></strong></li>
+                        <a href="{{route('users.enviarcorreo',auth()->user()->id)}}" 
+                                            class="btn btn-secondary btn-sm">Enviar Correo</a>
                     @endif
-                    <li><strong> Si no tienes un rol asignado haga click en el boton para informar al administrador.</strong></li>
-                    <a href="{{route('users.enviarcorreo',auth()->user()->id)}}" 
-                                        class="btn btn-secondary btn-sm">Enviar Correo</a>
                 </div>
             </div>
         </div>

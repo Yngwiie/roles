@@ -65,4 +65,12 @@ class Role extends Model implements RoleContract
 
         return true;
     }
+
+    public function scopeBusqueda($query,$busqueda)
+    {
+        if($busqueda!=""){
+            $query->where('name','LIKE',"%$busqueda%");
+        }
+       
+    }
 }

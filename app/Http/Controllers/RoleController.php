@@ -14,9 +14,9 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Role::paginate();
+        $roles = Role::busqueda($request->get('busqueda'))->paginate(15);
 
         return view('roles.index',compact('roles'));
     }

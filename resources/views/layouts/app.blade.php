@@ -22,7 +22,7 @@
 <body style="background-color: #E5E5E5;">
     <div id="app">
     @include('mensajes-flash')   
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('Roles y Permisos', 'Roles y Permisos') }}
@@ -36,7 +36,7 @@
                     <ul class="navbar-nav mr-auto">
                         <!-- -->
                         @can('roles.index')
-                            <li class="nav-item">   
+                            <li class="nav-item" >   
                                 <a class="nav-link" href="{{ route('roles.index') }}">Roles</a>
                             </li>
                         @endcan
