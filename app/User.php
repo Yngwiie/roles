@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;  
 use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
 use App\Notifications\ResetPasswordNotification;
+use App\Notifications\CustomVerifyEmail;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -60,18 +61,36 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new ResetPasswordNotification($token));
     }
-
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new CustomVerifyEmail);
+    }
     /**
-     * Metodo para poder realizar la busqueda o filtrado.
+     * Metodo para poder realizar la busqueda o filtrado para usuarios verificados.
      * Se puede hacer por nombre, rut , email o estado(verificado o no verificado).
      */
     public function scopeBusqueda($query,$busqueda)
-    {
+    {   
+        $query->where('estado',"verificado");
         if($busqueda!=""){
-            $query->where('name','LIKE',"%$busqueda%")
-                  ->orWhere('rut','LIKE',"%$busqueda%")
-                  ->orwhere('email','LIKE',"%$busqueda%")
-                  ->orWhere('estado','LIKE',"%$busqueda%");
+            $query->where([['name','LIKE',"%$busqueda%"],['estado',"verificado"]])
+                  ->orWhere([['rut','LIKE',"%$busqueda%"],['estado',"verificado"]])
+                  ->orwhere([['email','LIKE',"%$busqueda%"],['estado',"verificado"]]);
+        }
+       
+    }
+
+    /**
+     * Metodo para poder realizar la busqueda o filtrado para usuarios no verificados.
+     * Se puede hacer por nombre, rut o email.
+     */
+    public function scopeBusqueda_no_verificados($query,$busqueda)
+    {   
+        $query->where('estado',"no verificado");
+        if($busqueda!=""){
+            $query->where([['name','LIKE',"%$busqueda%"],['estado',"no verificado"]])
+                  ->orWhere([['rut','LIKE',"%$busqueda%"],['estado',"no verificado"]])
+                  ->orwhere([['email','LIKE',"%$busqueda%"],['estado',"no verificado"]]);
         }
        
     }

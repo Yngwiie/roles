@@ -12,11 +12,15 @@
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #E5E5E5;
-                color: #3a3e40;
+                background: url('/img/nature.jpg') no-repeat;
+                background-size: cover;
+                background-position:center center;
+                background-attachment: fixed;
+                color: white;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
-                height: 100vh;
+                height: 100%;
+                width: 100%;
                 margin: 0;
             }
 
@@ -45,11 +49,12 @@
             }
 
             .title {
-                font-size: 84px;
+                font-size: 150px;
+                
             }
 
             .links > a {
-                color: #636b6f;
+                color: white;
                 padding: 0 25px;
                 font-size: 13px;
                 font-weight: 600;
@@ -80,7 +85,7 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md"  >
+                <div class="title m-b-md" >
                     
                     Roles y Permisos
                 </div>

@@ -4,12 +4,12 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header"> 
+            <div class="card animated fadeIn ">
+                <div class="card-header shadow-sm"> 
                     Usuario
                 </div>
                     
-                <div class="card-body">
+                <div class="card-body shadow-lg">
                     {!! Form::model($user, ['route' => ['users.actualizarDatosPersonales',$user->id],
                     'method' => 'PUT']) !!}
                         @include('users.formulario.formPersonal')

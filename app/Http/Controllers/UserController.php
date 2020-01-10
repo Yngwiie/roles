@@ -23,12 +23,24 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {   
+        
                        //scope
         $users = User::busqueda($request->get('busqueda'))->withTrashed()->paginate(15);
 
         return view('users.index',compact('users'));
     }
+    /**
+     * Funcion para listar en pantalla todos los usuarios que no estan eliminados y
+     * que no esten verificados
+     * @return  \Illuminate\Http\Response retorna vista indexNoVerificados con los usuarios.
+     */
+    public function indexNoVerificados(Request $request)
+    {   
+                       //scope
+        $users = User::busqueda_no_verificados($request->get('busqueda'))->withTrashed()->paginate(15);
 
+        return view('users.indexNoverificados',compact('users'));
+    }
     /**
      * función para obtener datos personales del usuario.
      *
@@ -138,7 +150,12 @@ class UserController extends Controller
      */
     public function enviarCorreoAdmin($id)
     {
+        
         $user = User::withTrashed()->find($id);
+        $correos = $user->cant_correos;
+        $correos = $correos - 1;
+        $user->cant_correos = $correos;
+        $user->save();
         $data = array(
             'name'=>$user->name,
             'email'=>$user->email,

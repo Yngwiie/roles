@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Event;
+use App\User;
 use Caffeinated\Shinobi\Models\Role;
 use Caffeinated\Shinobi\Models\Permission;
 
@@ -93,13 +94,28 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+    public function destroy(Request $request,Role $role)
     {
+        $roles = Role::busqueda($request->get('busqueda'))->paginate(15);
         $role-> delete();
 
-        return redirect()->back()->with('success', 'Eliminado Correctamente.');
+        return redirect()->route('roles.index',$roles)
+            ->with('success','Rol eliminado con éxito');
     }
+    public function cantidadusuariosrol(Request $request,Role $role)
+    {
+        $roles = Role::busqueda($request->get('busqueda'))->paginate(15);
+        $users = User::all();
+        foreach($users as $user){
+            if($user->hasRole($role->slug)){
+                $message =  'hay personas con rol';
+                return view('modal.modal',compact('message','roles','role'));
+            }
+        }
+        $message = '¿Esta seguro?';
 
+        return view('modal.modal',compact('message','roles','role'));
+    }
 
 
 

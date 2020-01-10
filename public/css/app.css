@@ -63,8 +63,14 @@ nav,
 section {
   display: block;
 }
-
+.fondo{
+  background: url('../img/nature.jpg') no-repeat;
+  background-size: cover;
+  background-position:center center;
+  background-attachment: fixed;
+}
 body {
+  background-color: #d5d5d5;
   margin: 0;
   font-family: "Nunito", sans-serif;
   font-size: 0.9rem;
@@ -72,7 +78,7 @@ body {
   line-height: 1.6;
   color: #212529;
   text-align: left;
-  background-color: #f8fafc;
+  
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {

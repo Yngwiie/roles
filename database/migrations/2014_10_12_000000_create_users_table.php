@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('rut');
             $table->string('email')->unique();
+            $table->string('cant_correos')->default(3);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('estado')->default('no verificado');
             $table->string('password');

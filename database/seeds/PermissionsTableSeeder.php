@@ -60,6 +60,16 @@ class PermissionsTableSeeder extends Seeder
             'slug' => 'roles.destroy',
             'description' => 'Eliminar cualquier usuario del sistema',
         ]);
+        Permission::create([
+            'name' =>'Modificar Datos Personales',
+            'slug' =>'user.editardatospersonales',
+            'description' =>'Editar Datos personales',
+        ]);
+        Permission::create([
+            'name' => 'Ver Auditoria de usuarios',
+            'slug' => 'users.auditoria',
+            'description' => 'Ver auditoria de inicio de sesión de usuarios'
+        ]);
         
        
     }

@@ -10,21 +10,23 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-
+    
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <script src="https://kit.fontawesome.com/df11a4c4b4.js" crossorigin="anonymous"></script>
-
+    
     <!-- Styles -->
+    
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 </head>
-<body style="background-color: #E5E5E5;">
+<body >    
     <div id="app">
     @include('mensajes-flash')   
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand animated "href="{{ url('/home') }}">
                     {{ config('Roles y Permisos', 'Roles y Permisos') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -36,13 +38,22 @@
                     <ul class="navbar-nav mr-auto">
                         <!-- -->
                         @can('roles.index')
-                            <li class="nav-item" >   
+                            <li class="nav-item " >   
                                 <a class="nav-link" href="{{ route('roles.index') }}">Roles</a>
                             </li>
                         @endcan
                         @can('users.index')
-                            <li class="nav-item">   
-                                <a class="nav-link" href="{{ route('users.index') }}">Usuarios</a>
+                            <li class="nav-item dropdown ">   
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('users.index') }}">Usuarios Verificados</a>
+                                    <a class="dropdown-item" href="{{ route('users.indexNoVerificados') }}">Usuarios No verificados</a>
+                                </div>
+                            </li>
+                        @endcan
+                        @can('users.auditoria')
+                            <li class="nav-item" >   
+                                <a class="nav-link" href="{{ route('users.log') }}">Auditoria</a>
                             </li>
                         @endcan
                         
@@ -68,9 +79,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{route('users.edicionPersonal',auth()->user()->id)}}">
-                                        {{ __('Modificar mis Datos') }}
-                                    </a>
+                                    @can('user.editardatospersonales')
+                                        <a class="dropdown-item" href="{{route('users.edicionPersonal',auth()->user()->id)}}">
+                                            {{ __('Modificar mis Datos') }}
+                                        </a>
+                                    @endcan
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -92,4 +105,5 @@
         </main>
     </div>
 </body>
+
 </html>

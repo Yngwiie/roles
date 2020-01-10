@@ -4,8 +4,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card" style="width: 75rem; margin-left:-220px;">
-                <div class="card-header">
+            <div class="card animated fadeIn" style="width: 75rem; margin-left:-220px;">
+                <div class="card-header shadow-sm">
                     <strong >Usuarios</strong>
                     
                     {!! Form::open(['route'=>'users.index','method' =>'GET',
@@ -18,8 +18,8 @@
                     {!!Form::close()!!}
                 </div>
                     
-                <div class="card-body">
-                    <table class="table table-striped table-hover">
+                <div class="card-body shadow-lg">
+                    <table class="table table-striped table-hover shadow p-3 ">
                         <thead class="thead-dark">
                             <tr>
                                 <th widht="10px">ID</th>

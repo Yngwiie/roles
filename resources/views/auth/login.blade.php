@@ -72,7 +72,6 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script >
             $(document).ready(function(){
-                console.log("hola");
                 $('#mostrar').mousedown(function(){
                     $('#password').removeAttr('type');
                 });

@@ -1,11 +1,11 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card" style="width: 75rem; margin-left:-220px;" >
-                <div class="card-header">
+        @yield('modal')
+            <div class="card animated fadeIn" style="width: 75rem; margin-left:-220px;" >
+                <div class="card-header shadow-lg">
                     <strong>Roles</strong>                    
                     {!! Form::open(['route'=>'roles.index','method' =>'GET',
                     'class'=>'form-inline float-right']) !!}
@@ -17,8 +17,8 @@
                    
                 </div>
 
-                <div class="card-body" >
-                    <table class="table table-striped table-hover" >
+                <div class="card-body shadow-lg" >
+                    <table class="table table-striped table-hover shadow p-3" >
                         <thead class="thead-dark">
                             <tr>
                                 <th widht="10px">ID</th>
@@ -51,12 +51,10 @@
                                 </td>
                                 <td width="10px">
                                     @can('roles.destroy')<!-- Si tiene permiso para eliminar se mostrara el boton-->
-                                        {!!Form::open(['route' => ['roles.destroy',$role->id],
-                                        'method' => 'DELETE' ]) !!}
+                                        {!!Form::open(['route' => ['roles.cantidadusuariosrol',$role->id],
+                                        'method' => 'GET' ]) !!}
                                             
-                                            <button onclick="return confirm('¿Estas seguro?')" class="btn btn-sm btn-danger">
-                                            Eliminar
-                                            </button>
+                                            <button class="btn btn-danger btn-sm">Eliminar</button>
                                         
                                         {!!Form::close()!!}
                                         
@@ -73,4 +71,8 @@
         </div>
     </div>
 </div>
+
+
+
+
 @endsection

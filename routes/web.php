@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes(['verify' => true]);
@@ -39,17 +39,19 @@ Route::middleware(['auth'])->group(function(){
     Route::get('roles/{role}','RoleController@show')->name('roles.show')
         ->middleware('can:roles.show');
 
-    Route::delete('roles/{role}','RoleController@destroy')->name('roles.destroy')
+    Route::delete('roles/{role}/destroy','RoleController@destroy')->name('roles.destroy')
         ->middleware('can:roles.destroy');
 
     Route::get('roles/{role}/edit','RoleController@edit')->name('roles.edit')
         ->middleware('can:roles.edit');
-
-
+    //cant usuarios rol
+    Route::get('roles/{role}/cantU','RoleController@cantidadusuariosrol')->name('roles.cantidadusuariosrol');
 
     
     //usuarios
     Route::get('users','UserController@index')->name('users.index')
+        ->middleware('can:users.index');
+    Route::get('usersNoVerificados','UserController@indexNoVerificados')->name('users.indexNoVerificados')
         ->middleware('can:users.index');
 
     Route::put('users/{user}/edit','UserController@update')->name('users.update')
@@ -60,7 +62,7 @@ Route::middleware(['auth'])->group(function(){
 
     Route::delete('users/{user}','UserController@destroy')->name('users.destroy')
         ->middleware('can:users.destroy');
-
+    
     Route::get('users/{user}/edit','UserController@edit')->name('users.edit')
         ->middleware('can:users.edit');
         
@@ -75,4 +77,7 @@ Route::middleware(['auth'])->group(function(){
     //enviar correo al administrador
 
     Route::get('enviarcorreo/{user}','UserController@enviarCorreoAdmin')->name('users.enviarcorreo');
+
+    //ruta para log
+    Route::get('log','LogController@index')->name('users.log');
 });

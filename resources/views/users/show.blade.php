@@ -3,9 +3,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card shadow-lg">
                 <div class="card-header ">
-                    Usuario
+                    <strong>Usuario</strong>
                     <a href="{{ route('users.usuariopdf',$user -> id)}}" 
                     class="btn btn-sm btn-secondary float-right">
                     Descargar PDF</a>

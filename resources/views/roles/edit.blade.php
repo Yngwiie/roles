@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card animated fadeIn shadow-lg">
                 <div class="card-header"> 
                     Rol
                 </div>
