@@ -146,7 +146,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'slug'=>'URL amigable',
+        'name'=>'nombre',
+    ],
 
 ];
 

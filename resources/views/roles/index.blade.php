@@ -71,8 +71,7 @@
         </div>
     </div>
 </div>
-
-
+@yield('modal')
 
 
 @endsection

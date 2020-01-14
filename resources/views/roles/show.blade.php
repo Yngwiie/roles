@@ -13,6 +13,7 @@
                     <p><strong>Nombre:</strong> {{$role->name}}</p>
                     <p><strong>URL amigable:</strong> {{$role->slug}}</p>
                     <p><strong>Descripción: </strong> {{$role->description ?: 'Sin Descripción'}}</p>
+                    <p><strong>Cantidad de usuarios con el rol: </strong>{{$cantidad_usuarios ?: '0'}}</p>
                 </div>
             </div>
         </div>

@@ -38,6 +38,11 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'slug' => 'required|unique:roles|max:18',
+            'name' => 'required|unique:roles|min:3|max:45',
+        ]);
+
         $role = Role::create($request->all());
 
         $role->permissions()->sync($request->get('permissions'));
@@ -54,7 +59,14 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {   
-        return view('roles.show',compact('role'));
+        $users = User::all();
+        $cantidad_usuarios = 0;
+        foreach($users as $user){
+            if($user->hasRole($role->slug)){
+                $cantidad_usuarios+=1;
+            }
+        }
+        return view('roles.show',compact('role','cantidad_usuarios'));
     }
 
     /**
@@ -77,7 +89,10 @@ class RoleController extends Controller
      */
     public function update(Request $request,Role $role)
     {
-        
+        $validatedData = $request->validate([
+            'slug' => 'required|unique:roles|max:18',
+            'name' => 'required|unique:roles|min:3|max:190',
+        ]);
         //actualizar rol
         $role->update($request->all());
 

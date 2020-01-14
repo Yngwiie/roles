@@ -10,7 +10,7 @@
 
 <div class="form-group">
     {{ Form::label('description','Descripción') }}
-    {{ Form::textarea('description',null,['class'=>'form-control','required']) }}
+    {{ Form::textarea('description',null,['class'=>'form-control']) }}
 </div>
 <hr>
 <h3>Permiso especial</h3>

@@ -124,6 +124,9 @@ class UserController extends Controller
      */
     public function update(Request $request,$id)
     {
+        $validatedData = $request->validate([
+            'name' => 'required|min:1|max:190',
+        ]);
         $user = User::withTrashed()->find($id);
         //actualizar usuario
         $user->update($request->all());
@@ -169,5 +172,14 @@ class UserController extends Controller
 
         return redirect()->route('home')
         ->with('success','Correo enviado');
+    }
+    /**
+     * Función para restaurar un usuario Deshabilitado(eliminado con sofdelete)
+     */
+    public function restaurarUsuario($id){
+        User::onlyTrashed()->find($id)->restore();
+
+        return redirect()->route('users.index')
+            ->with('success','Usuario habilitado correctamente');
     }
 }

@@ -28,9 +28,9 @@
                     </div>
                 </div>
         @else
-            <img src="/img/bienvenido1.png" style="position: relative;
-                                                  left: -120px;
-                                                  top:  60px;">
+            <img class="animated infinite pulse" src="/img/bi2.png" style="position:absolute;
+                                                  left: -210px;
+                                                  top:  55px;">
         @endif
         </div>
     </div>

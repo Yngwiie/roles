@@ -19,14 +19,18 @@
 
                     <ul class="list-unstyled">
                     <p><strong>Roles asignados:</strong>
-                        @foreach($roles as $role)
-                        <li class="list-group-item list-group-item-secondary">
-                            <label>
-                            <i class="fas fa-angle-double-right"></i>
-                                {{$role->name}}
-                            </label>
-                        </li>
-                        @endforeach
+                        @if($roles->count()==0)
+                            Ningun rol asignado</p>
+                        @else
+                            @foreach($roles as $role)
+                            <li class="list-group-item list-group-item-secondary">
+                                <label>
+                                <i class="fas fa-angle-double-right"></i>
+                                    {{$role->name}}
+                                </label>
+                            </li>
+                            @endforeach
+                        @endif
                     </ul>
                 </div>
             </div>

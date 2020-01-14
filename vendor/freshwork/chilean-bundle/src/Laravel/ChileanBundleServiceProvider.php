@@ -29,7 +29,7 @@ class ChileanBundleServiceProvider extends ServiceProvider
         Validator::extend('cl_rut', function ($attribute, $value, $parameters, $validator) {
             $validator->addReplacer('cl_rut', function ($message, $attribute, $rule, $parameters) {
                 return str_replace(':attribute', $attribute, $message == 'validation.cl_rut'
-                    ? 'El atributo :attribute no es válido.'
+                    ? 'El :attribute no es válido.'
                     : $message);
             });
 

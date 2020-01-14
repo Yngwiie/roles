@@ -65,7 +65,8 @@ Route::middleware(['auth'])->group(function(){
     
     Route::get('users/{user}/edit','UserController@edit')->name('users.edit')
         ->middleware('can:users.edit');
-        
+    //habilitar usuario
+    Route::get('users/{user}/restaurar','UserController@restaurarUsuario')->name('users.restaurar');
    
     //edicion datos personales
     Route::get('users/{user}/editar','UserController@editarDatosPersonales')->name('users.edicionPersonal');

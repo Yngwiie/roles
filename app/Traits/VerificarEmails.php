@@ -1,13 +1,14 @@
 <?php
 
-namespace Illuminate\Foundation\Auth;
+namespace App\Traits;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\RedirectsUsers;
 use App\User;
 
-trait VerifiesEmails
+trait VerificarEmails
 {
     use RedirectsUsers;
 
@@ -33,7 +34,8 @@ trait VerifiesEmails
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function verify(Request $request)
-    {
+    {   
+        $request->user()->estado = "verificado";
         if (! hash_equals((string) $request->route('id'), (string) $request->user()->getKey())) {
             throw new AuthorizationException;
         }

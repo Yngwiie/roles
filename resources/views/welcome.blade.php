@@ -12,7 +12,6 @@
         <!-- Styles -->
         <style>
             html, body {
-                background: url('/img/nature.jpg') no-repeat;
                 background-size: cover;
                 background-position:center center;
                 background-attachment: fixed;

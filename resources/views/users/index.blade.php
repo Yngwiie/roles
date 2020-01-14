@@ -25,7 +25,7 @@
                                 <th widht="10px">ID</th>
                                 <th>Nombre</th>
                                 <th>Rut</th>
-                                <th>Eliminado</th>
+                                <th>Habilitado</th>
                                 <th>Estado</th>
                                 <th colspan="3">&nbsp;</th>
                             </tr>
@@ -37,9 +37,9 @@
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->rut}}</td>
                                 @if (empty($user->deleted_at))
-                                    <td>No</td>
-                                @else
                                     <td>Si</td>
+                                @else
+                                    <td>No</td>
                                 @endif
                                 @if (empty($user->email_verified_at))
                                     <td>No verificado</td>
@@ -61,13 +61,15 @@
                                 
                                 <td width="10px">
                                     @can('users.destroy')<!-- Si tiene permiso para eliminar usuario se mostrara el boton-->
-                                        {!!Form::open(['route' => ['users.destroy',$user->id],
-                                        'method' => 'DELETE' ]) !!}
-                                            
-                                            <button onclick="return confirm('¿Estas seguro?')" class="btn btn-sm btn-danger">
-                                            Eliminar
-                                            </button>
-                                        {!!Form::close()!!}
+                                        @if(empty($user->deleted_at))
+                                                <button data-toggle="modal" data-target="#modalDeshabilitar" class="btn btn-sm btn-warning">
+                                                Deshabilitar
+                                                </button>
+                                        @else
+                                                <button data-toggle="modal" data-target="#modalHabilitar" class="btn btn-sm btn-success">
+                                                Habilitar
+                                                </button>
+                                        @endif
                                         
                                     @endcan
                                 </td>
@@ -81,5 +83,53 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="modalDeshabilitar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Esta seguro?
+      </div>
+      <div class="modal-footer">
+            {!!Form::open(['route' => ['users.destroy',$user->id],
+                'method' => 'DELETE' ]) !!}                             
+                <button class="btn btn-success  btn-sm">Confirmar</button>
+                                            
+            {!!Form::close()!!}
+            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalHabilitar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Esta seguro?
+      </div>
+      <div class="modal-footer">
+            {!!Form::open(['route' => ['users.restaurar',$user->id],
+                'method' => 'GET' ]) !!}                             
+                <button class="btn btn-success btn-sm">Confirmar</button>
+                                            
+            {!!Form::close()!!}
+            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
