@@ -492,6 +492,7 @@ class ComposerStaticInit27b12bd5ecfcd5dda56aca99d8612d13
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Support\\Collection' => __DIR__ . '/../..' . '/app/Support/Collection.php',
         'App\\Traits\\VerificarEmails' => __DIR__ . '/../..' . '/app/Traits/VerificarEmails.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\log' => __DIR__ . '/../..' . '/app/log.php',

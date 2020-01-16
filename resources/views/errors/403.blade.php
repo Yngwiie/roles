@@ -1,4 +1,5 @@
-@extends('errors::layout')
+@extends('errors::minimal')
 
-@section('tittle','403')
-@section('message','Acceso no autorizado')
+@section('title', __('Acceso no autorizado'))
+@section('code', '403')
+@section('message', __('Acceso no autorizado'))

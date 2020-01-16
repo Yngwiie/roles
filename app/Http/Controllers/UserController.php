@@ -13,6 +13,7 @@ use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
 use Barryvdh\DomPDF\Facade as PDF;
+use App\Support\Collection;
 
 class UserController extends Controller
 {
@@ -41,6 +42,29 @@ class UserController extends Controller
 
         return view('users.indexNoverificados',compact('users'));
     }
+
+    public function indexSinRol(Request $request){
+        $users_todos = User::busqueda_sin_rol($request->get('busqueda'))->withTrashed()->paginate(15);
+
+        $users = collect(new User)->paginate(15);
+        foreach($users_todos as $user){
+            $roles = $user->roles;
+            if($roles->count()==0){
+                $users->push($user);
+            }
+        }
+         
+        return view('users.indexsinrol',compact('users'));
+    }
+    /**
+     * Función para restaurar un usuario Deshabilitado(eliminado con sofdelete)
+     */
+    public function restaurarUsuario(Request $request){
+        
+        User::onlyTrashed()->find($request->user_id)->restore();
+        return redirect()->back()->with('success','Usuario habilitado correctamente');
+        
+    }
     /**
      * función para obtener datos personales del usuario.
      *
@@ -49,7 +73,11 @@ class UserController extends Controller
      */
     public function show($id)
     {   
-        $user = User::withTrashed()->find($id);
+        if($id==1){
+            abort(404);
+        }
+        $user = User::withTrashed()->findOrFail($id);
+
         $roles = $user->roles;//obtengo los roles que tiene el usuario
         return view('users.show',compact('user','roles'));
     }
@@ -61,9 +89,13 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $user = User::withTrashed()->find($id);
-        $roles = Role::get();//obtengo los roles que tiene el usuario
+    {   
+        if($id==1){
+            abort(404);
+        }
+        $user = User::withTrashed()->findOrFail($id);
+
+        $roles = Role::get();//obtengo los roles.
         return view('users.edit',compact('user','roles'));
     }    
 
@@ -73,34 +105,46 @@ class UserController extends Controller
      * @param User $user es el usuario que se desea eliminar
      * @return \Illuminate\Http\Response Respuesta de confirmación
      */
-    public function destroy(User $user)
+    public function destroy(Request $request)
     {   
-        $user-> delete();
+        if($request->user_id_inhabilitar==1){
+            abort(404);
+        }
+        $user = User::findOrFail($request->user_id_inhabilitar)->delete();
 
-        return redirect()->back()->with('success', 'Eliminado Correctamente.');
+        return redirect()->back()->with('success', 'Inhabilitado correctamente.');
     }
+    /**
+     * Metodo para obtener los datos del usuario que esta en session.
+     */
     public function editarDatosPersonales(User $user)
-    {
-        return view('users.editPersonal',compact('user'));
+    {   
+        return view('users.editPersonal',compact('user'));           
+    
+        
     }
-
+    /**
+     * Metodo para actualizar los datos personales de un usuario.
+     */
     public function actualizarDatosPersonales(Request $request,User $user){
         $rules = [//reglas para los campos de contraseña
+            'name' =>'required|min:2|max:190',
             'passantigua' => 'required',
-            'password' => 'required|min:8|max:18',
+            'password' => 'required|min:8|max:45|confirmed',
         ];
 
         $messages = [ //mensajes que se devolvera dependiendo el error.
-            'passantigua.required' => 'El campo es requerido',
-            'password.required' => 'El campo es requerido',
-            'password.min' => 'El mínimo permitido son 8 caracteres',
-            'password.max' => 'El máximo permitido son 18 caracteres',
+            'passantigua.required' => 'La contraseña antigua es requerido',
+            'password.required' => 'El campo nueva contraseña es requerido',
+            'password.min' => 'La nueva contraseña debe tener al menos 8 caracteres',
+            'password.max' => 'La nueva contraseña debe tener como maximo 45 caracteres',
+            'password.confirmed' =>'No coinciden las nuevas contraseñas',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
-
+        $user1 = User::find($user->id);
         if($validator->fails()){
-            return redirect()->route('users.edicionPersonal',$user->id)->withErrors($validator);
+            return view('users.editPersonal',compact('user'))->withErrors($validator);
         }
         else{
             if(Hash::check($request->passantigua,Auth::user()->password)){
@@ -109,10 +153,10 @@ class UserController extends Controller
                 $user->where('email', '=', Auth::user()->email)
                      ->update(['password' => Hash::make($request['password'])]);
                 $user->save();
-                return redirect()->route('home')->with('success', 'actualizado correctamente.');
+                return redirect()->route('home')->with('success', 'Actualizado correctamente.');
             }
             else{
-                return redirect()->route('users.edicionPersonal',$user->id)->with('error','Credenciales incorrectas');
+                return redirect()->route('users.edicionPersonal',$user->id)->with('error','La contraseña antigua es incorrecta');
             }
         }
     }
@@ -124,10 +168,13 @@ class UserController extends Controller
      */
     public function update(Request $request,$id)
     {
+        if($id == 1){
+            abort(404);
+        }
         $validatedData = $request->validate([
             'name' => 'required|min:1|max:190',
         ]);
-        $user = User::withTrashed()->find($id);
+        $user = User::withTrashed()->findOrFail($id);
         //actualizar usuario
         $user->update($request->all());
 
@@ -140,7 +187,7 @@ class UserController extends Controller
 
     public function exportarpdf(User $user)
     {
-        $roles = Role::get();//obtengo los roles que tiene el usuario
+        $roles = $user->roles;//obtengo los roles que tiene el usuario
 
  //       $pdf = PDF::loadView('users.show',compact('user','roles'));
         $pdf = PDF::loadView('users.usuariopdf',compact('user','roles'));
@@ -154,7 +201,7 @@ class UserController extends Controller
     public function enviarCorreoAdmin($id)
     {
         
-        $user = User::withTrashed()->find($id);
+        $user = User::withTrashed()->findOrFail($id);
         $correos = $user->cant_correos;
         $correos = $correos - 1;
         $user->cant_correos = $correos;
@@ -173,13 +220,6 @@ class UserController extends Controller
         return redirect()->route('home')
         ->with('success','Correo enviado');
     }
-    /**
-     * Función para restaurar un usuario Deshabilitado(eliminado con sofdelete)
-     */
-    public function restaurarUsuario($id){
-        User::onlyTrashed()->find($id)->restore();
-
-        return redirect()->route('users.index')
-            ->with('success','Usuario habilitado correctamente');
-    }
+    
+   
 }

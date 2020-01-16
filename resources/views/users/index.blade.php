@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card animated fadeIn" style="width: 75rem; margin-left:-220px;">
+            <div class="card  animated fadeIn" style="">
                 <div class="card-header shadow-sm">
-                    <strong >Usuarios</strong>
+                    
+                    <strong >Usuarios Verificados</strong>
                     
                     {!! Form::open(['route'=>'users.index','method' =>'GET',
                     'class'=>'form-inline float-right']) !!}
@@ -18,16 +19,15 @@
                     {!!Form::close()!!}
                 </div>
                     
-                <div class="card-body shadow-lg">
-                    <table class="table table-striped table-hover shadow p-3 ">
-                        <thead class="thead-dark">
+                <div class="card-body shadow-lg ">
+                    <table class="table table-responsive table-striped table-hover shadow p-3">
+                        <thead class="thead-dark" style="resize: both;">
                             <tr>
-                                <th widht="10px">ID</th>
-                                <th>Nombre</th>
-                                <th>Rut</th>
-                                <th>Habilitado</th>
-                                <th>Estado</th>
-                                <th colspan="3">&nbsp;</th>
+                                <th class="col-xs-9 col-md-3" widht="10px">ID</th>
+                                <th class="col-xs-9 col-md-10">Nombre</th>
+                                <th class="col-xs-9 col-md-10">Rut</th>
+                                <th class="col-xs-9 col-md-9">Habilitado</th>
+                                <th class="col-xs-9 col-md-7" colspan="3">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,11 +40,6 @@
                                     <td>Si</td>
                                 @else
                                     <td>No</td>
-                                @endif
-                                @if (empty($user->email_verified_at))
-                                    <td>No verificado</td>
-                                @else
-                                    <td>Verificado</td>
                                 @endif
                                 <td width="10px">
                                     @can('users.show')<!-- Si tiene permiso para ver usuario se mostrara el boton-->
@@ -62,11 +57,11 @@
                                 <td width="10px">
                                     @can('users.destroy')<!-- Si tiene permiso para eliminar usuario se mostrara el boton-->
                                         @if(empty($user->deleted_at))
-                                                <button data-toggle="modal" data-target="#modalDeshabilitar" class="btn btn-sm btn-warning">
-                                                Deshabilitar
+                                                <button id="inh"data-toggle="modal" onClick="selUsuario('{{$user->id}}')" data-target="#modalDeshabilitar" class="btn btn-sm btn-warning">
+                                                Inhabilitar
                                                 </button>
                                         @else
-                                                <button data-toggle="modal" data-target="#modalHabilitar" class="btn btn-sm btn-success">
+                                                <button id="hab" data-toggle="modal" onClick="selUsuario('{{$user->id}}')" data-target="#modalHabilitar" class="btn btn-sm btn-success">
                                                 Habilitar
                                                 </button>
                                         @endif
@@ -97,10 +92,11 @@
       <div class="modal-body">
         ¿Esta seguro?
       </div>
-      <div class="modal-footer">
-            {!!Form::open(['route' => ['users.destroy',$user->id],
-                'method' => 'DELETE' ]) !!}                             
-                <button class="btn btn-success  btn-sm">Confirmar</button>
+      <div class="modal-footer">  
+            {!!Form::open(['route' => ['users.destroy'],
+                'method' => 'DELETE' ]) !!}       
+                <input type="hidden" id="userid_inhabilitar" name="user_id_inhabilitar" value="">
+                <button class="btn btn-info  btn-sm">Confirmar</button>
                                             
             {!!Form::close()!!}
             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
@@ -109,7 +105,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="modalHabilitar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalHabilitar" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -118,18 +114,32 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        ¿Esta seguro?
-      </div>
-      <div class="modal-footer">
-            {!!Form::open(['route' => ['users.restaurar',$user->id],
-                'method' => 'GET' ]) !!}                             
-                <button class="btn btn-success btn-sm">Confirmar</button>
-                                            
-            {!!Form::close()!!}
-            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-      </div>
+        <div class="modal-body">
+        
+          ¿Esta seguro?
+          {!!Form::open(['route' => ['users.restaurar'],
+            'method' => 'get' ]) !!}                             
+                <input type="hidden" id="userid" name="user_id" value="">
+
+        </div>
+        <div class="modal-footer">                           
+              <button type="submit" class="btn btn-info btn-sm">Confirmar</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+        </div>
+        {!!Form::close()!!}
     </div>
   </div>
 </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+    selUsuario = function(idPersona){
+        $('#userid').val(idPersona);
+        $('#userid_inhabilitar').val(idPersona);
+    };
+
+</script>
+
 @endsection

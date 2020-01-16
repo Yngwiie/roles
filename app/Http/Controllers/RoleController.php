@@ -89,18 +89,61 @@ class RoleController extends Controller
      */
     public function update(Request $request,Role $role)
     {
-        $validatedData = $request->validate([
-            'slug' => 'required|unique:roles|max:18',
-            'name' => 'required|unique:roles|min:3|max:190',
-        ]);
-        //actualizar rol
-        $role->update($request->all());
+        if($role->slug == $request->slug && $role->name == $request->name){
+            //actualizar rol
+            $role->update($request->all());
 
-        //actualizar permisos
-        $role->permissions()->sync($request->get('permissions'));
+            //actualizar permisos
+            $role->permissions()->sync($request->get('permissions'));
 
-        return redirect()->route('roles.edit',$role->id)
-            ->with('success','Rol actualizado con éxito');
+            return redirect()->route('roles.edit',$role->id)
+                ->with('success','Rol actualizado con éxito');  
+        }
+        elseif($role->slug == $request->slug){
+            $validatedData = $request->validate([
+                'name' => 'required|unique:roles|min:3|max:190',
+            ]);
+            //actualizar rol
+            $role->update($request->all());
+
+            //actualizar permisos
+            $role->permissions()->sync($request->get('permissions'));
+
+            return redirect()->route('roles.edit',$role->id)
+                ->with('success','Rol actualizado con éxito'); 
+        }
+        elseif($role->name == $request->name){
+             
+            $validatedData = $request->validate([
+                'name' => 'required|unique:roles|min:3|max:190',
+            ]);
+             //actualizar rol
+             $role->update($request->all());
+
+             //actualizar permisos
+             $role->permissions()->sync($request->get('permissions'));
+ 
+             return redirect()->route('roles.edit',$role->id)
+                 ->with('success','Rol actualizado con éxito'); 
+        }
+        else{
+            $validatedData = $request->validate([
+                'slug' => 'required|unique:roles|max:18',
+                'name' => 'required|unique:roles|min:3|max:190',
+            ]);
+                
+            //actualizar rol
+            $role->update($request->all());
+
+            //actualizar permisos
+            $role->permissions()->sync($request->get('permissions'));
+
+            return redirect()->route('roles.edit',$role->id)
+                ->with('success','Rol actualizado con éxito');
+        }
+        
+        
+        
     }
 
     /**

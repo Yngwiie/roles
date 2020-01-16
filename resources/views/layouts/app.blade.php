@@ -17,15 +17,14 @@
     <script src="https://kit.fontawesome.com/df11a4c4b4.js" crossorigin="anonymous"></script>
     
     <!-- Styles -->
-    
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 </head>
-<body >    
-    <div id="app">
+<body  >    
+    <div id="app" >
     @include('mensajes-flash')   
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-            <div class="container">
+            <div class="container" style="position: relative;">
                 <a class="navbar-brand animated "href="{{ url('/home') }}">
                     {{ config('Roles y Permisos', 'Roles y Permisos') }}
                 </a>
@@ -48,6 +47,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('users.index') }}">Usuarios Verificados</a>
                                     <a class="dropdown-item" href="{{ route('users.indexNoVerificados') }}">Usuarios No verificados</a>
+                                    <a class="dropdown-item" href="{{ route('users.sinrol') }}">Usuarios sin rol</a>
                                 </div>
                             </li>
                         @endcan

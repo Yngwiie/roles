@@ -23,6 +23,9 @@ Route::get('profile',function(){
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth'])->group(function(){
+    Route::get('/', function () {
+        return view('home');
+    })->middleware('verified');
     //rutas roles
     Route::post('roles/store','RoleController@store')->name('roles.store')
         ->middleware('can:roles.create');
@@ -45,13 +48,17 @@ Route::middleware(['auth'])->group(function(){
     Route::get('roles/{role}/edit','RoleController@edit')->name('roles.edit')
         ->middleware('can:roles.edit');
     //cant usuarios rol
-    Route::get('roles/{role}/cantU','RoleController@cantidadusuariosrol')->name('roles.cantidadusuariosrol');
+    Route::get('roles/{role}/cantU','RoleController@cantidadusuariosrol')->name('roles.cantidadusuariosrol')
+        ->middleware('can:roles.destroy');;
 
     
     //usuarios
     Route::get('users','UserController@index')->name('users.index')
         ->middleware('can:users.index');
     Route::get('usersNoVerificados','UserController@indexNoVerificados')->name('users.indexNoVerificados')
+        ->middleware('can:users.index');
+    //usuarios sin rol
+    Route::get('users/sinRol','UserController@indexSinRol')->name('users.sinrol')
         ->middleware('can:users.index');
 
     Route::put('users/{user}/edit','UserController@update')->name('users.update')
@@ -60,20 +67,23 @@ Route::middleware(['auth'])->group(function(){
     Route::get('users/{user}','UserController@show')->name('users.show')
         ->middleware('can:users.show');
 
-    Route::delete('users/{user}','UserController@destroy')->name('users.destroy')
+    Route::delete('users/destroy','UserController@destroy')->name('users.destroy')
         ->middleware('can:users.destroy');
     
     Route::get('users/{user}/edit','UserController@edit')->name('users.edit')
         ->middleware('can:users.edit');
     //habilitar usuario
-    Route::get('users/{user}/restaurar','UserController@restaurarUsuario')->name('users.restaurar');
-   
+    Route::get('restaurar','UserController@restaurarUsuario')->name('users.restaurar')
+        ->middleware('can:users.destroy');
+    
     //edicion datos personales
-    Route::get('users/{user}/editar','UserController@editarDatosPersonales')->name('users.edicionPersonal');
-    Route::put('users/{user}/editar','UserController@actualizarDatosPersonales')->name('users.actualizarDatosPersonales');
-
+    Route::get('users/{user}/editar','UserController@editarDatosPersonales')->name('users.edicionPersonal')
+        ->middleware('can:user.editardatospersonales');
+    Route::put('users/{user}/actualizar','UserController@actualizarDatosPersonales')->name('users.actualizarDatosPersonales')
+        ->middleware('can:user.editardatospersonales');
     //imprimir pdf
-    Route::get('users/{user}/pdf','UserController@exportarpdf')->name('users.usuariopdf');
+    Route::get('users/{user}/pdf','UserController@exportarpdf')->name('users.usuariopdf')
+        ->middleware('can:users.show');;
 
     //enviar correo al administrador
 
@@ -81,4 +91,6 @@ Route::middleware(['auth'])->group(function(){
 
     //ruta para log
     Route::get('log','LogController@index')->name('users.log');
+    Route::get('log/eliminar','LogController@eliminarDatos')->name('log.eliminar');
 });
+

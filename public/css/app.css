@@ -44,6 +44,13 @@
   box-sizing: border-box;
 }
 
+.img-conf{
+  position:absolute;
+  height:auto; 
+  max-width:100%; 
+  width:auto; 
+  padding:20px;
+}
 html {
   font-family: sans-serif;
   line-height: 1.15;
@@ -63,8 +70,9 @@ nav,
 section {
   display: block;
 }
+
 .fondo{
-  background: url('../img/nature.jpg') no-repeat;
+  background: url('../img/nature1.jpg') no-repeat;
   background-size: cover;
   background-position:center center;
   background-attachment: fixed;

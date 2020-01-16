@@ -72,6 +72,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeBusqueda($query,$busqueda)
     {   
         $query->where('estado',"verificado");
+        $query->where('id','!=',1); 
         if($busqueda!=""){
             $query->where([['name','LIKE',"%$busqueda%"],['estado',"verificado"]])
                   ->orWhere([['rut','LIKE',"%$busqueda%"],['estado',"verificado"]])
@@ -87,11 +88,22 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeBusqueda_no_verificados($query,$busqueda)
     {   
         $query->where('estado',"no verificado");
+        $query->where('id','!=',1); 
         if($busqueda!=""){
             $query->where([['name','LIKE',"%$busqueda%"],['estado',"no verificado"]])
                   ->orWhere([['rut','LIKE',"%$busqueda%"],['estado',"no verificado"]])
                   ->orwhere([['email','LIKE',"%$busqueda%"],['estado',"no verificado"]]);
         }
        
+    }
+    
+    public function scopeBusqueda_sin_rol($query,$busqueda)
+    {
+        $query->where('id','!=',1); 
+        if($busqueda!=""){
+            $query->where([['name','LIKE',"%$busqueda%"]])
+                  ->orWhere([['rut','LIKE',"%$busqueda%"]])
+                  ->orwhere([['email','LIKE',"%$busqueda%"]]);
+        }
     }
 }

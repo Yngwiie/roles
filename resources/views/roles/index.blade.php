@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-8">
         @yield('modal')
-            <div class="card animated fadeIn" style="width: 75rem; margin-left:-220px;" >
+            <div class="card animated fadeIn"  >
                 <div class="card-header shadow-lg">
                     <strong>Roles</strong>                    
                     {!! Form::open(['route'=>'roles.index','method' =>'GET',
@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="card-body shadow-lg" >
-                    <table class="table table-striped table-hover shadow p-3" >
+                    <table class="table table-responsive-sm table-striped table-hover shadow p-3" >
                         <thead class="thead-dark">
                             <tr>
                                 <th widht="10px">ID</th>
