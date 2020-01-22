@@ -61,13 +61,13 @@ class RoleController extends Controller
     {   
         $users = User::all();
         $cantidad_usuarios = 0;
+        $permisos = $role->permissions;
         foreach($users as $user){
             if($user->hasRole($role->slug)){
                 $cantidad_usuarios+=1;
                 return view('roles.show',compact('role','cantidad_usuarios','permisos'));
             }
         }
-        $permisos = $role->permissions;
         return view('roles.show',compact('role','cantidad_usuarios','permisos'));
     }
 
