@@ -7,7 +7,7 @@
             <div class="card shadow-lg">
                 <div class="card-header">
                 <a class="btn" onClick="volver()" href="#"><i class="fas fa-arrow-alt-circle-left fa-lg" ></i></a>
-                   <strong>Rol</strong>
+                   <strong>Detalles del Rol</strong>
                 </div>
                     
                 <div class="card-body">
@@ -15,6 +15,20 @@
                     <p><strong>URL amigable:</strong> {{$role->slug}}</p>
                     <p><strong>Descripción: </strong> {{$role->description ?: 'Sin Descripción'}}</p>
                     <p><strong>Cantidad de usuarios con el rol: </strong>{{$cantidad_usuarios ?: '0'}}</p>
+                    <p><strong>Permisos asociados:</strong></p>
+
+                    <ul class="list-unstyled">
+                            
+                            @foreach($permisos as $permission)
+                                <li class="list-group-item list-group-item-secondary">
+                                    <label>
+                                        <i class="fas fa-angle-double-right"></i>
+                                            {{$permission->name}}
+                                    </label>
+                                </li>
+                            @endforeach
+                        
+                    </ul>
                 </div>
             </div>
         </div>

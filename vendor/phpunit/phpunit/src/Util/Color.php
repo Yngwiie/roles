@@ -14,17 +14,11 @@ namespace PHPUnit\Util;
  */
 final class Color
 {
-    /**
-     * @var array<string,string>
-     */
     private const WHITESPACE_MAP = [
         ' '  => '·',
         "\t" => '⇥',
     ];
 
-    /**
-     * @var array<string,string>
-     */
     private const WHITESPACE_EOL_MAP = [
         ' '  => '·',
         "\t" => '⇥',
@@ -33,32 +27,32 @@ final class Color
     ];
 
     /**
-     * @var array<string,string>
+     * @var array
      */
     private static $ansiCodes = [
-        'reset'      => '0',
-        'bold'       => '1',
-        'dim'        => '2',
-        'dim-reset'  => '22',
-        'underlined' => '4',
-        'fg-default' => '39',
-        'fg-black'   => '30',
-        'fg-red'     => '31',
-        'fg-green'   => '32',
-        'fg-yellow'  => '33',
-        'fg-blue'    => '34',
-        'fg-magenta' => '35',
-        'fg-cyan'    => '36',
-        'fg-white'   => '37',
-        'bg-default' => '49',
-        'bg-black'   => '40',
-        'bg-red'     => '41',
-        'bg-green'   => '42',
-        'bg-yellow'  => '43',
-        'bg-blue'    => '44',
-        'bg-magenta' => '45',
-        'bg-cyan'    => '46',
-        'bg-white'   => '47',
+        'reset'             => '0',
+        'bold'              => '1',
+        'dim'               => '2',
+        'dim-reset'         => '22',
+        'underlined'        => '4',
+        'fg-default'        => '39',
+        'fg-black'          => '30',
+        'fg-red'            => '31',
+        'fg-green'          => '32',
+        'fg-yellow'         => '33',
+        'fg-blue'           => '34',
+        'fg-magenta'        => '35',
+        'fg-cyan'           => '36',
+        'fg-white'          => '37',
+        'bg-default'        => '49',
+        'bg-black'          => '40',
+        'bg-red'            => '41',
+        'bg-green'          => '42',
+        'bg-yellow'         => '43',
+        'bg-blue'           => '44',
+        'bg-magenta'        => '45',
+        'bg-cyan'           => '46',
+        'bg-white'          => '47',
     ];
 
     public static function colorize(string $color, string $buffer): string
@@ -102,7 +96,7 @@ final class Color
             $last        = \count($path) - 1;
             $path[$last] = \preg_replace_callback(
                 '/([\-_\.]+|phpt$)/',
-                static function ($matches) {
+                function ($matches) {
                     return self::dim($matches[0]);
                 },
                 $path[$last]
@@ -125,7 +119,7 @@ final class Color
     {
         $replaceMap = $visualizeEOL ? self::WHITESPACE_EOL_MAP : self::WHITESPACE_MAP;
 
-        return \preg_replace_callback('/\s+/', static function ($matches) use ($replaceMap) {
+        return \preg_replace_callback('/\s+/', function ($matches) use ($replaceMap) {
             return self::dim(\strtr($matches[0], $replaceMap));
         }, $buffer);
     }

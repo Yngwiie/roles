@@ -12,10 +12,7 @@ namespace PHPUnit\Framework\Constraint;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestFailure;
 
-/**
- * @small
- */
-final class IsReadableTest extends ConstraintTestCase
+class IsReadableTest extends ConstraintTestCase
 {
     public function testConstraintIsReadable(): void
     {

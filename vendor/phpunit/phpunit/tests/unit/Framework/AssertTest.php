@@ -11,10 +11,7 @@ namespace PHPUnit\Framework;
 
 use PHPUnit\Util\Xml;
 
-/**
- * @small
- */
-final class AssertTest extends TestCase
+class AssertTest extends TestCase
 {
     public static function validInvalidJsonDataprovider(): array
     {
@@ -664,30 +661,6 @@ XML;
         $this->assertObjectHasAttribute('foo', $o);
     }
 
-    public function testAssertObjectHasAttributeNumericAttribute(): void
-    {
-        $object           = new \stdClass;
-        $object->{'2020'} = 'Tokyo';
-
-        $this->assertObjectHasAttribute('2020', $object);
-
-        $this->expectException(AssertionFailedError::class);
-
-        $this->assertObjectHasAttribute('2018', $object);
-    }
-
-    public function testAssertObjectHasAttributeMultiByteAttribute(): void
-    {
-        $object         = new \stdClass;
-        $object->{'東京'} = 2020;
-
-        $this->assertObjectHasAttribute('東京', $object);
-
-        $this->expectException(AssertionFailedError::class);
-
-        $this->assertObjectHasAttribute('長野', $object);
-    }
-
     public function testAssertObjectNotHasAttribute(): void
     {
         $o = new \Author('Terry Pratchett');
@@ -697,30 +670,6 @@ XML;
         $this->expectException(AssertionFailedError::class);
 
         $this->assertObjectNotHasAttribute('name', $o);
-    }
-
-    public function testAssertObjectNotHasAttributeNumericAttribute(): void
-    {
-        $object           = new \stdClass;
-        $object->{'2020'} = 'Tokyo';
-
-        $this->assertObjectNotHasAttribute('2018', $object);
-
-        $this->expectException(AssertionFailedError::class);
-
-        $this->assertObjectNotHasAttribute('2020', $object);
-    }
-
-    public function testAssertObjectNotHasAttributeMultiByteAttribute(): void
-    {
-        $object         = new \stdClass;
-        $object->{'東京'} = 2020;
-
-        $this->assertObjectNotHasAttribute('長野', $object);
-
-        $this->expectException(AssertionFailedError::class);
-
-        $this->assertObjectNotHasAttribute('東京', $object);
     }
 
     public function testAssertFinite(): void
@@ -1516,7 +1465,7 @@ XML;
         try {
             $this->assertCount(2, '');
         } catch (Exception $e) {
-            $this->assertEquals('Argument #2 of PHPUnit\Framework\Assert::assertCount() must be a countable or iterable', $e->getMessage());
+            $this->assertEquals('Argument #2 (No Value) of PHPUnit\Framework\Assert::assertCount() must be a countable or iterable', $e->getMessage());
 
             return;
         }
@@ -1554,7 +1503,7 @@ XML;
         try {
             $this->assertSameSize('a', []);
         } catch (Exception $e) {
-            $this->assertEquals('Argument #1 of PHPUnit\Framework\Assert::assertSameSize() must be a countable or iterable', $e->getMessage());
+            $this->assertEquals('Argument #1 (No Value) of PHPUnit\Framework\Assert::assertSameSize() must be a countable or iterable', $e->getMessage());
 
             return;
         }
@@ -1567,7 +1516,7 @@ XML;
         try {
             $this->assertSameSize([], '');
         } catch (Exception $e) {
-            $this->assertEquals('Argument #2 of PHPUnit\Framework\Assert::assertSameSize() must be a countable or iterable', $e->getMessage());
+            $this->assertEquals('Argument #2 (No Value) of PHPUnit\Framework\Assert::assertSameSize() must be a countable or iterable', $e->getMessage());
 
             return;
         }
@@ -2204,76 +2153,6 @@ XML;
 
         try {
             $this->assertStringNotContainsStringIgnoringCase('BAR', 'foobarbaz');
-        } catch (AssertionFailedError $e) {
-            return;
-        }
-
-        $this->fail();
-    }
-
-    public function testIterableContainsSameObjectCanBeAsserted(): void
-    {
-        $object   = new \stdClass;
-        $iterable = [$object];
-
-        $this->assertContains($object, $iterable);
-
-        try {
-            $this->assertContains(new \stdClass, $iterable);
-        } catch (AssertionFailedError $e) {
-            return;
-        }
-
-        $this->fail();
-    }
-
-    public function testIterableNotContainsSameObjectCanBeAsserted(): void
-    {
-        $object   = new \stdClass;
-        $iterable = [$object];
-
-        $this->assertNotContains(new \stdClass, $iterable);
-
-        try {
-            $this->assertNotContains($object, $iterable);
-        } catch (AssertionFailedError $e) {
-            return;
-        }
-
-        $this->fail();
-    }
-
-    public function testIterableContainsEqualObjectCanBeAsserted(): void
-    {
-        $a      = new \stdClass;
-        $a->foo = 'bar';
-
-        $b      = new \stdClass;
-        $b->foo = 'baz';
-
-        $this->assertContainsEquals($a, [$a]);
-
-        try {
-            $this->assertContainsEquals($b, [$a]);
-        } catch (AssertionFailedError $e) {
-            return;
-        }
-
-        $this->fail();
-    }
-
-    public function testIterableNotContainsEqualObjectCanBeAsserted(): void
-    {
-        $a      = new \stdClass;
-        $a->foo = 'bar';
-
-        $b      = new \stdClass;
-        $b->foo = 'baz';
-
-        $this->assertNotContainsEquals($b, [$a]);
-
-        try {
-            $this->assertNotContainsEquals($a, [$a]);
         } catch (AssertionFailedError $e) {
             return;
         }

@@ -12,10 +12,7 @@ namespace PHPUnit\Framework\Constraint;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestFailure;
 
-/**
- * @small
- */
-final class ObjectHasAttributeTest extends ConstraintTestCase
+class ObjectHasAttributeTest extends ConstraintTestCase
 {
     public function testConstraintObjectHasAttribute(): void
     {

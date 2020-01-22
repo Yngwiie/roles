@@ -12,10 +12,7 @@ namespace PHPUnit\Framework\Constraint;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestFailure;
 
-/**
- * @small
- */
-final class RegularExpressionTest extends ConstraintTestCase
+class RegularExpressionTest extends ConstraintTestCase
 {
     public function testConstraintRegularExpression(): void
     {

@@ -1,5 +1,5 @@
 --TEST--
-phpunit --verbose --order-by=depends,reverse ../execution-order/_files/MultiDependencyTest.php
+phpunit --verbose --order-by=reverse ../_files/DependencySuccessTest.php
 --FILE--
 <?php declare(strict_types=1);
 $arguments = [
@@ -7,12 +7,14 @@ $arguments = [
     '--debug',
     '--verbose',
     '--order-by=depends,reverse',
+    'MultiDependencyTest',
     \realpath(__DIR__ . '/../execution-order/_files/MultiDependencyTest.php'),
 ];
 \array_splice($_SERVER['argv'], 1, count($arguments), $arguments);
 
 require __DIR__ . '/../../bootstrap.php';
 PHPUnit\TextUI\Command::main();
+?>
 --EXPECTF--
 PHPUnit %s by Sebastian Bergmann and contributors.
 

@@ -64,9 +64,11 @@ class RoleController extends Controller
         foreach($users as $user){
             if($user->hasRole($role->slug)){
                 $cantidad_usuarios+=1;
+                return view('roles.show',compact('role','cantidad_usuarios','permisos'));
             }
         }
-        return view('roles.show',compact('role','cantidad_usuarios'));
+        $permisos = $role->permissions;
+        return view('roles.show',compact('role','cantidad_usuarios','permisos'));
     }
 
     /**
@@ -115,7 +117,7 @@ class RoleController extends Controller
         elseif($role->name == $request->name){
              
             $validatedData = $request->validate([
-                'name' => 'required|unique:roles|min:3|max:190',
+                'slug' => 'required|unique:roles|max:18|min:3',
             ]);
              //actualizar rol
              $role->update($request->all());
@@ -128,7 +130,7 @@ class RoleController extends Controller
         }
         else{
             $validatedData = $request->validate([
-                'slug' => 'required|unique:roles|max:18',
+                'slug' => 'required|unique:roles|max:18|min:3',
                 'name' => 'required|unique:roles|min:3|max:190',
             ]);
                 

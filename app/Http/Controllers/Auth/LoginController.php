@@ -59,7 +59,6 @@ class LoginController extends Controller
         Auth::user()->session_id = Session::getId();
         Auth::user()->save();
         $this->clearLoginAttempts($request);
-
         return $this->authenticated($request, $this->guard()->user())
             ?: redirect()->intended($this->redirectPath());
     }

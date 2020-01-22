@@ -11,10 +11,7 @@ namespace PHPUnit\Framework\Constraint;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @small
- */
-final class ExceptionMessageTest extends TestCase
+class ExceptionMessageTest extends TestCase
 {
     public function testLiteralMessage(): void
     {
@@ -46,19 +43,5 @@ final class ExceptionMessageTest extends TestCase
         $this->expectExceptionMessage('exception message');
 
         throw new \Exception('A partial exception message');
-    }
-
-    public function testEmptyMessageExportToString(): void
-    {
-        $exceptionMessage = new ExceptionMessage('');
-
-        $this->assertSame('exception message is empty', $exceptionMessage->toString());
-    }
-
-    public function testMessageExportToString(): void
-    {
-        $exceptionMessage = new ExceptionMessage('test');
-
-        $this->assertSame('exception message contains ', $exceptionMessage->toString());
     }
 }

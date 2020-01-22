@@ -137,7 +137,8 @@ final class Getopt
 
         $opt_len = \strlen($opt);
 
-        foreach ($long_options as $i => $long_opt) {
+        for ($i = 0; $i < $count; $i++) {
+            $long_opt  = $long_options[$i];
             $opt_start = \substr($long_opt, 0, $opt_len);
 
             if ($opt_start !== $opt) {
@@ -146,7 +147,8 @@ final class Getopt
 
             $opt_rest = \substr($long_opt, $opt_len);
 
-            if ($opt_rest !== '' && $i + 1 < $count && $opt[0] !== '=' && \strpos($long_options[$i + 1], $opt) === 0) {
+            if ($opt_rest !== '' && $i + 1 < $count && $opt[0] !== '=' &&
+                \strpos($long_options[$i + 1], $opt) === 0) {
                 throw new Exception(
                     "option --$opt is ambiguous"
                 );

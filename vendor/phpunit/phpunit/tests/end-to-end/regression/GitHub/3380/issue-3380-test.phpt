@@ -19,7 +19,7 @@ unlink($tmpResultCache);
 --EXPECTF--
 PHPUnit %s by Sebastian Bergmann and contributors.
 
-Dataprovider Execution Order
+DataproviderExecutionOrder
  ✔ First test that always works
  ✔ Add numbers with a dataprovider with data set "1+2=3"
  ✔ Add numbers with a dataprovider with data set "2+1=3"
@@ -44,7 +44,7 @@ Time: %s, Memory: %s
 
 Summary of non-successful tests:
 
-Dataprovider Execution Order
+DataproviderExecutionOrder
  ✘ Add numbers with a dataprovider with data set "1+1=3"
    │
    │ Failed asserting that 2 is identical to 3.

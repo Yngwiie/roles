@@ -11,7 +11,6 @@ namespace PHPUnit\Util\PHP;
 
 use __PHP_Incomplete_Class;
 use ErrorException;
-use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\SyntheticError;
 use PHPUnit\Framework\Test;
@@ -178,23 +177,6 @@ abstract class AbstractPhpProcess
     public function getCommand(array $settings, string $file = null): string
     {
         $command = $this->runtime->getBinary();
-
-        if ($this->runtime->hasPCOV()) {
-            $settings = \array_merge(
-                $settings,
-                $this->runtime->getCurrentSettings(
-                    \array_keys(\ini_get_all('pcov'))
-                )
-            );
-        } elseif ($this->runtime->hasXdebug()) {
-            $settings = \array_merge(
-                $settings,
-                $this->runtime->getCurrentSettings(
-                    \array_keys(\ini_get_all('xdebug'))
-                )
-            );
-        }
-
         $command .= $this->settingsToParameters($settings);
 
         if (\PHP_SAPI === 'phpdbg') {
@@ -216,7 +198,7 @@ abstract class AbstractPhpProcess
             $command .= ' ' . $this->args;
         }
 
-        if ($this->stderrRedirection) {
+        if ($this->stderrRedirection === true) {
             $command .= ' 2>&1';
         }
 
@@ -259,7 +241,7 @@ abstract class AbstractPhpProcess
                 /**
                  * @throws ErrorException
                  */
-                static function ($errno, $errstr, $errfile, $errline): void {
+                function ($errno, $errstr, $errfile, $errline): void {
                     throw new ErrorException($errstr, $errno, $errno, $errfile, $errline);
                 }
             );
@@ -271,14 +253,6 @@ abstract class AbstractPhpProcess
 
                 $childResult = \unserialize(\str_replace("#!/usr/bin/env php\n", '', $stdout));
                 \restore_error_handler();
-
-                if ($childResult === false) {
-                    $result->addFailure(
-                        $test,
-                        new AssertionFailedError('Test was run in child process and ended unexpectedly'),
-                        $time
-                    );
-                }
             } catch (ErrorException $e) {
                 \restore_error_handler();
                 $childResult = false;

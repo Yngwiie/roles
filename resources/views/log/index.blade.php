@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="card-body shadow-lg" >
-                <button type="button" class="btn btn-danger btn-md" data-toggle="modal" data-target="#modal" >Eliminar Datos</button>
+                <button type="button" class="btn btn-danger btn-md" data-toggle="modal" data-target="#modal" ><i class="fas fa-trash-alt"></i> Eliminar Datos</button>
                     <table class="table table-responsive table-striped table-hover shadow p-3 " >
                         <thead class="thead-dark">
                             <tr>

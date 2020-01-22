@@ -1,7 +1,7 @@
 --TEST--
 Test XML config enforceTimeLimit, defaultTimeLimit without php-invoker, with pcntl
 --SKIPIF--
-<?php declare(strict_types=1);
+<?php
 require __DIR__ . '/../../../bootstrap.php';
 
 if (\class_exists(SebastianBergmann\Invoker\Invoker::class)) {

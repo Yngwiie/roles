@@ -9,6 +9,10 @@
  */
 namespace PHPUnit\Framework\Error;
 
+/**
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
 final class Warning extends Error
 {
+    public static $enabled = true;
 }

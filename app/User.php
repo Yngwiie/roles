@@ -9,15 +9,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
 use App\Notifications\ResetPasswordNotification;
 use App\Notifications\CustomVerifyEmail;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail,AuditableContract
 {
     use Notifiable;
     use SoftDeletes;//utilizo borrado suave, quiere decir que solamente cambio el 
                     // estado de una variable en la Base de Datos.
     use HasRolesAndPermissions;
-    
+    use Auditable; 
 
+    
     /**
      * The attributes that are mass assignable.
      *

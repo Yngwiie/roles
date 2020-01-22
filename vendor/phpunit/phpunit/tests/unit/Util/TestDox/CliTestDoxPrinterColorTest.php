@@ -15,7 +15,6 @@ use PHPUnit\Util\Color;
 
 /**
  * @group testdox
- * @small
  */
 final class CliTestDoxPrinterColorTest extends TestCase
 {

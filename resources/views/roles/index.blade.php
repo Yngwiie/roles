@@ -27,7 +27,7 @@
                                     @can('roles.create')
                                         <a href="{{ route('roles.create') }}" 
                                         class="btn btn-sm btn-secondary float-left">
-                                        Crear Rol
+                                        <i class="fas fa-plus"></i> Crear Rol
                                     @endcan
                                 </a>&nbsp;</th>
                             </tr>
@@ -39,14 +39,14 @@
                                 <td >{{$role->name}}</td>
                                 <td width="10px">
                                     @can('roles.show')<!-- Si tiene permiso para ver se mostrara el boton-->
-                                        <a href="{{route('roles.show',$role->id)}}" 
-                                        class="btn btn-secondary btn-sm">Ver</a>
+                                        <a style="width:54px" href="{{route('roles.show',$role->id)}}" 
+                                        class="btn btn-secondary btn-sm"><i class="fas fa-search-plus"></i> Ver</a>
                                     @endcan
                                 </td>
                                 <td width="10px">
                                     @can('roles.edit')<!-- Si tiene permiso para editar se mostrara el boton-->
-                                        <a href="{{route('roles.edit',$role->id)}}" 
-                                        class="btn btn-secondary btn-sm">Editar</a>
+                                        <a style="width:68px;"href="{{route('roles.edit',$role->id)}}" 
+                                        class="btn btn-secondary btn-sm"><i class="fas fa-pencil-alt"></i> Editar</a>
                                     @endcan
                                 </td>
                                 <td width="10px">
@@ -54,7 +54,7 @@
                                         {!!Form::open(['route' => ['roles.cantidadusuariosrol',$role->id],
                                         'method' => 'GET' ]) !!}
                                             
-                                            <button class="btn btn-danger btn-sm">Eliminar</button>
+                                            <button style="width:83px" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</button>
                                         
                                         {!!Form::close()!!}
                                         

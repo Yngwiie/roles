@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Caffeinated\Shinobi\Models\Role; 
 use App\User;
+use Illuminate\Support\Facades\Auth;
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -27,10 +28,11 @@ class UsersTableSeeder extends Seeder
         $user->assignRoles('admin');
         $user->save();
 
-        Role::create([
+        $rol = Role::create([
             'name' => 'Revisor',
             'slug' => 'revi',
         ]);
+        $rol->givePermissionTo('users.index','roles.index');
 
         
 

@@ -8,7 +8,11 @@
     {{ Form::text('email',null,['class' => 'form-control','required']) }}
 </div>
 <hr>
-<h3>Lista de roles</h3>
+<h3 class="d-inline-block">Lista de roles</h3>
+<span class="d-inline-block" data-placement="right" tabindex="0" data-toggle="tooltip" title="Solo debe seleccionar un rol.">
+        <button class="btn " data-placement="right" style="pointer-events: none;" type="button" disabled><i class="far fa-question-circle fa-lg"></i></button>
+</span>
+
 <div class="form-group">
     <ul class="list-unstyled">
         @foreach($roles as $role)
@@ -26,3 +30,9 @@
 <div>
     {{ Form::submit('Guardar', ['class' =>'btn-sm btn-secondary'])}}
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>

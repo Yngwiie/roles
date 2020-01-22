@@ -12,10 +12,7 @@ namespace PHPUnit\Runner\Filter;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestSuite;
 
-/**
- * @small
- */
-final class NameFilterIteratorTest extends TestCase
+class NameFilterIteratorTest extends TestCase
 {
     public function testCaseSensitiveMatch(): void
     {

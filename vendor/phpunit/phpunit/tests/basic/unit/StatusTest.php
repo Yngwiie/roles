@@ -7,24 +7,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace PHPUnit\SelfTest\Basic;
+namespace vendor\project;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Warning;
 
 /**
- * @covers Foo
- *
- * @uses Bar
- *
  * @testdox Test result status with and without message
  */
 class StatusTest extends TestCase
 {
     public function testSuccess(): void
     {
-        $this->createMock(\AnInterface::class);
-
         $this->assertTrue(true);
     }
 

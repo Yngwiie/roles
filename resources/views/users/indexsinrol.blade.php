@@ -48,28 +48,31 @@
                                 @endif
                                 <td width="10px">
                                     @can('users.show')<!-- Si tiene permiso para ver usuario se mostrara el boton-->
-                                        <a href="{{route('users.show',$user->id)}}" 
-                                        class="btn btn-secondary btn-sm">Ver</a>
+                                        <a style="width:54px" href="{{route('users.show',$user->id)}}" 
+                                        class="btn btn-secondary btn-sm">
+                                        <i class="fas fa-search-plus"></i> Ver</a>
                                     @endcan
                                 </td>
                                 <td width="10px">
                                     @can('users.edit')<!-- Si tiene permiso para editar usuario se mostrara el boton-->
-                                        <a href="{{route('users.edit',$user->id)}}" 
-                                        class="btn btn-secondary btn-sm">Editar</a>
+                                        <a style="width:74px" href="{{route('users.edit',$user->id)}}" 
+                                        class="btn btn-secondary btn-sm">
+                                        <i class="fas fa-user-edit"></i> Editar</a>
                                     @endcan
                                 </td>
                                 
                                 <td width="10px">
                                     @can('users.destroy')<!-- Si tiene permiso para eliminar usuario se mostrara el boton-->
-                                        @if(empty($user->deleted_at))
-                                                <button id="inh"data-toggle="modal" onClick="selUsuario('{{$user->id}}')" data-target="#modalDeshabilitar" class="btn btn-sm btn-warning">
-                                                Inhabilitar
-                                                </button>
-                                        @else
-                                                <button id="hab" data-toggle="modal" onClick="selUsuario('{{$user->id}}')" data-target="#modalHabilitar" class="btn btn-sm btn-success">
-                                                Habilitar
-                                                </button>
-                                        @endif
+                                          @if(empty($user->deleted_at))
+                                                  <button style="width:95px" id="inh"data-toggle="modal" onClick="selUsuario('{{$user->id}}')" data-target="#modalDeshabilitar" class="btn btn-sm btn-warning">
+                                                  <span class="fas fa-user-slash"></span> Inhabilitar
+                                                  </button>
+                                          @else
+
+                                                  <button style="width:85px" id="hab" data-toggle="modal" onClick="selUsuario('{{$user->id}}')" data-target="#modalHabilitar" class="btn btn-sm btn-success" >
+                                                  <span class="fas fa-user-check"></span> Habilitar
+                                                  </button>
+                                          @endif
                                         
                                     @endcan
                                 </td>

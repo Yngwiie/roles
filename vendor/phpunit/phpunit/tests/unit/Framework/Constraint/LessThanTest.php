@@ -12,10 +12,7 @@ namespace PHPUnit\Framework\Constraint;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestFailure;
 
-/**
- * @small
- */
-final class LessThanTest extends ConstraintTestCase
+class LessThanTest extends ConstraintTestCase
 {
     public function testConstraintLessThan(): void
     {

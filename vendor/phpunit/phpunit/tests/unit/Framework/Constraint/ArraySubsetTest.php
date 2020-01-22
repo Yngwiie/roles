@@ -11,10 +11,7 @@ namespace PHPUnit\Framework\Constraint;
 
 use PHPUnit\Framework\ExpectationFailedException;
 
-/**
- * @small
- */
-final class ArraySubsetTest extends ConstraintTestCase
+class ArraySubsetTest extends ConstraintTestCase
 {
     public static function evaluateDataProvider(): array
     {

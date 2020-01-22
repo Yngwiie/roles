@@ -15,6 +15,7 @@ use DOMElement;
 use DOMNode;
 use DOMText;
 use PHPUnit\Framework\Exception;
+use ReflectionClass;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -23,7 +24,9 @@ final class Xml
 {
     public static function import(DOMElement $element): DOMElement
     {
-        return (new DOMDocument)->importNode($element, true);
+        $document = new DOMDocument;
+
+        return $document->importNode($element, true);
     }
 
     /**
@@ -218,17 +221,8 @@ final class Xml
                         }
                     }
 
-                    try {
-                        $variable = (new \ReflectionClass($className))->newInstanceArgs($constructorArgs);
-                        // @codeCoverageIgnoreStart
-                    } catch (\ReflectionException $e) {
-                        throw new Exception(
-                            $e->getMessage(),
-                            (int) $e->getCode(),
-                            $e
-                        );
-                    }
-                    // @codeCoverageIgnoreEnd
+                    $class    = new ReflectionClass($className);
+                    $variable = $class->newInstanceArgs($constructorArgs);
                 } else {
                     $variable = new $className;
                 }

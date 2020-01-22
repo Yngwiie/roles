@@ -17,7 +17,13 @@
                     <p><strong>Rut:</strong> {{$user->rut}}</p>
                     <p><strong>Email:</strong> {{$user->email}}</p>
                     <p><strong>Fecha de creación:</strong> {{$user->created_at}}</p>
-
+                    <p><strong>Habilitado: </strong> 
+                    @if(empty($user->deleted_at))
+                        Si
+                    @else
+                        No
+                    @endif
+                    </p>
                     <ul class="list-unstyled">
                     <p><strong>Roles asignados:</strong>
                         @if($roles->count()==0)

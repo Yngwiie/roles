@@ -7,7 +7,7 @@
             <div class="card animated fadeIn shadow-lg">
                 <div class="card-header"> 
                 <a class="btn" onClick="volver()" href="#"><i class="fas fa-arrow-alt-circle-left fa-lg" ></i></a>
-                <strong>Usuario</strong>
+                <strong>Editar Usuario</strong>
                 </div>
                     
                 <div class="card-body">

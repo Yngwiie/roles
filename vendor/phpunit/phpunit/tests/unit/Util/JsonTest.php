@@ -12,10 +12,7 @@ namespace PHPUnit\Util;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @small
- */
-final class JsonTest extends TestCase
+class JsonTest extends TestCase
 {
     /**
      * @testdox Canonicalize $actual
@@ -61,7 +58,6 @@ final class JsonTest extends TestCase
         return [
             ['{"name":"John","age": "5"}', "{\n    \"name\": \"John\",\n    \"age\": \"5\"\n}"],
             ['{"url":"https://www.example.com/"}', "{\n    \"url\": \"https://www.example.com/\"\n}"],
-            ['"Кириллица and 中文"', '"Кириллица and 中文"'],
         ];
     }
 

@@ -15,6 +15,11 @@ namespace PHPUnit\Framework;
 final class WarningTestCase extends TestCase
 {
     /**
+     * @var string
+     */
+    protected $message = '';
+
+    /**
      * @var bool
      */
     protected $backupGlobals = false;
@@ -33,11 +38,6 @@ final class WarningTestCase extends TestCase
      * @var bool
      */
     protected $useErrorHandler = false;
-
-    /**
-     * @var string
-     */
-    private $message;
 
     /**
      * @param string $message

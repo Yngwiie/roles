@@ -12,10 +12,7 @@ namespace PHPUnit\Util;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @small
- */
-final class GetoptTest extends TestCase
+class GetoptTest extends TestCase
 {
     public function testItIncludeTheLongOptionsAfterTheArgument(): void
     {

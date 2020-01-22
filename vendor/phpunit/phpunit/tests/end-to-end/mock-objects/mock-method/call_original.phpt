@@ -19,6 +19,7 @@ $mockMethod = \PHPUnit\Framework\MockObject\MockMethod::fromReflection(
 $code = $mockMethod->generateCode();
 
 print $code;
+?>
 --EXPECT--
 
     public function bar()
@@ -34,9 +35,9 @@ print $code;
             }
         }
 
-        $this->__phpunit_getInvocationHandler()->invoke(
-            new \PHPUnit\Framework\MockObject\Invocation(
-                'Foo', 'bar', $__phpunit_arguments, '', $this, false, true
+        $this->__phpunit_getInvocationMocker()->invoke(
+            new \PHPUnit\Framework\MockObject\Invocation\ObjectInvocation(
+                'Foo', 'bar', $__phpunit_arguments, '', $this, false
             )
         );
 

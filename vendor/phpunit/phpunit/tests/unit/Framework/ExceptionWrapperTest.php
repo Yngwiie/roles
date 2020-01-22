@@ -9,10 +9,7 @@
  */
 namespace PHPUnit\Framework;
 
-/**
- * @small
- */
-final class ExceptionWrapperTest extends TestCase
+class ExceptionWrapperTest extends TestCase
 {
     /**
      * @runInSeparateProcess

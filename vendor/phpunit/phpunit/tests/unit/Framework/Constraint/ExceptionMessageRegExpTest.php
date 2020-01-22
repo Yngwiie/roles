@@ -11,10 +11,7 @@ namespace PHPUnit\Framework\Constraint;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @small
- */
-final class ExceptionMessageRegExpTest extends TestCase
+class ExceptionMessageRegExpTest extends TestCase
 {
     public function testRegexMessage(): void
     {
@@ -44,12 +41,5 @@ final class ExceptionMessageRegExpTest extends TestCase
         $this->expectExceptionMessageRegExp('#Screaming preg_match#');
 
         throw new \Exception('Screaming preg_match');
-    }
-
-    public function testRegExMessageCanBeExportedAsString(): void
-    {
-        $exceptionMessageReExp = new ExceptionMessageRegularExpression('/^a poly[a-z]+ [a-zA-Z0-9_]+ me(s){2}age$/i');
-
-        $this->assertSame('exception message matches ', $exceptionMessageReExp->toString());
     }
 }

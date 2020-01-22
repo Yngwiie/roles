@@ -11,11 +11,7 @@ namespace PHPUnit\Util;
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @small
- * @covers \PHPUnit\Util\ConfigurationGenerator
- */
-final class ConfigurationGeneratorTest extends TestCase
+class ConfigurationGeneratorTest extends TestCase
 {
     public function testGeneratesConfigurationCorrectly(): void
     {

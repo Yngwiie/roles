@@ -1,7 +1,7 @@
 --TEST--
 phpunit -c ../_files/configuration_whitelist.xml --dump-xdebug-filter 'php://stdout'
 --SKIPIF--
-<?php declare(strict_types=1);
+<?php
 if (!extension_loaded('xdebug')) {
     print 'skip: xdebug not loaded';
 }

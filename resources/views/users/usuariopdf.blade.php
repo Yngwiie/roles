@@ -26,7 +26,18 @@
             </tr>
             <tr>
                 <td ><p><strong>Fecha de creación:</strong> {{$user->created_at}}</p></td>
-            </tr>     
+            </tr> 
+            <tr>
+                <td><p><strong>Habilitado: </strong> 
+                    @if(empty($user->deleted_at))
+                        Si
+                    @else
+                        No
+                    @endif
+                    </p>
+                </td>
+                
+            </tr>    
             <tr>
                 <td >
                     <strong>Roles asignados:</strong>

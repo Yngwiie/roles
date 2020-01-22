@@ -9,17 +9,45 @@
  */
 namespace PHPUnit\Framework\MockObject;
 
-use PHPUnit\Framework\MockObject\Builder\InvocationMocker as BuilderInvocationMocker;
-use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
+use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
+use PHPUnit\Framework\MockObject\Matcher\Invocation;
 
 /**
- * @method BuilderInvocationMocker method($constraint)
+ * @method InvocationMocker method($constraint)
  */
-interface MockObject extends Stub
+interface MockObject /*extends Verifiable*/
 {
-    public function __phpunit_setOriginalObject($originalObject): void;
+    /**
+     * @return InvocationMocker
+     */
+    public function __phpunit_setOriginalObject($originalObject);
 
-    public function __phpunit_verify(bool $unsetInvocationMocker = true): void;
+    /**
+     * @return InvocationMocker
+     */
+    public function __phpunit_getInvocationMocker();
 
-    public function expects(InvocationOrder $invocationRule): BuilderInvocationMocker;
+    /**
+     * Verifies that the current expectation is valid. If everything is OK the
+     * code should just return, if not it must throw an exception.
+     *
+     * @throws ExpectationFailedException
+     */
+    public function __phpunit_verify(bool $unsetInvocationMocker = true);
+
+    /**
+     * @return bool
+     */
+    public function __phpunit_hasMatchers();
+
+    public function __phpunit_setReturnValueGeneration(bool $returnValueGeneration);
+
+    /**
+     * Registers a new expectation in the mock object and returns the match
+     * object which can be infused with further details.
+     *
+     * @return InvocationMocker
+     */
+    public function expects(Invocation $matcher);
 }

@@ -12,10 +12,7 @@ namespace PHPUnit\Framework\Constraint;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestFailure;
 
-/**
- * @small
- */
-final class DirectoryExistsTest extends ConstraintTestCase
+class DirectoryExistsTest extends ConstraintTestCase
 {
     public function testDefaults(): void
     {

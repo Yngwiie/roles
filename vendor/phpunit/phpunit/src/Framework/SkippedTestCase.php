@@ -15,6 +15,11 @@ namespace PHPUnit\Framework;
 final class SkippedTestCase extends TestCase
 {
     /**
+     * @var string
+     */
+    protected $message = '';
+
+    /**
      * @var bool
      */
     protected $backupGlobals = false;
@@ -35,9 +40,9 @@ final class SkippedTestCase extends TestCase
     protected $useErrorHandler = false;
 
     /**
-     * @var string
+     * @var bool
      */
-    private $message;
+    protected $useOutputBuffering = false;
 
     public function __construct(string $className, string $methodName, string $message = '')
     {

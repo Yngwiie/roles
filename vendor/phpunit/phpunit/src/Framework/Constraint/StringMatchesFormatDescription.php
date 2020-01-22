@@ -68,7 +68,9 @@ final class StringMatchesFormatDescription extends RegularExpression
         $this->string = \implode("\n", $from);
         $other        = \implode("\n", $to);
 
-        return (new Differ("--- Expected\n+++ Actual\n"))->diff($this->string, $other);
+        $differ = new Differ("--- Expected\n+++ Actual\n");
+
+        return $differ->diff($this->string, $other);
     }
 
     private function createPatternFromFormat(string $string): string

@@ -19,7 +19,7 @@ final class XdebugFilterScriptGenerator
         $items = $this->getWhitelistItems($filterData);
 
         $files = \array_map(
-            static function ($item) {
+            function ($item) {
                 return \sprintf(
                     "        '%s'",
                     $item
@@ -56,10 +56,7 @@ EOF;
                 $path = \realpath($directory['path']);
 
                 if (\is_string($path)) {
-                    $files[] = \sprintf(
-                        \addslashes('%s' . \DIRECTORY_SEPARATOR),
-                        $path
-                    );
+                    $files[] = \sprintf('%s/', $path);
                 }
             }
         }

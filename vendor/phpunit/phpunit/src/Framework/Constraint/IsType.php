@@ -17,68 +17,32 @@ namespace PHPUnit\Framework\Constraint;
  */
 final class IsType extends Constraint
 {
-    /**
-     * @var string
-     */
-    public const TYPE_ARRAY = 'array';
+    public const TYPE_ARRAY    = 'array';
 
-    /**
-     * @var string
-     */
-    public const TYPE_BOOL = 'bool';
+    public const TYPE_BOOL     = 'bool';
 
-    /**
-     * @var string
-     */
-    public const TYPE_FLOAT = 'float';
+    public const TYPE_FLOAT    = 'float';
 
-    /**
-     * @var string
-     */
-    public const TYPE_INT = 'int';
+    public const TYPE_INT      = 'int';
 
-    /**
-     * @var string
-     */
-    public const TYPE_NULL = 'null';
+    public const TYPE_NULL     = 'null';
 
-    /**
-     * @var string
-     */
-    public const TYPE_NUMERIC = 'numeric';
+    public const TYPE_NUMERIC  = 'numeric';
 
-    /**
-     * @var string
-     */
-    public const TYPE_OBJECT = 'object';
+    public const TYPE_OBJECT   = 'object';
 
-    /**
-     * @var string
-     */
     public const TYPE_RESOURCE = 'resource';
 
-    /**
-     * @var string
-     */
-    public const TYPE_STRING = 'string';
+    public const TYPE_STRING   = 'string';
 
-    /**
-     * @var string
-     */
-    public const TYPE_SCALAR = 'scalar';
+    public const TYPE_SCALAR   = 'scalar';
 
-    /**
-     * @var string
-     */
     public const TYPE_CALLABLE = 'callable';
 
-    /**
-     * @var string
-     */
     public const TYPE_ITERABLE = 'iterable';
 
     /**
-     * @var array<string,bool>
+     * @var array
      */
     private const KNOWN_TYPES = [
         'array'    => true,

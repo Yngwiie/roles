@@ -25,7 +25,7 @@ There was 1 skipped test:
 1) %stests%eend-to-end%e_files%ephpt-skipif-location-hint-example.phpt
 something terrible happened
 
-%stests%eend-to-end%e_files%ephpt-skipif-location-hint-example.phpt:8
+%stests%eend-to-end%e_files%ephpt-skipif-location-hint-example.phpt:9
 
 OK, but incomplete, skipped, or risky tests!
 Tests: 1, Assertions: 1, Skipped: 1.

@@ -18,9 +18,14 @@
     
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/load.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 </head>
-<body  >    
+<body  >   
+
+    <!-- <div id="contenedor_carga">
+        <div id="carga"></div>
+    </div> -->
     <div id="app" >
     @include('mensajes-flash')   
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
@@ -105,5 +110,14 @@
         </main>
     </div>
 </body>
+
+<!-- <script>
+    window.onload = function(){
+        var contenedor = document.getElementById('contenedor_carga');
+
+        contenedor.style.visibility = 'hidden';
+        contenedor.style.opacity = '0';
+    }
+</script> -->
 
 </html>

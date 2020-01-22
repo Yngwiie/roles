@@ -15,7 +15,6 @@ use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Runner\TestSuiteSorter;
 use PHPUnit\TextUI\ResultPrinter;
-use PHPUnit\Util\TestDox\CliTestDoxPrinter;
 use SebastianBergmann\FileIterator\Facade as FileIteratorFacade;
 
 /**
@@ -126,7 +125,23 @@ final class Configuration
         $result = [];
 
         foreach ($this->xpath->query('extensions/extension') as $extension) {
-            $result[] = $this->getElementConfigurationParameters($extension);
+            \assert($extension instanceof DOMElement);
+
+            $class     = (string) $extension->getAttribute('class');
+            $file      = '';
+            $arguments = $this->getConfigurationArguments($extension->childNodes);
+
+            if ($extension->getAttribute('file')) {
+                $file = $this->toAbsolutePath(
+                    (string) $extension->getAttribute('file'),
+                    true
+                );
+            }
+            $result[] = [
+                'class'     => $class,
+                'file'      => $file,
+                'arguments' => $arguments,
+            ];
         }
 
         return $result;
@@ -222,7 +237,24 @@ final class Configuration
         $result = [];
 
         foreach ($this->xpath->query('listeners/listener') as $listener) {
-            $result[] = $this->getElementConfigurationParameters($listener);
+            \assert($listener instanceof DOMElement);
+
+            $class     = (string) $listener->getAttribute('class');
+            $file      = '';
+            $arguments = $this->getConfigurationArguments($listener->childNodes);
+
+            if ($listener->getAttribute('file')) {
+                $file = $this->toAbsolutePath(
+                    (string) $listener->getAttribute('file'),
+                    true
+                );
+            }
+
+            $result[] = [
+                'class'     => $class,
+                'file'      => $file,
+                'arguments' => $arguments,
+            ];
         }
 
         return $result;
@@ -438,7 +470,7 @@ final class Configuration
                 $_ENV[$name] = $value;
             }
 
-            if ($force) {
+            if ($force === true) {
                 $_ENV[$name] = $value;
             }
         }
@@ -749,21 +781,6 @@ final class Configuration
             );
         }
 
-        if ($root->hasAttribute('testdox')) {
-            $testdox = $this->getBoolean(
-                (string) $root->getAttribute('testdox'),
-                false
-            );
-
-            if ($testdox) {
-                if (isset($result['printerClass'])) {
-                    $result['conflictBetweenPrinterClassAndTestdox'] = true;
-                } else {
-                    $result['printerClass'] = CliTestDoxPrinter::class;
-                }
-            }
-        }
-
         if ($root->hasAttribute('registerMockObjectsFromTestArgumentsRecursively')) {
             $result['registerMockObjectsFromTestArgumentsRecursively'] = $this->getBoolean(
                 (string) $root->getAttribute('registerMockObjectsFromTestArgumentsRecursively'),
@@ -801,39 +818,24 @@ final class Configuration
                         $result['resolveDependencies']   = false;
 
                         break;
-
-                    case 'defects':
-                        $result['executionOrderDefects'] = TestSuiteSorter::ORDER_DEFECTS_FIRST;
-
-                        break;
-
-                    case 'depends':
-                        $result['resolveDependencies'] = true;
-
-                        break;
-
-                    case 'duration':
-                        $result['executionOrder'] = TestSuiteSorter::ORDER_DURATION;
-
-                        break;
-
-                    case 'no-depends':
-                        $result['resolveDependencies'] = false;
-
-                        break;
-
-                    case 'random':
-                        $result['executionOrder'] = TestSuiteSorter::ORDER_RANDOMIZED;
-
-                        break;
-
                     case 'reverse':
                         $result['executionOrder'] = TestSuiteSorter::ORDER_REVERSED;
 
                         break;
+                    case 'random':
+                        $result['executionOrder'] = TestSuiteSorter::ORDER_RANDOMIZED;
 
-                    case 'size':
-                        $result['executionOrder'] = TestSuiteSorter::ORDER_SIZE;
+                        break;
+                    case 'defects':
+                        $result['executionOrderDefects'] = TestSuiteSorter::ORDER_DEFECTS_FIRST;
+
+                        break;
+                    case 'depends':
+                        $result['resolveDependencies'] = true;
+
+                        break;
+                    case 'no-depends':
+                        $result['resolveDependencies'] = false;
 
                         break;
                 }
@@ -847,13 +849,6 @@ final class Configuration
             );
         }
 
-        if ($root->hasAttribute('noInteraction')) {
-            $result['noInteraction'] = $this->getBoolean(
-                (string) $root->getAttribute('noInteraction'),
-                false
-            );
-        }
-
         return $result;
     }
 
@@ -861,6 +856,7 @@ final class Configuration
      * Returns the test suite configuration.
      *
      * @throws Exception
+     * @throws \ReflectionException
      */
     public function getTestSuiteConfiguration(string $testSuiteFilter = ''): TestSuite
     {
@@ -954,6 +950,7 @@ final class Configuration
 
     /**
      * @throws \PHPUnit\Framework\Exception
+     * @throws \ReflectionException
      */
     private function getTestSuite(DOMElement $testSuiteNode, string $testSuiteFilter = ''): TestSuite
     {
@@ -991,14 +988,25 @@ final class Configuration
                 continue;
             }
 
+            $prefix = '';
+            $suffix = 'Test.php';
+
             if (!$this->satisfiesPhpVersion($directoryNode)) {
                 continue;
             }
 
+            if ($directoryNode->hasAttribute('prefix')) {
+                $prefix = (string) $directoryNode->getAttribute('prefix');
+            }
+
+            if ($directoryNode->hasAttribute('suffix')) {
+                $suffix = (string) $directoryNode->getAttribute('suffix');
+            }
+
             $files = $fileIteratorFacade->getFilesAsArray(
                 $this->toAbsolutePath($directory),
-                $directoryNode->hasAttribute('suffix') ? (string) $directoryNode->getAttribute('suffix') : 'Test.php',
-                $directoryNode->hasAttribute('prefix') ? (string) $directoryNode->getAttribute('prefix') : '',
+                $suffix,
+                $prefix,
                 $exclude
             );
 
@@ -1098,11 +1106,27 @@ final class Configuration
                 continue;
             }
 
+            $prefix = '';
+            $suffix = '.php';
+            $group  = 'DEFAULT';
+
+            if ($directoryNode->hasAttribute('prefix')) {
+                $prefix = (string) $directoryNode->getAttribute('prefix');
+            }
+
+            if ($directoryNode->hasAttribute('suffix')) {
+                $suffix = (string) $directoryNode->getAttribute('suffix');
+            }
+
+            if ($directoryNode->hasAttribute('group')) {
+                $group = (string) $directoryNode->getAttribute('group');
+            }
+
             $directories[] = [
                 'path'   => $this->toAbsolutePath($directoryPath),
-                'prefix' => $directoryNode->hasAttribute('prefix') ? (string) $directoryNode->getAttribute('prefix') : '',
-                'suffix' => $directoryNode->hasAttribute('suffix') ? (string) $directoryNode->getAttribute('suffix') : '.php',
-                'group'  => $directoryNode->hasAttribute('group') ? (string) $directoryNode->getAttribute('group') : 'DEFAULT',
+                'prefix' => $prefix,
+                'suffix' => $suffix,
+                'group'  => $group,
             ];
         }
 
@@ -1131,7 +1155,7 @@ final class Configuration
     {
         $path = \trim($path);
 
-        if (\strpos($path, '/') === 0) {
+        if ($path[0] === '/') {
             return $path;
         }
 
@@ -1181,25 +1205,5 @@ final class Configuration
         }
 
         return $groups;
-    }
-
-    private function getElementConfigurationParameters(DOMElement $element): array
-    {
-        $class     = (string) $element->getAttribute('class');
-        $file      = '';
-        $arguments = $this->getConfigurationArguments($element->childNodes);
-
-        if ($element->getAttribute('file')) {
-            $file = $this->toAbsolutePath(
-                (string) $element->getAttribute('file'),
-                true
-            );
-        }
-
-        return [
-            'class'     => $class,
-            'file'      => $file,
-            'arguments' => $arguments,
-        ];
     }
 }

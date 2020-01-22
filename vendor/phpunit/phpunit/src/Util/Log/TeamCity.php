@@ -19,8 +19,8 @@ use PHPUnit\Framework\TestResult;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\Warning;
 use PHPUnit\TextUI\ResultPrinter;
-use PHPUnit\Util\Exception;
 use PHPUnit\Util\Filter;
+use ReflectionClass;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
 /**
@@ -54,6 +54,9 @@ final class TeamCity extends ResultPrinter
 
     /**
      * An error occurred.
+     *
+     * @throws \InvalidArgumentException
+     * @throws \ReflectionException
      */
     public function addError(Test $test, \Throwable $t, float $time): void
     {
@@ -70,6 +73,9 @@ final class TeamCity extends ResultPrinter
 
     /**
      * A warning occurred.
+     *
+     * @throws \InvalidArgumentException
+     * @throws \ReflectionException
      */
     public function addWarning(Test $test, Warning $e, float $time): void
     {
@@ -86,6 +92,9 @@ final class TeamCity extends ResultPrinter
 
     /**
      * A failure occurred.
+     *
+     * @throws \InvalidArgumentException
+     * @throws \ReflectionException
      */
     public function addFailure(Test $test, AssertionFailedError $e, float $time): void
     {
@@ -125,6 +134,8 @@ final class TeamCity extends ResultPrinter
 
     /**
      * Incomplete test.
+     *
+     * @throws \ReflectionException
      */
     public function addIncompleteTest(Test $test, \Throwable $t, float $time): void
     {
@@ -133,6 +144,9 @@ final class TeamCity extends ResultPrinter
 
     /**
      * Risky test.
+     *
+     * @throws \InvalidArgumentException
+     * @throws \ReflectionException
      */
     public function addRiskyTest(Test $test, \Throwable $t, float $time): void
     {
@@ -141,6 +155,8 @@ final class TeamCity extends ResultPrinter
 
     /**
      * Skipped test.
+     *
+     * @throws \ReflectionException
      */
     public function addSkippedTest(Test $test, \Throwable $t, float $time): void
     {
@@ -155,6 +171,9 @@ final class TeamCity extends ResultPrinter
         }
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function printIgnoredTest($testName, \Throwable $t, float $time): void
     {
         $this->printEvent(
@@ -170,6 +189,8 @@ final class TeamCity extends ResultPrinter
 
     /**
      * A testsuite started.
+     *
+     * @throws \ReflectionException
      */
     public function startTestSuite(TestSuite $suite): void
     {
@@ -202,7 +223,7 @@ final class TeamCity extends ResultPrinter
         } else {
             $split = \explode('::', $suiteName);
 
-            if (\count($split) === 2 && \class_exists($split[0]) && \method_exists($split[0], $split[1])) {
+            if (\count($split) === 2 && \method_exists($split[0], $split[1])) {
                 $fileName                   = self::getFileName($split[0]);
                 $parameters['locationHint'] = "php_qn://$fileName::\\$suiteName";
                 $parameters['name']         = $split[1];
@@ -228,7 +249,7 @@ final class TeamCity extends ResultPrinter
         if (!\class_exists($suiteName, false)) {
             $split = \explode('::', $suiteName);
 
-            if (\count($split) === 2 && \class_exists($split[0]) && \method_exists($split[0], $split[1])) {
+            if (\count($split) === 2 && \method_exists($split[0], $split[1])) {
                 $parameters['name'] = $split[1];
             }
         }
@@ -238,6 +259,8 @@ final class TeamCity extends ResultPrinter
 
     /**
      * A test started.
+     *
+     * @throws \ReflectionException
      */
     public function startTest(Test $test): void
     {
@@ -274,7 +297,11 @@ final class TeamCity extends ResultPrinter
     {
     }
 
-    private function printEvent(string $eventName, array $params = []): void
+    /**
+     * @param string $eventName
+     * @param array  $params
+     */
+    private function printEvent($eventName, $params = []): void
     {
         $this->write("\n##teamcity[$eventName");
 
@@ -307,6 +334,9 @@ final class TeamCity extends ResultPrinter
         return $message . $t->getMessage();
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     private static function getDetails(\Throwable $t): string
     {
         $stackTrace = Filter::getFilteredStacktrace($t);
@@ -331,7 +361,7 @@ final class TeamCity extends ResultPrinter
         }
 
         if (\is_bool($value)) {
-            return $value ? 'true' : 'false';
+            return $value === true ? 'true' : 'false';
         }
 
         if (\is_scalar($value)) {
@@ -352,20 +382,14 @@ final class TeamCity extends ResultPrinter
 
     /**
      * @param string $className
+     *
+     * @throws \ReflectionException
      */
     private static function getFileName($className): string
     {
-        try {
-            return (new \ReflectionClass($className))->getFileName();
-            // @codeCoverageIgnoreStart
-        } catch (\ReflectionException $e) {
-            throw new Exception(
-                $e->getMessage(),
-                (int) $e->getCode(),
-                $e
-            );
-        }
-        // @codeCoverageIgnoreEnd
+        $reflectionClass = new ReflectionClass($className);
+
+        return $reflectionClass->getFileName();
     }
 
     /**

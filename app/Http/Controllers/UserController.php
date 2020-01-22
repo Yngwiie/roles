@@ -73,11 +73,11 @@ class UserController extends Controller
      */
     public function show($id)
     {   
+        
         if($id==1){
             abort(404);
         }
         $user = User::withTrashed()->findOrFail($id);
-
         $roles = $user->roles;//obtengo los roles que tiene el usuario
         return view('users.show',compact('user','roles'));
     }
@@ -173,6 +173,7 @@ class UserController extends Controller
         }
         $validatedData = $request->validate([
             'name' => 'required|min:1|max:190',
+            'roles' =>'array|required|max:1',
         ]);
         $user = User::withTrashed()->findOrFail($id);
         //actualizar usuario
@@ -185,8 +186,9 @@ class UserController extends Controller
             ->with('success','Usuario actualizado con éxito');
     }
 
-    public function exportarpdf(User $user)
+    public function exportarpdf($id)
     {
+        $user = User::withTrashed()->findOrFail($id);
         $roles = $user->roles;//obtengo los roles que tiene el usuario
 
  //       $pdf = PDF::loadView('users.show',compact('user','roles'));

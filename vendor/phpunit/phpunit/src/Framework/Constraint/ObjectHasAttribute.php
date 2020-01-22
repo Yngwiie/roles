@@ -27,6 +27,8 @@ final class ObjectHasAttribute extends ClassHasAttribute
      */
     protected function matches($other): bool
     {
-        return (new ReflectionObject($other))->hasProperty($this->attributeName());
+        $object = new ReflectionObject($other);
+
+        return $object->hasProperty($this->attributeName());
     }
 }

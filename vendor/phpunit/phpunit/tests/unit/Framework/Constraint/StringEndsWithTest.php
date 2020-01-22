@@ -12,37 +12,18 @@ namespace PHPUnit\Framework\Constraint;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestFailure;
 
-/**
- * @small
- */
-final class StringEndsWithTest extends ConstraintTestCase
+class StringEndsWithTest extends ConstraintTestCase
 {
     public function testConstraintStringEndsWithCorrectValueAndReturnResult(): void
     {
         $constraint = new StringEndsWith('suffix');
-
         $this->assertTrue($constraint->evaluate('foosuffix', '', true));
     }
 
     public function testConstraintStringEndsWithNotCorrectValueAndReturnResult(): void
     {
         $constraint = new StringEndsWith('suffix');
-
         $this->assertFalse($constraint->evaluate('suffixerror', '', true));
-    }
-
-    public function testConstraintStringEndsWithCorrectNumericValueAndReturnResult(): void
-    {
-        $constraint = new StringEndsWith('0E1');
-
-        $this->assertTrue($constraint->evaluate('zzz0E1', '', true));
-    }
-
-    public function testConstraintStringEndsWithNotCorrectNumericValueAndReturnResult(): void
-    {
-        $constraint = new StringEndsWith('0E1');
-
-        $this->assertFalse($constraint->evaluate('zzz0E2', '', true));
     }
 
     public function testConstraintStringEndsWithToStringMethod(): void

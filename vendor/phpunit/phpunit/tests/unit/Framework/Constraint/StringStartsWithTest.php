@@ -12,10 +12,7 @@ namespace PHPUnit\Framework\Constraint;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestFailure;
 
-/**
- * @small
- */
-final class StringStartsWithTest extends ConstraintTestCase
+class StringStartsWithTest extends ConstraintTestCase
 {
     public function testConstraintStringStartsWithCorrectValueAndReturnResult(): void
     {
@@ -29,27 +26,6 @@ final class StringStartsWithTest extends ConstraintTestCase
         $constraint = new StringStartsWith('prefix');
 
         $this->assertFalse($constraint->evaluate('error', '', true));
-    }
-
-    public function testConstraintStringStartsWithCorrectNumericValueAndReturnResult(): void
-    {
-        $constraint = new StringStartsWith('0E1');
-
-        $this->assertTrue($constraint->evaluate('0E1zzz', '', true));
-    }
-
-    public function testConstraintStringStartsWithCorrectSingleZeroAndReturnResult(): void
-    {
-        $constraint = new StringStartsWith('0');
-
-        $this->assertTrue($constraint->evaluate('0ABC', '', true));
-    }
-
-    public function testConstraintStringStartsWithNotCorrectNumericValueAndReturnResult(): void
-    {
-        $constraint = new StringStartsWith('0E1');
-
-        $this->assertFalse($constraint->evaluate('0E2zzz', '', true));
     }
 
     public function testConstraintStringStartsWithToStringMethod(): void
@@ -97,8 +73,7 @@ EOF
         } catch (ExpectationFailedException $e) {
             $this->assertEquals(
                 <<<EOF
-custom message
-Failed asserting that 'error' starts with "prefix".
+custom message\nFailed asserting that 'error' starts with "prefix".
 
 EOF
                 ,

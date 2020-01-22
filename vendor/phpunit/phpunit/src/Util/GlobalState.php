@@ -30,7 +30,7 @@ final class GlobalState
     ];
 
     /**
-     * @throws Exception
+     * @throws \ReflectionException
      */
     public static function getIncludedFilesAsString(): string
     {
@@ -40,7 +40,7 @@ final class GlobalState
     /**
      * @param string[] $files
      *
-     * @throws Exception
+     * @throws \ReflectionException
      */
     public static function processIncludedFilesAsString(array $files): string
     {
@@ -79,13 +79,14 @@ final class GlobalState
 
     public static function getIniSettingsAsString(): string
     {
-        $result = '';
+        $result      = '';
+        $iniSettings = \ini_get_all(null, false);
 
-        foreach (\ini_get_all(null, false) as $key => $value) {
+        foreach ($iniSettings as $key => $value) {
             $result .= \sprintf(
                 '@ini_set(%s, %s);' . "\n",
                 self::exportVariable($key),
-                self::exportVariable((string) $value)
+                self::exportVariable($value)
             );
         }
 
@@ -169,7 +170,7 @@ final class GlobalState
                 $result = false;
             }
 
-            if (!$result) {
+            if ($result === false) {
                 break;
             }
         }
