@@ -51,12 +51,12 @@
                                 </td>
                                 <td width="10px">
                                     @can('roles.destroy')<!-- Si tiene permiso para eliminar se mostrara el boton-->
-                                        {!!Form::open(['route' => ['roles.cantidadusuariosrol',$role->id],
-                                        'method' => 'GET' ]) !!}
-                                            
-                                            <button style="width:83px" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</button>
-                                        
-                                        {!!Form::close()!!}
+
+                                        @if(DB::table('role_user')->where('role_id',$role->id)->exists())
+                                            <button style="width:83px" data-toggle="modal" data-target="#modalrol_con_usuarios" onClick="selRol('{{$role->id}}')"class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                                        @else   
+                                            <button style="width:83px" data-toggle="modal" data-target="#modalrol_sin_usuarios" onClick="selRol('{{$role->id}}')"class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                                        @endif
                                         
                                     @endcan
                                 </td>
@@ -71,7 +71,66 @@
         </div>
     </div>
 </div>
-@yield('modal')
+<div class="modal fade" id="modalrol_con_usuarios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¡Hay al menos un usuario con el rol asignado!, 
+        ¿Está seguro?
+      </div>
+      <div class="modal-footer">  
+            {!!Form::open(['route' => ['roles.destroy'],
+                'method' => 'DELETE' ]) !!}       
+                <input type="hidden" id="rol_con_usuario" name="idrol" value="">
+                <button class="btn btn-info  btn-sm">Confirmar</button>
+                                            
+            {!!Form::close()!!}
+            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalrol_sin_usuarios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Está seguro?
+      </div>
+      <div class="modal-footer">  
+            {!!Form::open(['route' => ['roles.destroy'],
+                'method' => 'DELETE' ]) !!}       
+                <input type="hidden" id="rol_sin_usuario" name="idrol" value="">
+                <button class="btn btn-info  btn-sm">Confirmar</button>
+                                            
+            {!!Form::close()!!}
+            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+    selRol = function(idPersona){
+        $('#rol_con_usuario').val(idPersona);
+        $('#rol_sin_usuario').val(idPersona);
+    };
+
+</script>
 
 
 @endsection

@@ -20,12 +20,10 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/load.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-</head>
-<body  >   
 
-    <!-- <div id="contenedor_carga">
-        <div id="carga"></div>
-    </div> -->
+
+</head>
+<body >   
     <div id="app" >
     @include('mensajes-flash')   
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
@@ -57,8 +55,12 @@
                             </li>
                         @endcan
                         @can('users.auditoria')
-                            <li class="nav-item" >   
-                                <a class="nav-link" href="{{ route('users.log') }}">Auditoria</a>
+                            <li class="nav-item dropdown ">   
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Auditoria</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('users.log') }}">Auditoria Inicios de sesión</a>
+                                    <a class="dropdown-item" href="{{ route('users.logall') }}">Auditoria Total</a>
+                                </div>
                             </li>
                         @endcan
                         
@@ -105,19 +107,10 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 clearfix">
             @yield('content')
         </main>
     </div>
 </body>
-
-<!-- <script>
-    window.onload = function(){
-        var contenedor = document.getElementById('contenedor_carga');
-
-        contenedor.style.visibility = 'hidden';
-        contenedor.style.opacity = '0';
-    }
-</script> -->
 
 </html>

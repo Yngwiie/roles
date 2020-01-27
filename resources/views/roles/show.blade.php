@@ -18,16 +18,31 @@
                     <p><strong>Permisos asociados:</strong></p>
 
                     <ul class="list-unstyled">
-                            
-                            @foreach($permisos as $permission)
+                            @if($permisos=='all-access')
                                 <li class="list-group-item list-group-item-secondary">
                                     <label>
                                         <i class="fas fa-angle-double-right"></i>
-                                            {{$permission->name}}
+                                            Acceso Total
                                     </label>
                                 </li>
-                            @endforeach
-                        
+                            @elseif($permisos=='no-access')
+                                <li class="list-group-item list-group-item-secondary">
+                                    <label>
+                                        <i class="fas fa-angle-double-right"></i>
+                                            Ningún acceso
+                                    </label>
+                                </li>
+                            @else
+                                @foreach($permisos as $permission)
+                                    <li class="list-group-item list-group-item-secondary">
+                                        <label>
+                                            <i class="fas fa-angle-double-right"></i>
+                                                {{$permission->name}}
+                                        </label>
+                                    </li>
+                                @endforeach
+                            @endif
+
                     </ul>
                 </div>
             </div>

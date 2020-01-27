@@ -40,7 +40,6 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- lado izquierdo de la barra de navegación -->
                     <ul class="navbar-nav mr-auto">
-                        <!-- -->
                         @can('roles.index')
                             <li class="nav-item " >   
                                 <a class="nav-link" href="{{ route('roles.index') }}">Roles</a>
@@ -57,8 +56,12 @@
                             </li>
                         @endcan
                         @can('users.auditoria')
-                            <li class="nav-item" >   
-                                <a class="nav-link" href="{{ route('users.log') }}">Auditoria</a>
+                            <li class="nav-item dropdown ">   
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Auditoria</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('users.log') }}">Auditoria Inicios de sesión</a>
+                                    <a class="dropdown-item" href="{{ route('users.logall') }}">Auditoria Total</a>
+                                </div>
                             </li>
                         @endcan
                         

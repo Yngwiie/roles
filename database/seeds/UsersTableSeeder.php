@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        
         Role::create([
             'name' => 'Administrador',
             'slug' => 'admin',
@@ -22,6 +22,8 @@ class UsersTableSeeder extends Seeder
         $user = User::create([
             'name' => 'Admin',
             'rut' =>'19.718.662-3',
+            'email_verified_at' => now(),
+            'estado' =>'verificado',
             'email' => 'reivaj_31@hotmail.com',
             'password' => bcrypt('12345678'),
         ]);
@@ -33,7 +35,6 @@ class UsersTableSeeder extends Seeder
             'slug' => 'revi',
         ]);
         $rol->givePermissionTo('users.index','roles.index');
-
         
 
     }

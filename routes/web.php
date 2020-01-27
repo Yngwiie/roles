@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('roles/{role}','RoleController@show')->name('roles.show')
         ->middleware('can:roles.show');
 
-    Route::delete('roles/{role}/destroy','RoleController@destroy')->name('roles.destroy')
+    Route::delete('roles/destroy','RoleController@destroy')->name('roles.destroy')
         ->middleware('can:roles.destroy');
 
     Route::get('roles/{role}/edit','RoleController@edit')->name('roles.edit')
@@ -92,5 +92,6 @@ Route::middleware(['auth'])->group(function(){
     //ruta para log
     Route::get('log','LogController@index')->name('users.log');
     Route::get('log/eliminar','LogController@eliminarDatos')->name('log.eliminar');
+    Route::get('logall','LogController@indexAll')->name('users.logall');
 });
 

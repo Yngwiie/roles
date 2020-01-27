@@ -73,7 +73,7 @@ section {
 
 .fondo{
   background: url('../img/nature1.jpg') no-repeat;
-  background-size: cover;
+  background-size: auto;
   background-position:center center;
   background-attachment: fixed;
 }

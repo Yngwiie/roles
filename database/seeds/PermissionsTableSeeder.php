@@ -71,6 +71,5 @@ class PermissionsTableSeeder extends Seeder
             'description' => 'Ver auditoria de inicio de sesión de usuarios'
         ]);
         
-       
     }
 }

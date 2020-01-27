@@ -115,7 +115,6 @@ class LoginController extends Controller
         {
             $log->ip=$_SERVER["REMOTE_ADDR"];
         } 
- //       dd($log->ip." ".$log->navegador);
         $log->save();
     }
     

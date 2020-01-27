@@ -42,18 +42,20 @@ class UserController extends Controller
 
         return view('users.indexNoverificados',compact('users'));
     }
-
+    /**
+     * Metodo para obtener todos los usuarios sin rol y paginarlos.
+     */
     public function indexSinRol(Request $request){
-        $users_todos = User::busqueda_sin_rol($request->get('busqueda'))->withTrashed()->paginate(15);
-
-        $users = collect(new User)->paginate(15);
+        $users_todos = User::busqueda_sin_rol($request->get('busqueda'))->withTrashed()->get();
+        
+        $users_sin_rol = collect(new User);
         foreach($users_todos as $user){
             $roles = $user->roles;
             if($roles->count()==0){
-                $users->push($user);
+                $users_sin_rol->push($user);
             }
         }
-         
+        $users = $users_sin_rol->paginate(15); //pagino los usuarios sin rol.
         return view('users.indexsinrol',compact('users'));
     }
     /**
@@ -74,7 +76,7 @@ class UserController extends Controller
     public function show($id)
     {   
         
-        if($id==1){
+        if($id==1){//evitar mostrar administrador.
             abort(404);
         }
         $user = User::withTrashed()->findOrFail($id);
@@ -90,24 +92,24 @@ class UserController extends Controller
      */
     public function edit($id)
     {   
-        if($id==1){
+        if($id==1){//evitar editar administrador
             abort(404);
         }
         $user = User::withTrashed()->findOrFail($id);
 
-        $roles = Role::get();//obtengo los roles.
+        $roles = Role::get();//obtengo todos los roles.
         return view('users.edit',compact('user','roles'));
     }    
 
     /**
-     * Esta funcion elimina a un usuario.
+     * funcion para eliminar un usuario.
      * 
      * @param User $user es el usuario que se desea eliminar
      * @return \Illuminate\Http\Response Respuesta de confirmación
      */
     public function destroy(Request $request)
     {   
-        if($request->user_id_inhabilitar==1){
+        if($request->user_id_inhabilitar==1){//evitar eliminar administrador
             abort(404);
         }
         $user = User::findOrFail($request->user_id_inhabilitar)->delete();
@@ -185,7 +187,9 @@ class UserController extends Controller
         return redirect()->route('users.edit',$user->id)
             ->with('success','Usuario actualizado con éxito');
     }
-
+    /**
+     * Funcion para exportar los detalles de un usuario a PDF.
+     */
     public function exportarpdf($id)
     {
         $user = User::withTrashed()->findOrFail($id);

@@ -21,7 +21,6 @@
                     <table class="table table-responsive table-striped table-hover shadow p-3 " >
                         <thead class="thead-dark">
                             <tr>
-                                <th class="col-xs-9 col-md-3">ID</th>
                                 <th class="col-xs-9 col-md-10">Nombre</th>
                                 <th class="col-xs-9 col-md-7">Rut</th>
                                 <th class="col-xs-9 col-md-7">Email</th>
@@ -33,7 +32,6 @@
                         <tbody>
                             @foreach($logs as $log)
                             <tr>
-                                <td>{{$log->id}}</td>
                                 <td >{{$log->name_user}}</td>
                                 <td >{{$log->rut}}</td>
                                 <td >{{$log->email}}</td>
