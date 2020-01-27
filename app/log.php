@@ -4,16 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class log extends Model
+class log extends Model 
 {
 
-    
     protected $table = "log";
     
     protected $fillable = [
         'name_user', 'rut','email', 'navegador','ip',
     ];
-
 
 
     public function scopeBusqueda($query,$busqueda)

@@ -7,6 +7,7 @@ use App\User;
 use App\Event;
 use Auth;
 use Mail;
+use App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Caffeinated\Shinobi\Models\Role;
@@ -24,7 +25,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {   
-        
+        dd(config('mail.username'));
                        //scope
         $users = User::busqueda($request->get('busqueda'))->withTrashed()->paginate(15);
 
@@ -218,9 +219,9 @@ class UserController extends Controller
             'rut'=>$user->rut,
         );  
         Mail::send('emails.emailAdmin',$data,function($message){
-            $message->from('yngwiie00@gmail.com','Roles y Permisos');
+            $message->from((config('mail.username')),'Roles y Permisos');
 
-            $message->to('yngwiie00@gmail.com')->subject('Petición para asignar rol');
+            $message->to(config('mail.username'))->subject('Petición para asignar rol');
         }); 
 
         return redirect()->route('home')

@@ -24,7 +24,7 @@ class LogController extends Controller
     /**
      * Funcion para eliminar datos del LOG entre dos fechas.
      */
-    public function eliminarDatos(Request $request){
+    public function destroy(Request $request){
         $logs = Log::whereBetween(DB::raw('DATE(created_at)'),[$request->fechainicio,$request->fechafinal])->delete();
         if($logs == 0){
             return redirect()->route('users.log')->with('error', 'No hay registro entre las fechas ingresadas.');

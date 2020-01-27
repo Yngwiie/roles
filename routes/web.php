@@ -91,7 +91,7 @@ Route::middleware(['auth'])->group(function(){
 
     //ruta para log
     Route::get('log','LogController@index')->name('users.log');
-    Route::get('log/eliminar','LogController@eliminarDatos')->name('log.eliminar');
+    Route::get('log/eliminar','LogController@destroy')->name('log.eliminar');
     Route::get('logall','LogController@indexAll')->name('users.logall');
 });
 
