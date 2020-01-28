@@ -57,7 +57,7 @@
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-                                <i id="mostrar" class="fas fa-eye float-right" style="margin:2px;"></i>
+                                <i id="mostrar" ontouchend="dejarMostrar()" ontouchstart="mostrarCon()" class="fas fa-eye float-right" style="margin:2px;"></i>
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -70,7 +70,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirmar Contraseña') }}</label>
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                                <i id="mostrar1" class="fas fa-eye float-right" style="margin:2px;"></i> 
+                                <i id="mostrar1" ontouchend="dejarMostrarConfirm()" ontouchstart="mostrarConfirm()" class="fas fa-eye float-right" style="margin:2px;"></i> 
 
                             </div>
                         </div>
@@ -99,6 +99,12 @@
                     $('#password').attr('type','password');
                 });
             });
+            function mostrarCon(){
+                $('#password').removeAttr('type');
+            }
+            function dejarMostrar(){
+                $('#password').attr('type','password');
+            }
 </script>
 <script >
             $(document).ready(function(){
@@ -109,4 +115,11 @@
                     $('#password-confirm').attr('type','password');
                 });
             });
+            function mostrarConfirm(){
+                $('#password-confirm').removeAttr('type');
+            }
+            function dejarMostrarConfirm(){
+                $('#password-confirm').attr('type','password');
+            }
+           
 </script>

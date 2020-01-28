@@ -25,7 +25,6 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {   
-        dd(config('mail.username'));
                        //scope
         $users = User::busqueda($request->get('busqueda'))->withTrashed()->paginate(15);
 

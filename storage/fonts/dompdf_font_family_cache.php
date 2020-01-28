@@ -79,5 +79,7 @@
   ),
   'nunito' => array(
     'normal' => $fontDir . '\176125b1b6dc4704cbf0390040859779',
+    '200' => $fontDir . '/nunito-200_aa43f2bf57704d041dfc34a504551bc2',
+    '600' => $fontDir . '/nunito-600_0ed0f943d48a414de21cc20eb0354449',
   ),
 ) ?>

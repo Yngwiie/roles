@@ -13,13 +13,13 @@
 <div class="form-group">
     {{ Form::label('password','Nueva Contraseña')}}
     {{ Form::password('password',null,['class' => 'form-control']) }}
-    <i id="mostrar" class="fas fa-eye " style="margin:2px;"></i>
+    <i id="mostrar" ontouchend="dejarMos()" ontouchstart="mostrarCon()" class="fas fa-eye " style="margin:2px;"></i>
 </div>
 
 <div class="form-group">
     {{ Form::label('password_confirmation','Repetir nueva Contraseña')}}
     {{ Form::password('password_confirmation',null,['class' => 'form-control']) }}
-    <i id="mostrar_confirmacion" class="fas fa-eye " style="margin:2px;"></i>
+    <i id="mostrar_confirmacion" ontouchend="dejarMostrarConfirm()" ontouchstart="mostrarConfirm()" class="fas fa-eye " style="margin:2px;"></i>
 </div>
 
 <div >
@@ -43,4 +43,16 @@
                 });
 
             });
+            function mostrarConfirm(){
+                $('#password_confirmation').removeAttr('type');
+            }
+            function dejarMostrarConfirm(){
+                $('#password_confirmation').attr('type','password');
+            }
+            function mostrarCon(){
+                $('#password').removeAttr('type');
+            }
+            function dejarMos(){
+                $('#password').attr('type','password');
+            }
 </script>
