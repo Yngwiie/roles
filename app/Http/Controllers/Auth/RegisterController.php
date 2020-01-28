@@ -50,12 +50,26 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        
+
+        $validator = Validator::make($data,[
+            'rutSinFormato' => ['required','cl_rut']
+        ],['rutSinFormato.cl_rut' => 'El rut no es válido']);
+        
+        if($validator->fails()){
+            return $validator;
+        }
+        //se le da formato al rut con puntos y guión
+        $rutNuevo = Rut::parse($data['rutSinFormato'])->fix()->format();
+        array_push($data,$rutNuevo);
+        $data['rut'] = $rutNuevo;
 
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'rut' => ['required','cl_rut']
+            'rutSinFormato' => ['required','cl_rut'],
+            'rut' => ['unique:users','cl_rut']
         ]);
     }
 
@@ -67,7 +81,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $rutNuevo = Rut::parse($data['rut'])->fix()->format();
+        $rutNuevo = Rut::parse($data['rutSinFormato'])->fix()->format();
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],

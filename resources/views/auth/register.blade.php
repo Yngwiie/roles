@@ -28,7 +28,7 @@
                             <label for="rut" class="col-md-4 col-form-label text-md-right">{{ __('Rut') }}</label>
 
                             <div class="col-md-6">
-                                <input id="rut" type="text" class="form-control @error('rut') is-invalid @enderror" name="rut" value="{{ old('rut') }}" required autocomplete="rut" autofocus>
+                                <input id="rut" type="text" class="form-control @error('rut') is-invalid @enderror" name="rutSinFormato" value="{{ old('rutSinFormato') }}" required autocomplete="rut" autofocus>
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
