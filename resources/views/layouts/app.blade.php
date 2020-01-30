@@ -55,12 +55,8 @@
                             </li>
                         @endcan
                         @can('users.auditoria')
-                            <li class="nav-item dropdown ">   
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Auditoria</a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('users.log') }}">Auditoria Inicios de sesión</a>
-                                    <a class="dropdown-item" href="{{ route('users.logall') }}">Auditoria Total</a>
-                                </div>
+                            <li class="nav-item " >   
+                                <a class="nav-link" href="{{ route('users.log') }}">Auditoria</a>
                             </li>
                         @endcan
                         
@@ -81,7 +77,12 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                @can('bd.respaldar')
+                                    <li class="nav-item " >   
+                                        <a class="nav-link" data-toggle="modal" data-target="#modalRespaldo" href="#">Respaldar BD</a>
+                                    </li>
+                                @endcan
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
@@ -112,5 +113,32 @@
         </main>
     </div>
 </body>
+<div class="modal fade" id="modalRespaldo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Está seguro?
+      </div>
+      <div class="modal-footer">    
 
+            <a id="btncon" class="btn btn-info btn-sm" href="{{ route('db.guardar') }}" >{{ __('Confirmar') }}</a>
+                                            
+            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(document).ready(function(){
+    $("#btncon").click(function(){
+        $("#modalRespaldo").modal("hide");
+    });
+});
+</script>
 </html>

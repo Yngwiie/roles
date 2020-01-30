@@ -13,11 +13,13 @@ class CreateLogTable extends Migration
      */
     public function up()
     {
-        Schema::create('log', function (Blueprint $table) {
+        Schema::connection('log')->create('log', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('accion');
+            $table->text('valores_nuevos')->nullable();
+            $table->text('valores_antiguos')->nullable();
             $table->string('name_user');
             $table->string('rut');
-            $table->string('email');
             $table->string('navegador');
             $table->string('ip');
             $table->timestamps();
@@ -32,6 +34,6 @@ class CreateLogTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('log');
+        Schema::connection('log')->dropIfExists('log');
     }
 }

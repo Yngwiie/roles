@@ -67,8 +67,8 @@ class LoginController extends Controller
         
         $log = new Log();
         $log->name_user=$user->name;
+        $log->accion='Inicio sesión';
         $log->rut=$user->rut;
-        $log->email=$user->email;
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         //obtener navegador.
         if(strpos($user_agent, 'MSIE') !== FALSE)

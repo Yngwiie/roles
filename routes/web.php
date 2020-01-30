@@ -47,9 +47,6 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('roles/{role}/edit','RoleController@edit')->name('roles.edit')
         ->middleware('can:roles.edit');
-    //cant usuarios rol
-    Route::get('roles/{role}/cantU','RoleController@cantidadusuariosrol')->name('roles.cantidadusuariosrol')
-        ->middleware('can:roles.destroy');;
 
     
     //usuarios
@@ -92,6 +89,7 @@ Route::middleware(['auth'])->group(function(){
     //ruta para log
     Route::get('log','LogController@index')->name('users.log');
     Route::get('log/eliminar','LogController@destroy')->name('log.eliminar');
-    Route::get('logall','LogController@indexAll')->name('users.logall');
+    //ruta para respaldar base de datos
+    Route::get('respaldo','BackupController@backup_tables')->name('db.guardar');
 });
 

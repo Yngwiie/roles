@@ -15,9 +15,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Support\Collection;
+use App\Traits\Anadirlog;
 
 class UserController extends Controller
 {
+    use Anadirlog;
+
     /**
      * Función para listar en pantalla todos los usuarios que no estan eliminados.
      *
@@ -42,8 +45,9 @@ class UserController extends Controller
 
         return view('users.indexNoverificados',compact('users'));
     }
+
     /**
-     * Metodo para obtener todos los usuarios sin rol y paginarlos.
+     * Función para obtener todos los usuarios sin rol y paginarlos.
      */
     public function indexSinRol(Request $request){
         $users_todos = User::busqueda_sin_rol($request->get('busqueda'))->withTrashed()->get();
@@ -58,15 +62,20 @@ class UserController extends Controller
         $users = $users_sin_rol->paginate(15); //pagino los usuarios sin rol.
         return view('users.indexsinrol',compact('users'));
     }
+
     /**
      * Función para restaurar un usuario Deshabilitado(eliminado con sofdelete)
      */
     public function restaurarUsuario(Request $request){
         
-        User::onlyTrashed()->find($request->user_id)->restore();
+        $user = User::onlyTrashed()->find($request->user_id)->restore();
+        $user = User::find($request->user_id);
+
+        $this->nuevaAccion('habilitar usuario',"{nombre: ".$user->name."} {rut: ".$user->rut."}",""); 
         return redirect()->back()->with('success','Usuario habilitado correctamente');
         
     }
+
     /**
      * función para obtener datos personales del usuario.
      *
@@ -112,21 +121,30 @@ class UserController extends Controller
         if($request->user_id_inhabilitar==1){//evitar eliminar administrador
             abort(404);
         }
-        $user = User::findOrFail($request->user_id_inhabilitar)->delete();
+        $user = User::findOrFail($request->user_id_inhabilitar);
+        $nombre = $user->name;
+        $rut = $user->rut;
+        $user->delete();
 
+        $this->nuevaAccion('inhabilitar usuario',"","{nombre: ".$nombre."} {rut: ".$rut."}"); 
         return redirect()->back()->with('success', 'Inhabilitado correctamente.');
     }
+
     /**
-     * Metodo para obtener los datos del usuario que esta en session.
+     * Función para obtener los datos del usuario que esta en session.
      */
     public function editarDatosPersonales(User $user)
     {   
         return view('users.editPersonal',compact('user'));           
-    
         
     }
+
     /**
-     * Metodo para actualizar los datos personales de un usuario.
+     * Función para actualizar los datos personales de un usuario.
+     * @param Request $request contiene los nuevos datos que se actualizaran.
+     * @param User $user usuario que se actualizara.
+     * 
+     * @return void
      */
     public function actualizarDatosPersonales(Request $request,User $user){
         $rules = [//reglas para los campos de contraseña
@@ -151,10 +169,18 @@ class UserController extends Controller
         else{
             if(Hash::check($request->passantigua,Auth::user()->password)){
                 $user = User::find(Auth::user()->id);
+                $nombre_antiguo = $user->name;
                 $user->name = $request['name'];
                 $user->where('email', '=', Auth::user()->email)
                      ->update(['password' => Hash::make($request['password'])]);
                 $user->save();
+                
+                if($request->passantigua == $request->password){
+                    $this->nuevaAccion('Cambio datos personales',$user->name,$nombre_antiguo);   
+                }else{
+                    $this->nuevaAccion('Cambio datos personales(incluido contraseña)',$user->name,$nombre_antiguo);
+                }
+                    
                 return redirect()->route('home')->with('success', 'Actualizado correctamente.');
             }
             else{
@@ -163,7 +189,7 @@ class UserController extends Controller
         }
     }
     /**
-     * Actualiza el usuario y su rol.
+     * Actualiza el datos del usuario y su rol.
      * 
      *@param User $user usuario que se actualiza
      * @return \Illuminate\Http\Response Respuesta de confirmación
@@ -178,17 +204,33 @@ class UserController extends Controller
             'roles' =>'array|required|max:1',
         ]);
         $user = User::withTrashed()->findOrFail($id);
+        $roles_ant = $user->roles;
+        foreach($roles_ant as $rol){
+            $idrol = $rol->id;
+        }
+        $datos_string_antiguos = $this->pasarDatosUsuarioAstring($user,$idrol);
+        
+
         //actualizar usuario
         $user->update($request->all());
-
-        //actualizar roles
+         //actualizar roles  
         $user->roles()->sync($request->get('roles'));
-
+        
+        //pasar los datos nuevos a string
+        $datos_string_nuevos = $this->pasarDatosUsuarioAstring($user,$request->get('roles')[0]);
+        
+        //llamamos al Función que ingresa el nuevo dato a la tabla LOG
+        $this->nuevaAccion('Actualizar usuario',$datos_string_nuevos,$datos_string_antiguos);
+        
         return redirect()->route('users.edit',$user->id)
             ->with('success','Usuario actualizado con éxito');
     }
+    
     /**
      * Funcion para exportar los detalles de un usuario a PDF.
+     * @param mixed $id identificador del usuario
+     * 
+     * @return void
      */
     public function exportarpdf($id)
     {
@@ -202,7 +244,7 @@ class UserController extends Controller
 
 
     /**
-     * Metodo para enviar correo a administrador
+     * Función para enviar correo a administrador
      */
     public function enviarCorreoAdmin($id)
     {
@@ -225,6 +267,25 @@ class UserController extends Controller
 
         return redirect()->route('home')
         ->with('success','Correo enviado');
+    }
+    /**
+     * Función para pasar los datos de un usuario en un string unico
+     * @param $user el usuario que pasaremos a string
+     * @param $idrol es el id del rol que tiene asignado el usuario
+     */
+    public function pasarDatosUsuarioAstring(User $user,$idrol){
+
+        $datos_string = "";
+        $datos_string.="{nombre: ";
+        $datos_string.=$user->name.' } ';
+        $datos_string.="{e-mail: ";
+        $datos_string.=$user->email." } ";
+        $datos_string.="{Role: ";
+        $rol = Role::find($idrol);
+        
+        $datos_string.=$rol->name." } ";
+       
+        return $datos_string;
     }
     
    

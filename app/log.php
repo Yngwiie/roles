@@ -6,11 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class log extends Model 
 {
+    /**
+     * The database connection used by the model.
+     *
+     * @var string
+     */
+    protected $connection = 'log';
 
     protected $table = "log";
     
     protected $fillable = [
-        'name_user', 'rut','email', 'navegador','ip',
+        'name_user','accion','valores_nuevos','valores_antiguos', 'rut','navegador','ip',
     ];
 
 

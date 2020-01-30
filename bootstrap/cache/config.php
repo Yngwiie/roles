@@ -89,7 +89,7 @@
   ),
   'audit' => 
   array (
-    'enabled' => true,
+    'enabled' => false,
     'implementation' => 'OwenIt\\Auditing\\Models\\Audit',
     'user' => 
     array (
@@ -284,6 +284,26 @@
         'host' => '127.0.0.1',
         'port' => '3306',
         'database' => 'roles',
+        'username' => 'root',
+        'password' => '',
+        'unix_socket' => '',
+        'charset' => 'utf8mb4',
+        'collation' => 'utf8mb4_unicode_ci',
+        'prefix' => '',
+        'prefix_indexes' => true,
+        'strict' => true,
+        'engine' => NULL,
+        'options' => 
+        array (
+        ),
+      ),
+      'log' => 
+      array (
+        'driver' => 'mysql',
+        'url' => NULL,
+        'host' => '127.0.0.1',
+        'port' => '3306',
+        'database' => 'log_roles',
         'username' => 'root',
         'password' => '',
         'unix_socket' => '',

@@ -10,7 +10,7 @@ class IpAddressResolver implements \OwenIt\Auditing\Contracts\IpAddressResolver
      */
     public static function resolve(): string
     {
-        if (isset($_SERVER["HTTP_CLIENT_IP"]))
+       /*  if (isset($_SERVER["HTTP_CLIENT_IP"]))
         {
             $ip=$_SERVER["HTTP_CLIENT_IP"];
         }
@@ -33,7 +33,7 @@ class IpAddressResolver implements \OwenIt\Auditing\Contracts\IpAddressResolver
         else
         {
             $ip=$_SERVER["REMOTE_ADDR"];
-        } 
-        return $ip;
+        }  */
+        return ('0.0.0.0');
     }
 }

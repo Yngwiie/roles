@@ -62,7 +62,26 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
-
+        'log' => [
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('LOG_HOST', '127.0.0.1'),
+            'port' => env('LOG_PORT', '3306'),
+            'database' => env('LOG_DATABASE', 'forge'),
+            'username' => env('LOG_USERNAME', 'forge'),
+            'password' => env('LOG_PASSWORD', ''),
+            'unix_socket' => env('LOG_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+        
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

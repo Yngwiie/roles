@@ -70,6 +70,10 @@ class PermissionsTableSeeder extends Seeder
             'slug' => 'users.auditoria',
             'description' => 'Ver auditoria de inicio de sesión de usuarios'
         ]);
-        
+        Permission::create([
+            'name' => 'Respaldar Base de datos',
+            'slug' => 'bd.respaldar',
+            'description' => 'Puede realizar un respaldo de la base de datos y guardarlo en su dispositivo'
+        ]);
     }
 }
