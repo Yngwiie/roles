@@ -9,7 +9,7 @@
                     <strong>Usuario</strong>
                     <a href="{{ route('users.usuariopdf',$user -> id)}}" 
                     class="btn btn-sm btn-secondary float-right">
-                    Descargar PDF</a>
+                    <i class="fas fa-file-download"></i> Descargar PDF</a>
                 </div>
                     
                 <div class="card-body">

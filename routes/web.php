@@ -87,8 +87,12 @@ Route::middleware(['auth'])->group(function(){
     Route::get('enviarcorreo/{user}','UserController@enviarCorreoAdmin')->name('users.enviarcorreo');
 
     //ruta para log
-    Route::get('log','LogController@index')->name('users.log');
-    Route::get('log/eliminar','LogController@destroy')->name('log.eliminar');
+    Route::get('log','LogController@index')->name('users.log')
+        ->middleware('can:users.auditoria');
+    Route::get('log/eliminar','LogController@destroy')->name('log.eliminar')
+        ->middleware('can:users.auditoria');
+    Route::get('log/excel','LogController@exportarExcel')->name('log.excel')
+        ->middleware('can:users.auditoria');
     //ruta para respaldar base de datos
     Route::get('respaldo','BackupController@backup_tables')->name('db.guardar');
 });

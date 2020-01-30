@@ -9,8 +9,16 @@
                     <strong>Auditoria</strong>                    
                     {!! Form::open(['route'=>'users.log','method' =>'GET',
                     'class'=>'form-inline float-right']) !!}
-                        {!! Form::text('busqueda',null,['class'=>'form-control form-control mr-3 w-30 ',
-                        'placeholder'=>'Buscar','aria-label'=>'Search'])!!}
+                        <label for="name" class="col-form-label" style="padding-right: 5px;" >Busqueda con Fechas</label>
+                        <input autocomplete="off" name="chec" style="margin-right: 5px;" type="checkbox" id="chec" onChange="comprobar(this);" />
+                        {!! Form::text('busqueda',null,['class'=>'form-control form-control mr-3 w-26',
+                        'placeholder'=>'nombre o rut','aria-label'=>'Search'])!!}
+        
+                        
+                        <label id="linicial" for="recipient-name" class="col-form-label"style="padding-right: 5px;display:none;">inicial</label>
+                        <input id ="fechai"type="date" class="form-control" name="fechainicio" style="display:none" >
+                        <label id="lfinal" for="recipient-name" class="col-form-label"style="padding-right: 5px;display:none;" >Final</label>
+                        <input id="fechaf" type="date" class="form-control"  name="fechafinal" style="display:none">
                         {{ Form::button('<i class="fas fa-search" aria-hidden="true"></i>', ['type' => 'submit', 
                         'class' => 'btn btn-sm'] )  }}
                     {!!Form::close()!!}
@@ -18,6 +26,7 @@
 
                 <div class="card-body shadow-lg" >
                 <button type="button" class="btn btn-danger btn-md" data-toggle="modal" data-target="#modal" ><i class="fas fa-trash-alt"></i> Eliminar Datos</button>
+                <a type="button" href="{{route('log.excel')}}"class="btn btn-secondary btn-md" style="color:white"><i class="fas fa-file-download"></i> Descargar Excel</a>
                     <table class="table table-responsive table-striped table-hover shadow p-3 " >
                         <thead class="thead-dark">
                             <tr>
@@ -72,7 +81,7 @@
           <label for="recipient-name" class="col-form-label">Fecha final</label>
             <input type="date" class="form-control" id="fechafinal" name="fechafinal" required>
           </div>
-          <button type="submit" class="btn btn-info">Confirmar</button>
+          <button style="color:white" type="submit" class="btn btn-info">Confirmar</button>
         </form>
       </div>
       <div class="modal-footer">
@@ -81,4 +90,30 @@
     </div>
   </div>
 </div>
+<script>
+         function comprobar(obj)
+          {   
+              if (obj.checked){
+                
+              document.getElementById('fechai').style.display = "";
+              
+
+              $("#fechai").attr("required", true);
+              
+              document.getElementById('linicial').style.display = "";
+              document.getElementById('lfinal').style.display = "";
+              $("#fechaf").attr("required", true);
+              document.getElementById('fechaf').style.display = "";
+                } else{
+                    
+              document.getElementById('fechai').style.display = "none";
+              $("#fechai").attr("required", false);
+              document.getElementById('linicial').style.display = "none";
+              document.getElementById('lfinal').style.display = "none";
+              $("#fechaf").attr("required", false);
+              document.getElementById('fechaf').style.display = "none";
+                }     
+          }
+
+</script>
 @endsection

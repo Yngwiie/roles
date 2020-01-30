@@ -113,7 +113,7 @@
             {!!Form::open(['route' => ['roles.destroy'],
                 'method' => 'DELETE' ]) !!}       
                 <input type="hidden" id="rol_sin_usuario" name="idrol" value="">
-                <button class="btn btn-info  btn-sm">Confirmar</button>
+                <button style="color:white"class="btn btn-info  btn-sm">Confirmar</button>
                                             
             {!!Form::close()!!}
             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>

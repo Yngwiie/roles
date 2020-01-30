@@ -5,12 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\log;
 use App\User;
+use Session;
+use App\Exports\LogExport;
 use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Models\Audit;
+use Maatwebsite\Excel\Facades\Excel;
 class LogController extends Controller
 {
+
     public function index(Request $request){
-        $logs = log::busqueda($request->get('busqueda'))->paginate(15);
+        $logs = log::orderBy('id','DESC')
+        ->name($request->get('busqueda'))
+        ->rut($request->get('busqueda'))
+        ->fecha($request->get('fechainicio'),$request->get('fechafinal'))
+        ->paginate(15);
+        Session::put('logs',$logs);
         return view('log.index',compact('logs'));
     }
     /**
@@ -24,5 +33,13 @@ class LogController extends Controller
             return redirect()->route('users.log')->with('success', 'Registros eliminados correctamente.');
         }
         
+    }
+
+    /**
+     * Funcion para exportar datos con filtro o sin filtro a un excel.
+     * @return void
+     */
+    public function exportarExcel(){
+        return Excel::download(new LogExport(Session::get('logs')),'auditoria.xlsx');
     }
 }

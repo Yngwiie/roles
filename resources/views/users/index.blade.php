@@ -99,7 +99,7 @@
             {!!Form::open(['route' => ['users.destroy'],
                 'method' => 'DELETE' ]) !!}       
                 <input type="hidden" id="userid_inhabilitar" name="user_id_inhabilitar" value="">
-                <button class="btn btn-info  btn-sm">Confirmar</button>
+                <button type="button"  class="btn btn-info  btn-sm">Confirmar</button>
                                             
             {!!Form::close()!!}
             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
@@ -126,7 +126,7 @@
 
         </div>
         <div class="modal-footer">                           
-              <button type="submit" class="btn btn-info btn-sm">Confirmar</button>
+              <button style="color:white" type="submit" class="btn btn-info btn-sm">Confirmar</button>
               <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
         </div>
         {!!Form::close()!!}
