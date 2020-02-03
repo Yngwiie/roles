@@ -72,6 +72,9 @@ Route::middleware(['auth'])->group(function(){
     //habilitar usuario
     Route::get('restaurar','UserController@restaurarUsuario')->name('users.restaurar')
         ->middleware('can:users.destroy');
+    //exportar a excel
+    Route::get('exportarexcel','UserController@exportarExcel')->name('users.excel')
+        ->middleware('can:users.index');
     
     //edicion datos personales
     Route::get('users/{user}/editar','UserController@editarDatosPersonales')->name('users.edicionPersonal')

@@ -20,6 +20,7 @@
                 </div>
                     
                 <div class="card-body shadow-lg">
+                <a type="button" href="{{route('users.excel')}}"class="btn btn-secondary btn-md" style="color:white"><i class="fas fa-file-download"></i> Descargar Excel</a>
                     <table class="table table-responsive table-striped table-hover shadow p-3 ">
                         <thead class="thead-dark">
                             <tr>

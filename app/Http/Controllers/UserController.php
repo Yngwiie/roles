@@ -8,6 +8,7 @@ use App\Event;
 use Auth;
 use Mail;
 use App;
+use Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Caffeinated\Shinobi\Models\Role;
@@ -16,6 +17,8 @@ use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Support\Collection;
 use App\Traits\Anadirlog;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\UserExport;
 
 class UserController extends Controller
 {
@@ -30,7 +33,8 @@ class UserController extends Controller
     {   
                        //scope
         $users = User::busqueda($request->get('busqueda'))->withTrashed()->paginate(15);
-
+        $users_sin_paginacion = User::select("id","name","rut","email","estado","deleted_at")->busqueda($request->get('busqueda'))->withTrashed()->get();
+        Session::put('users_filtro',$users_sin_paginacion);
         return view('users.index',compact('users'));
     }
     /**
@@ -42,7 +46,9 @@ class UserController extends Controller
     {   
                        //scope
         $users = User::busqueda_no_verificados($request->get('busqueda'))->withTrashed()->paginate(15);
-
+        $users_sin_paginacion = User::select("id","name","rut","email","estado","deleted_at")
+                ->busqueda_no_verificados($request->get('busqueda'))->withTrashed()->get();
+        Session::put('users_filtro',$users_sin_paginacion);
         return view('users.indexNoverificados',compact('users'));
     }
 
@@ -60,6 +66,18 @@ class UserController extends Controller
             }
         }
         $users = $users_sin_rol->paginate(15); //pagino los usuarios sin rol.
+
+        $users_todos = User::select("id","name","rut","email","estado","deleted_at")->busqueda_sin_rol($request->get('busqueda'))->withTrashed()->get();
+        
+        $users_sin_rol_sin_paginacion = collect(new User);
+        foreach($users_todos as $user){
+            $roles = $user->roles;
+            if($roles->count()==0){
+                $users_sin_rol_sin_paginacion->push($user);
+            }
+        }
+        $users_sin_paginacion = $users_sin_rol_sin_paginacion;
+        Session::put('users_filtro',$users_sin_paginacion);
         return view('users.indexsinrol',compact('users'));
     }
 
@@ -297,5 +315,11 @@ class UserController extends Controller
         return $datos_string;
     }
     
-   
+    /**
+     * Funcion para exportar datos con filtro o sin filtro a un excel.
+     * @return void
+     */
+    public function exportarExcel(){
+        return Excel::download(new UserExport(Session::pull('users_filtro')),'usuarios_roles_permisos.xlsx');
+    }
 }

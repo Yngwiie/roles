@@ -19,7 +19,13 @@ class LogController extends Controller
         ->fecha($request->get('fechainicio'),$request->get('fechafinal'))  
         ->name_o_rut($request->get('busqueda'))
         ->paginate(15);
-        Session::put('logs_filtro',$logs);
+        
+        $logs_sin_paginacion = log::orderBy('id','DESC')
+        ->fecha($request->get('fechainicio'),$request->get('fechafinal'))  
+        ->name_o_rut($request->get('busqueda'))
+        ->get(); 
+        Session::put('logs_filtro',$logs_sin_paginacion);
+
         return view('log.index',compact('logs'));
     }
     /**
@@ -40,6 +46,7 @@ class LogController extends Controller
      * @return void
      */
     public function exportarExcel(){
-        return Excel::download(new LogExport(Session::get('logs_filtro')),'auditoria.xlsx');
+        return Excel::download(new LogExport(Session::pull('logs_filtro')),'auditoria.xlsx');
+        
     }
 }

@@ -20,6 +20,7 @@
                 </div>
                     
                 <div class="card-body shadow-lg ">
+                  <a type="button" href="{{route('users.excel')}}"class="btn btn-secondary btn-md" style="color:white"><i class="fas fa-file-download"></i> Descargar Excel</a>
                     <table class="table table-responsive table-striped table-hover shadow p-3">
                         <thead class="thead-dark" style="resize: both;">
                             <tr>
@@ -99,7 +100,7 @@
             {!!Form::open(['route' => ['users.destroy'],
                 'method' => 'DELETE' ]) !!}       
                 <input type="hidden" id="userid_inhabilitar" name="user_id_inhabilitar" value="">
-                <button type="button"  class="btn btn-info  btn-sm">Confirmar</button>
+                <button class="btn btn-info  btn-sm">Confirmar</button>
                                             
             {!!Form::close()!!}
             <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
