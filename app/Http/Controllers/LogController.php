@@ -15,11 +15,11 @@ class LogController extends Controller
 
     public function index(Request $request){
         $logs = log::orderBy('id','DESC')
-        ->name($request->get('busqueda'))
-        ->rut($request->get('busqueda'))
-        ->fecha($request->get('fechainicio'),$request->get('fechafinal'))
+        /* ->WhereBetween(DB::raw('DATE(created_at)'),[$request->fechainicio,$request->fechafinal]) */
+        ->fecha($request->get('fechainicio'),$request->get('fechafinal'))  
+        ->name_o_rut($request->get('busqueda'))
         ->paginate(15);
-        Session::put('logs',$logs);
+        Session::put('logs_filtro',$logs);
         return view('log.index',compact('logs'));
     }
     /**
@@ -40,6 +40,6 @@ class LogController extends Controller
      * @return void
      */
     public function exportarExcel(){
-        return Excel::download(new LogExport(Session::get('logs')),'auditoria.xlsx');
+        return Excel::download(new LogExport(Session::get('logs_filtro')),'auditoria.xlsx');
     }
 }

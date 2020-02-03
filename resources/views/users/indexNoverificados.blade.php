@@ -75,7 +75,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{$users->render()}}
+                    {{$users->appends(Request::only(['busqueda']))->render()}}
                 </div>
             </div>
         </div>

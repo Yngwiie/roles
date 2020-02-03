@@ -65,7 +65,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{$roles->render()}}
+                    {{$roles->appends(Request::only(['busqueda']))->render()}}
                 </div>
             </div>
         </div>

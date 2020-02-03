@@ -56,7 +56,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{$logs->render()}}
+                    {{$logs->appends(Request::only(['busqueda','fechainicio','fechafinal']))->render()}}
                 </div>
             </div>
         </div>

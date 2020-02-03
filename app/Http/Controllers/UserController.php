@@ -20,7 +20,7 @@ use App\Traits\Anadirlog;
 class UserController extends Controller
 {
     use Anadirlog;
-
+    private $user;
     /**
      * Función para listar en pantalla todos los usuarios que no estan eliminados.
      *
@@ -205,6 +205,7 @@ class UserController extends Controller
         ]);
         $user = User::withTrashed()->findOrFail($id);
         $roles_ant = $user->roles;
+        $idrol="";
         foreach($roles_ant as $rol){
             $idrol = $rol->id;
         }
@@ -250,21 +251,26 @@ class UserController extends Controller
     {
         
         $user = User::withTrashed()->findOrFail($id);
-        $correos = $user->cant_correos;
-        $correos = $correos - 1;
-        $user->cant_correos = $correos;
-        $user->save();
         $data = array(
             'name'=>$user->name,
             'email'=>$user->email,
             'rut'=>$user->rut,
         );  
-        Mail::send('emails.emailAdmin',$data,function($message){
-            $message->from((config('mail.username')),'Roles y Permisos');
-
-            $message->to(config('mail.username'))->subject('Petición para asignar rol');
-        }); 
-
+        $users = User::all();
+        foreach($users as $user){
+            $this->user = $user;
+            if($user->hasRole('admin')){
+                Mail::send('emails.emailAdmin',$data,function($message){
+                    $message->from(config('mail.username'),'Roles y Permisos');
+        
+                    $message->to($this->user->email)->subject('Petición para asignar rol');
+                }); 
+            }
+        }
+        $correos = $user->cant_correos;
+        $correos = $correos - 1;
+        $user->cant_correos = $correos;
+        $user->save();
         return redirect()->route('home')
         ->with('success','Correo enviado');
     }
@@ -281,9 +287,12 @@ class UserController extends Controller
         $datos_string.="{e-mail: ";
         $datos_string.=$user->email." } ";
         $datos_string.="{Role: ";
-        $rol = Role::find($idrol);
-        
-        $datos_string.=$rol->name." } ";
+        if($idrol==""){
+            $datos_string .= "Sin rol }";
+        }else{
+            $rol = Role::find($idrol);
+            $datos_string.=$rol->name." } ";
+        }
        
         return $datos_string;
     }

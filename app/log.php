@@ -23,27 +23,14 @@ class log extends Model
     /**
      * funcion para buscar por nombre en la tabla LOG
      * @param mixed $query
-     * @param mixed $name
+     * @param mixed $busqueda
      * 
      * @return void
      */
-    public function scopeName($query,$name){
-        if($name!=""){
-            
-            return $query->where('name_user','LIKE',"%$name%");
-        }
-    }
-    /**
-     * funcion para buscar por rut en la tabla LOG
-     * @param mixed $query
-     * @param mixed $rut
-     * 
-     * @return void
-     */
-    public function scopeRut($query,$rut){
-        if($rut){
-            
-            return $query->orWhere('rut','LIKE',"%$rut%");
+    public function scopeName_o_rut($query,$busqueda){
+        if($busqueda!=""){
+            return $query->where('name_user','LIKE',"%$busqueda%")
+                         ->orWhere('rut','LIKE',"%$busqueda%");
         }
     }
 
@@ -58,7 +45,9 @@ class log extends Model
     public function scopeFecha($query,$fechai,$fechaf){
 
         if($fechai && $fechaf){
-            return $query->WhereBetween(DB::raw('DATE(created_at)'),[$fechai,$fechaf]);
+            /* dd($fechai." ".$fechaf); */
+            $query1 = $query->WhereBetween(DB::raw('DATE(created_at)'),[$fechai,$fechaf]);
+            return $query1;
         }
     }
 }

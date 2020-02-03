@@ -8,7 +8,7 @@
             <div class="card">
 
                 <div class="card-body" >
-                        <li><h5>No tiene un rol asignado haga click en el boton para informar al administrador.(solo puede enviar {{auth()->user()->cant_correos}} correos)</h5 ></li>
+                        <li><h5>No tiene un rol asignado, haga click en el boton para informar a los administradores.(solo puede enviar {{auth()->user()->cant_correos}} correos)</h5 ></li>
                         <a href="{{route('users.enviarcorreo',auth()->user()->id)}}" 
                                             class="btn btn-secondary btn-md">Enviar Correo</a>
                 </div>
@@ -17,7 +17,7 @@
                 <div class="card">
                     
                     <div class="card-body" >
-                            <li><h5>Ya envió tres correos, espere hasta que el administrador le asigne un rol.</h5></li>
+                            <li><h5>Ya envió tres correos, espere hasta que los administradores le asigne un rol.</h5></li>
                     </div>
                 </div>
         @else

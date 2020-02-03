@@ -8,7 +8,7 @@
                 <div class="card-header shadow-sm">
                     <strong><i class="fas fa-user-friends fa-2x"></i> Usuarios sin rol asignado</strong>
                     
-                    {!! Form::open(['route'=>'users.index','method' =>'GET',
+                    {!! Form::open(['route'=>'users.sinrol','method' =>'GET',
                     'class'=>'form-inline float-right']) !!}
                         {!! Form::text('busqueda',null,['class'=>'form-control form-control mr-3 w-30',
                         'placeholder'=>'Buscar','aria-label'=>'Search'])!!}
@@ -81,7 +81,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{$users->render()}}
+                    {{$users->appends(Request::only(['busqueda']))->render()}}
                 </div>
             </div>
         </div>

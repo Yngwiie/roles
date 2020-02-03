@@ -60,7 +60,6 @@
                                 <a class="nav-link" href="{{ route('users.log') }}"><i class="fas fa-file-medical-alt"></i> Auditoria</a>
                             </li>
                         @endcan
-                        
 
                     </ul>
 
