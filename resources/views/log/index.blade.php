@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card animated fadeIn"  >
                 <div class="card-header shadow-lg">
-                    <strong>Auditoria</strong>                    
+                    <strong><i class="fas fa-file-medical-alt fa-2x"></i> Auditoria</strong>                    
                     {!! Form::open(['route'=>'users.log','method' =>'GET',
                     'class'=>'form-inline float-right']) !!}
                         <label for="name" class="col-form-label" style="padding-right: 5px;" >Busqueda con Fechas</label>

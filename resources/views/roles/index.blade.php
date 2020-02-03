@@ -6,7 +6,7 @@
         @yield('modal')
             <div class="card animated fadeIn"  >
                 <div class="card-header shadow-lg">
-                    <strong>Roles</strong>                    
+                    <strong><i class="fas fa-user-tag fa-2x"></i> Roles</strong>                    
                     {!! Form::open(['route'=>'roles.index','method' =>'GET',
                     'class'=>'form-inline float-right']) !!}
                         {!! Form::text('busqueda',null,['class'=>'form-control form-control mr-3 w-30',
@@ -75,7 +75,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+        <h5 class="modal-title" id="exampleModalLabel" style="color:red">Advertencia</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -101,7 +101,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+        <h5 class="modal-title" id="exampleModalLabel" style="color:red">Advertencia</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

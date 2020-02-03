@@ -7,7 +7,7 @@
             <div class="card animated fadeIn" style="width: 100%" >
                 <div class="card-header shadow-sm" >
                 
-                    <strong >Usuarios No Verificados</strong>
+                    <strong><i class="fas fa-user-friends fa-2x"></i> Usuarios No Verificados</strong>
                     
                     {!! Form::open(['route'=>'users.indexNoVerificados','method' =>'GET',
                     'class'=>'form-inline float-right']) !!}
@@ -86,7 +86,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+        <h5 class="modal-title" id="exampleModalLabel" style="color:red">Advertencia</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -111,7 +111,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+        <h5 class="modal-title" id="exampleModalLabel" style="color:red">Advertencia</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

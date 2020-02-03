@@ -42,12 +42,12 @@
                     <ul class="navbar-nav mr-auto">
                         @can('roles.index')
                             <li class="nav-item " >   
-                                <a class="nav-link" href="{{ route('roles.index') }}">Roles</a>
+                                <a class="nav-link" href="{{ route('roles.index') }}"><i class="fas fa-user-tag"></i> Roles</a>
                             </li>
                         @endcan
                         @can('users.index')
                             <li class="nav-item dropdown ">   
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuarios</a>
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-friends"></i> Usuarios</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('users.index') }}">Usuarios Verificados</a>
                                     <a class="dropdown-item" href="{{ route('users.indexNoVerificados') }}">Usuarios No verificados</a>
@@ -57,7 +57,7 @@
                         @endcan
                         @can('users.auditoria')
                             <li class="nav-item " >   
-                                <a class="nav-link" href="{{ route('users.log') }}">Auditoria</a>
+                                <a class="nav-link" href="{{ route('users.log') }}"><i class="fas fa-file-medical-alt"></i> Auditoria</a>
                             </li>
                         @endcan
                         
@@ -80,7 +80,7 @@
                             <li class="nav-item dropdown">
                                 @can('bd.respaldar')
                                     <li class="nav-item " >   
-                                    <a class="nav-link" data-toggle="modal" data-target="#modalRespaldo" href="#">Respaldar BD</a>
+                                    <a class="nav-link" data-toggle="modal" data-target="#modalRespaldo" href="#"><i class="fas fa-save"></i> Respaldar BD</a>
                                     </li>
                                 @endcan
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

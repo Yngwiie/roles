@@ -94,6 +94,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('log/excel','LogController@exportarExcel')->name('log.excel')
         ->middleware('can:users.auditoria');
     //ruta para respaldar base de datos
-    Route::get('respaldo','BackupController@backup_tables')->name('db.guardar');
+    Route::get('respaldo','BackupController@backup_tables')->name('db.guardar')
+        ->middleware('can:bd.respaldar');
 });
 
