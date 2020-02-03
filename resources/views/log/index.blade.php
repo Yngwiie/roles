@@ -30,7 +30,7 @@
                     <table class="table table-responsive table-striped table-hover shadow p-3 " >
                         <thead class="thead-dark">
                             <tr>
-                                <th class="col-xs-9 col-md-1">Fecha</th>
+                                <th class="col-xs-9 col-md-3">Fecha</th>
                                 <th class="col-xs-9 col-md-10">Nombre</th>
                                 <th class="col-xs-9 col-md-7">Rut</th>
                                 <th class="col-xs-9 col-md-10">Navegador</th>
@@ -42,6 +42,20 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- Si esta vacío  -->
+                            @if($logs->count()==0)
+                              <tr>
+                                  <td><H5>Sin Datos</H5></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                              </tr>
+                            @endif
+
                             @foreach($logs as $log)
                             <tr>
                                 <td >{{$log->created_at}}</td>

@@ -32,6 +32,16 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if($users->count()==0)
+                              <tr>
+                                  <td><H5>Sin Datos</H5></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                              </tr>
+                            @endif
+                            
                             @foreach($users as $user)
                             <tr>
                                 <td>{{$user->id}}</td>

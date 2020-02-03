@@ -33,6 +33,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if($roles->count()==0)
+                              <tr>
+                                  <td><H5>Sin Datos</H5></td>
+                                  <td></td>
+                                  <td></td>
+                              </tr>
+                            @endif
                             @foreach($roles as $role)
                             <tr>
                                 <td>{{$role->id}}</td>
