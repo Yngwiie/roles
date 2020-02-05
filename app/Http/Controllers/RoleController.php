@@ -7,6 +7,7 @@ use App\Event;
 use App\User;
 use DB;
 use Caffeinated\Shinobi\Models\Role;
+use App\Rol;
 use Caffeinated\Shinobi\Models\Permission;
 use App\Traits\Anadirlog;
 
@@ -22,7 +23,7 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        $roles = Role::busqueda($request->get('busqueda'))->paginate(15);
+        $roles = Rol::busqueda($request->get('busqueda'))->paginate(15);
         $users = User::all();
         return view('roles.index',compact('roles','users'));
     }

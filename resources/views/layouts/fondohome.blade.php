@@ -50,8 +50,8 @@
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-friends"></i> Usuarios</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('users.index') }}">Usuarios Verificados</a>
-                                    <a class="dropdown-item" href="{{ route('users.indexNoVerificados') }}">Usuarios No verificados</a>
-                                    <a class="dropdown-item" href="{{ route('users.sinrol') }}">Usuarios sin rol</a>
+                                    <a class="dropdown-item" href="{{ route('users.indexNoVerificados') }}">Usuarios No Verificados</a>
+                                    <a class="dropdown-item" href="{{ route('users.sinrol') }}">Usuarios Sin Rol</a>
                                 </div>
                             </li>
                         @endcan

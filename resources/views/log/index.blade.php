@@ -14,10 +14,10 @@
                         {!! Form::text('busqueda',null,['class'=>'form-control form-control mr-3 w-26',
                         'placeholder'=>'nombre o rut','aria-label'=>'Search'])!!}
         
-                        
-                        <label id="linicial" for="recipient-name" class="col-form-label"style="padding-right: 5px;display:none;">inicial</label>
+                          
+                        <strong><label id="linicial" for="recipient-name" class="col-form-label"style="padding-right: 5px;display:none;">Desde:</label></strong>
                         <input id ="fechai"type="date" class="form-control" name="fechainicio" style="display:none" >
-                        <label id="lfinal" for="recipient-name" class="col-form-label"style="padding-right: 5px;display:none;" >Final</label>
+                        <strong><label id="lfinal" for="recipient-name" class="col-form-label"style="padding-right: 5px;display:none;" >Hasta:</label></strong>
                         <input id="fechaf" type="date" class="form-control"  name="fechafinal" style="display:none">
                         {{ Form::button('<i class="fas fa-search" aria-hidden="true"></i>', ['type' => 'submit', 
                         'class' => 'btn btn-sm'] )  }}
