@@ -28,7 +28,8 @@ class RoleController extends Controller
         return view('roles.index',compact('roles','users'));
     }
     /**
-     * Función para crear rol con sus permisos. 
+     * Función para obtener los permisos de los roles para poder mandarselo a la
+     * vista de creacion.
      * 
      */
     public function create()
@@ -37,7 +38,7 @@ class RoleController extends Controller
         return view('roles.create',compact('permissions'));
     }
      /**
-     * Función para guardar los datos de un rol y sus permisos.
+     * Función para guardar los datos de un rol y sus permisos asociados.
      *
      * @return \Illuminate\Http\Response
      */
@@ -62,7 +63,7 @@ class RoleController extends Controller
     }
 
     /**
-     * funcion para mostrar el detalle de un rol.
+     * función para mostrar el detalle de un rol.
      *
      * @param  Role $role rol que se desea mostrar.
      * @return \Illuminate\Http\Response se devuelve la vista show y los datos del rol.
@@ -201,6 +202,7 @@ class RoleController extends Controller
     }
     
     /**
+     * Funcion para convertir datos de un rol a string
      * @param Role $rol
      * 
      * @return void

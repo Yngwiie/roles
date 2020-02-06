@@ -38,35 +38,43 @@ class UserController extends Controller
         return view('users.index',compact('users'));
     }
     /**
-     * Funcion para listar en pantalla todos los usuarios que no estan eliminados y
+     * Funcion para listar  todos los usuarios 
      * que no esten verificados
      * @return  \Illuminate\Http\Response retorna vista indexNoVerificados con los usuarios.
      */
     public function indexNoVerificados(Request $request)
     {   
-                       //scope
+        //utilizo el scope de usuarios para filtrar, si es que se requiere filtracion.
         $users = User::busqueda_no_verificados($request->get('busqueda'))->withTrashed()->paginate(15);
         $users_sin_paginacion = User::select("id","name","rut","email","estado","deleted_at")
                 ->busqueda_no_verificados($request->get('busqueda'))->withTrashed()->get();
+        //guardo los usuarios sin paginacion para poder exportarlos a Excel si lo desea.
         Session::put('users_filtro',$users_sin_paginacion);
         return view('users.indexNoverificados',compact('users'));
     }
 
     /**
      * Función para obtener todos los usuarios sin rol y paginarlos.
+     * @param Request $request
+     * 
+     * @return void
      */
     public function indexSinRol(Request $request){
+        //obtengo todos los usuarios , utilizando un scope de filtro, si es que se requiere filtro.
         $users_todos = User::busqueda_sin_rol($request->get('busqueda'))->withTrashed()->get();
         
+        //recorro todos los usuarios y creo otra coleccion con los usuarios sin rol.
         $users_sin_rol = collect(new User);
         foreach($users_todos as $user){
             $roles = $user->roles;
-            if($roles->count()==0){
+            if($roles->count()==0){//Si no tiene rol
                 $users_sin_rol->push($user);
             }
         }
         $users = $users_sin_rol->paginate(15); //pagino los usuarios sin rol.
-
+ 
+        //lo realizo nuevamente pero solo con los datos que nesesito para poder guardarlos, para una
+        //posible exportacion a Excel.
         $users_todos = User::select("id","name","rut","email","estado","deleted_at")->busqueda_sin_rol($request->get('busqueda'))->withTrashed()->get();
         
         $users_sin_rol_sin_paginacion = collect(new User);
@@ -77,10 +85,10 @@ class UserController extends Controller
             }
         }
         $users_sin_paginacion = $users_sin_rol_sin_paginacion;
-        Session::put('users_filtro',$users_sin_paginacion);
+        Session::put('users_filtro',$users_sin_paginacion);//lo guardo en una variable de session
         return view('users.indexsinrol',compact('users'));
     }
-
+    
     /**
      * Función para restaurar un usuario Deshabilitado(eliminado con sofdelete)
      */
@@ -263,7 +271,7 @@ class UserController extends Controller
 
 
     /**
-     * Función para enviar correo a administrador
+     * Función para enviar correo a administrador para que asigne un rol.
      */
     public function enviarCorreoAdmin($id)
     {

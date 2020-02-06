@@ -13,9 +13,14 @@ use Maatwebsite\Excel\Facades\Excel;
 class LogController extends Controller
 {
 
+    /**
+     * Funcion para listar los datos de LOG para enviarselo a la vista de auditoria.
+     * @param Request $request
+     * 
+     * @return void
+     */
     public function index(Request $request){
         $logs = log::orderBy('id','DESC')
-        /* ->WhereBetween(DB::raw('DATE(created_at)'),[$request->fechainicio,$request->fechafinal]) */
         ->fecha($request->get('fechainicio'),$request->get('fechafinal'))  
         ->name_o_rut($request->get('busqueda'))
         ->paginate(15);
