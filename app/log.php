@@ -23,7 +23,7 @@ class log extends Model
     /**
      * funcion para buscar por nombre en la tabla LOG
      * @param mixed $query
-     * @param mixed $busqueda
+     * @param mixed $busqueda dato por el que se desea buscar.
      * 
      * @return void
      */
@@ -37,8 +37,8 @@ class log extends Model
     /**
      * funcion para buscar entre dos fechas en LOG
      * @param mixed $query
-     * @param mixed $fechai
-     * @param mixed $fechaf
+     * @param mixed $fechai fecha inicial
+     * @param mixed $fechaf fecha final
      * 
      * @return void
      */

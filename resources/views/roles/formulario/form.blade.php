@@ -24,22 +24,24 @@
     <button class="btn " data-placement="right" style="pointer-events: none;" type="button" disabled><i class="far fa-question-circle fa-lg"></i></button>
 </span>
 
-<div class="form-group">
+<div id="especiales" class="form-group">
 
-    <label >{{ Form::radio('special','all-access') }}Acceso Total</label>
-    <label >{{ Form::radio('special','no-access') }}Ningun Acceso </label>
-    <input class="btn btn-secondary btn-sm" type="button" name="res" value="Deseleccionar" onclick="unselect()"> 
+    <label >{{ Form::radio('special','all-access',false,array('id'=>'acceso_total','onchange')) }}Acceso Total</label>
+    <label >{{ Form::radio('special','no-access',false,array('id'=>'sin_acceso')) }}Ningun Acceso </label>
+    <input class="btn btn-secondary btn-sm" id="deseleccionar"type="button" name="res" value="Deseleccionar" onclick="unselect()"> 
 </div>
 <h3>Lista de permisos</h3>
-<div class="form-group">
+<div id="permisos" class="form-group" style="display:inline;">
     <ul class="list-unstyled">
+        <?php $i=0;?>
         @foreach($permissions as $permission)
         <li>
             <label>
-                {{ Form::checkbox('permissions[]',$permission->id,null) }}
+                
+                {{ Form::checkbox('permissions[]',$permission->id,null,array('id'=>'permiso'.$i+=1)) }}
                 {{ $permission->name}}
                 <em>({{$permission -> description ?: 'Sin Descripción'}})</em>
-             
+                
             </label>
         </li>
         @endforeach
@@ -63,8 +65,22 @@
             var x = slugify($("#name").val());
             $("#slug").val(x);
         });
+        /* $('#acceso_total').prop()
+        var discounted = document.getElementById('acceso_total');
+        var discount_percentage = document.getElementById('permisos')
+        if (discounted.checked) {
+            console.log("hola");
+            discount_percentage.disabled = true;
+        } else {
+            console.log("chao");
+            discount_percentage.disabled = false;
+        } */
     });
+    function comprobar(obj){
+        if(obj.checked){
 
+        }
+    }
     function slugify(text){
       return text.toString().toLowerCase()
         .replace(/\s+/g, '-')           // Replace spaces with -
@@ -78,4 +94,34 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
+
+</script>
+<script>
+    if($("#acceso_total").is(":checked")){
+        var aItems = document.getElementsByName("permissions[]");
+        for (var i = 0; i < aItems.length; i++)
+            aItems[i].disabled = true; 
+    }
+    if($("#sin_acceso").is(":checked")){
+        var aItems = document.getElementsByName("permissions[]");
+        for (var i = 0; i < aItems.length; i++)
+            aItems[i].disabled = true; 
+    }
+    $("#acceso_total").click(function(){
+        var aItems = document.getElementsByName("permissions[]");
+        for (var i = 0; i < aItems.length; i++)
+            aItems[i].disabled = true; 
+    });
+    $("#sin_acceso").click(function(){
+        var aItems = document.getElementsByName("permissions[]");
+        for (var i = 0; i < aItems.length; i++)
+            aItems[i].disabled = true; 
+    });
+    $("#deseleccionar").click(function(){
+        console.log("hola");
+        var aItems = document.getElementsByName("permissions[]");
+            for (var i = 0; i < aItems.length; i++)
+                aItems[i].disabled = false; 
+    });
+
 </script>

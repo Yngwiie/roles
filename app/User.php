@@ -52,7 +52,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
-     * Send the password reset notification.
+     * Envia la notificacion de reiniciar contraseña.
      *
      * @param  string  $token
      * @return void
@@ -61,6 +61,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+    
     public function sendEmailVerificationNotification()
     {
         $this->notify(new CustomVerifyEmail);
@@ -97,6 +98,14 @@ class User extends Authenticatable implements MustVerifyEmail
        
     }
     
+    /**
+     * Funcion para buscar usuarios sin rol a traves de consulta query.
+     * Se puede buscar por nombre, rut o email.
+     * @param mixed $query
+     * @param mixed $busqueda
+     * 
+     * @return void
+     */
     public function scopeBusqueda_sin_rol($query,$busqueda)
     {
         $query->where('id','!=',1); 

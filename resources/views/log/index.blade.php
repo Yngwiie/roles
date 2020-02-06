@@ -109,24 +109,25 @@
           {   
               if (obj.checked){
                 
-              document.getElementById('fechai').style.display = "";
-              
+                  document.getElementById('fechai').style.display = "";
+                  
 
-              $("#fechai").attr("required", true);
-              
-              document.getElementById('linicial').style.display = "";
-              document.getElementById('lfinal').style.display = "";
-              $("#fechaf").attr("required", true);
-              document.getElementById('fechaf').style.display = "";
-                } else{
+                  $("#fechai").attr("required", true);
+                  
+                  document.getElementById('linicial').style.display = "";
+                  document.getElementById('lfinal').style.display = "";
+                  $("#fechaf").attr("required", true);
+                  document.getElementById('fechaf').style.display = "";
+              } 
+              else{
                     
-              document.getElementById('fechai').style.display = "none";
-              $("#fechai").attr("required", false);
-              document.getElementById('linicial').style.display = "none";
-              document.getElementById('lfinal').style.display = "none";
-              $("#fechaf").attr("required", false);
-              document.getElementById('fechaf').style.display = "none";
-                }     
+                  document.getElementById('fechai').style.display = "none";
+                  $("#fechai").attr("required", false);
+                  document.getElementById('linicial').style.display = "none";
+                  document.getElementById('lfinal').style.display = "none";
+                  $("#fechaf").attr("required", false);
+                  document.getElementById('fechaf').style.display = "none";
+              }     
           }
 
 </script>
