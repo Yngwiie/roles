@@ -7,10 +7,26 @@
             <div class="card  animated fadeIn" style="">
                 <div class="card-header shadow-sm">
                     
-                    <strong><i class="fas fa-user-friends fa-2x"></i> Usuarios Verificados</strong>
+                    <strong><i class="fas fa-user-friends fa-2x"></i> Usuarios</strong>
                     
                     {!! Form::open(['route'=>'users.index','method' =>'GET',
                     'class'=>'form-inline float-right']) !!}
+                      <label style="padding-right:7px" for="text">Filtro:</label>
+                          <select style="margin-right:10px"class="form-control" name="filtro" id="filtro">
+                              @if($filtro=='todos' or $filtro==null)
+                                  <option value="todos" selected>Todos</option>
+                                  <option value="conrol">Usuarios con rol</option>
+                                  <option value="sinrol">Usuarios sin rol</option>
+                              @elseif($filtro=='conrol')
+                                  <option value="todos" >Todos</option>
+                                  <option value="conrol" selected>Usuarios con rol</option>
+                                  <option value="sinrol">Usuarios sin rol</option>
+                              @elseif($filtro=='sinrol')
+                                  <option value="todos" >Todos</option>
+                                  <option value="conrol">Usuarios con rol</option>
+                                  <option value="sinrol" selected>Usuarios sin rol</option>
+                              @endif
+                          </select>
                         {!! Form::text('busqueda',null,['class'=>'form-control form-control mr-3 w-30',
                         'placeholder'=>'Buscar','aria-label'=>'Search'])!!}
                         
@@ -19,8 +35,11 @@
                     {!!Form::close()!!}
                 </div>
                     
-                <div class="card-body shadow-lg ">
-                  <a type="button" href="{{route('users.excel')}}"class="btn btn-secondary btn-md" style="color:white"><i class="fas fa-file-download"></i> Descargar Excel</a>
+                <div class="card-body shadow-lg">
+                  
+                    <a type="button" href="{{route('users.excel')}}"class="btn btn-secondary btn-md" style="color:white"><i class="fas fa-file-download"></i> Descargar Excel</a>
+
+                  
                     <table class="table table-responsive table-striped table-hover shadow p-3">
                         <thead class="thead-dark" style="resize: both;">
                             <tr>
@@ -28,6 +47,7 @@
                                 <th class="col-xs-9 col-md-10">Nombre</th>
                                 <th class="col-xs-9 col-md-10">Rut</th>
                                 <th class="col-xs-9 col-md-9">Habilitado</th>
+                                <th class="col-xs-9 col-md-9">Rol asignado</th>
                                 <th class="col-xs-9 col-md-7" colspan="9">&nbsp;</th>
                             </tr>
                         </thead>
@@ -51,6 +71,11 @@
                                     <td>Si</td>
                                 @else
                                     <td>No</td>
+                                @endif
+                                @if($user->roles->count()>0)
+                                  <td>Si</td>
+                                @else
+                                  <td>No</td>
                                 @endif
                                 <td width="10px">
                                     @can('users.show')<!-- Si tiene permiso para ver usuario se mostrara el boton-->
@@ -87,7 +112,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{$users->appends(Request::only(['busqueda']))->render()}}
+                    {{$users->appends(Request::only(['busqueda','filtro']))->render()}}
                 </div>
             </div>
         </div>

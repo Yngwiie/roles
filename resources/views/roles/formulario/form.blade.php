@@ -1,12 +1,12 @@
 
 <div class="form-group">
-    {{ Form::label('name','Nombre') }}
+    {{ Form::label('name','Nombre del Rol') }}
     {{ Form::text('name',null,['class'=>'form-control','required']) }}
 </div>
 
 <div class="form-group">
     {{ Form::label('slug','URL amigable')}} 
-    <span class="d-inline-block" data-placement="right" tabindex="0" data-toggle="tooltip" title="Este atributo sirve para idenfiticar internamente el rol, debe ser unico.">
+    <span class="d-inline-block" data-placement="right" tabindex="0" data-toggle="tooltip" title="Este atributo sirve para idenfiticar internamente el rol, debe ser único.">
         <button class="btn " data-placement="right" style="pointer-events: none;" type="button" disabled><i class="far fa-question-circle fa-lg"></i></button>
     </span>
     {{ Form::text('slug',null,['class' => 'form-control','required']) }}

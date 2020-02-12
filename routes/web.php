@@ -22,7 +22,7 @@ Route::get('profile',function(){
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth','verified'])->group(function(){
     Route::get('/', function () {
         return view('home');
     })->middleware('verified');

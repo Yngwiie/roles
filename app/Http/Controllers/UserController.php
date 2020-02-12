@@ -31,26 +31,58 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {   
-                       //scope
-        $users = User::busqueda($request->get('busqueda'))->withTrashed()->paginate(15);
-        $users_sin_paginacion = User::select("id","name","rut","email","estado","deleted_at")->busqueda($request->get('busqueda'))->withTrashed()->get();
-        Session::put('users_filtro',$users_sin_paginacion);
-        return view('users.index',compact('users'));
+        $filtro = $request->get('filtro');
+        if($filtro=='todos' or $filtro==null){
+                            //scope
+            $users = User::busqueda($request->get('busqueda'))->withTrashed()->paginate(15);
+            $users_sin_paginacion = User::select("id","name","rut","email","deleted_at")->busqueda($request->get('busqueda'))->withTrashed()->get();
+            Session::put('users_filtro',$users_sin_paginacion);
+            return view('users.index',compact('users','filtro'));
+        }elseif($filtro=='sinrol'){
+            $users = $this->indexSinRol($request);
+            return view('users.index',compact('users','filtro'));
+        }elseif($filtro=='conrol'){
+            $users = $this->indexConRol($request);
+            return view('users.index',compact('users','filtro'));
+        }
+                       
     }
-    /**
-     * Funcion para listar  todos los usuarios 
-     * que no esten verificados
-     * @return  \Illuminate\Http\Response retorna vista indexNoVerificados con los usuarios.
+     /**
+     * Función para obtener todos los usuarios solo con rol y paginarlos.
+     * @param Request $request
+     * 
+     * @return void
      */
-    public function indexNoVerificados(Request $request)
-    {   
-        //utilizo el scope de usuarios para filtrar, si es que se requiere filtracion.
-        $users = User::busqueda_no_verificados($request->get('busqueda'))->withTrashed()->paginate(15);
-        $users_sin_paginacion = User::select("id","name","rut","email","estado","deleted_at")
-                ->busqueda_no_verificados($request->get('busqueda'))->withTrashed()->get();
-        //guardo los usuarios sin paginacion para poder exportarlos a Excel si lo desea.
-        Session::put('users_filtro',$users_sin_paginacion);
-        return view('users.indexNoverificados',compact('users'));
+    public function indexConRol(Request $request){
+        
+        //obtengo todos los usuarios , utilizando un scope de filtro, si es que se requiere filtro.
+        $users_todos = User::busqueda_sin_rol($request->get('busqueda'))->withTrashed()->get();
+        
+        //recorro todos los usuarios y creo otra coleccion con los usuarios sin rol.
+        $users_con_rol = collect(new User);
+        foreach($users_todos as $user){
+            $roles = $user->roles;
+            if($roles->count()==1){//Si no tiene rol
+                $users_con_rol->push($user);
+            }
+        }
+        $users = $users_con_rol->paginate(15); //pagino los usuarios sin rol.
+ 
+        //lo realizo nuevamente pero solo con los datos que nesesito para poder guardarlos, para una
+        //posible exportacion a Excel.
+        $users_todos = User::select("id","name","rut","email","deleted_at")->busqueda_sin_rol($request->get('busqueda'))->withTrashed()->get();
+        
+        $users_con_rol_sin_paginacion = collect(new User);
+        foreach($users_todos as $user){
+            $roles = $user->roles;
+            if($roles->count()==1){
+                $users_con_rol_sin_paginacion->push($user);
+            }
+        }
+        $users_sin_paginacion = $users_con_rol_sin_paginacion;
+        Session::put('users_filtro',$users_sin_paginacion);//lo guardo en una variable de session
+        return $users;
+        
     }
 
     /**
@@ -60,6 +92,7 @@ class UserController extends Controller
      * @return void
      */
     public function indexSinRol(Request $request){
+        
         //obtengo todos los usuarios , utilizando un scope de filtro, si es que se requiere filtro.
         $users_todos = User::busqueda_sin_rol($request->get('busqueda'))->withTrashed()->get();
         
@@ -75,7 +108,7 @@ class UserController extends Controller
  
         //lo realizo nuevamente pero solo con los datos que nesesito para poder guardarlos, para una
         //posible exportacion a Excel.
-        $users_todos = User::select("id","name","rut","email","estado","deleted_at")->busqueda_sin_rol($request->get('busqueda'))->withTrashed()->get();
+        $users_todos = User::select("id","name","rut","email","deleted_at")->busqueda_sin_rol($request->get('busqueda'))->withTrashed()->get();
         
         $users_sin_rol_sin_paginacion = collect(new User);
         foreach($users_todos as $user){
@@ -86,7 +119,8 @@ class UserController extends Controller
         }
         $users_sin_paginacion = $users_sin_rol_sin_paginacion;
         Session::put('users_filtro',$users_sin_paginacion);//lo guardo en una variable de session
-        return view('users.indexsinrol',compact('users'));
+        return $users;
+        
     }
     
     /**
@@ -225,11 +259,21 @@ class UserController extends Controller
         if($id == 1){
             abort(404);
         }
-        $validatedData = $request->validate([
-            'name' => 'required|min:1|max:190',
-            'roles' =>'array|required|max:1',
-        ]);
+        
         $user = User::withTrashed()->findOrFail($id);
+        if($user->email == $request->email){
+            $validatedData = $request->validate([
+                'name' => 'required|min:1|max:190',
+                'roles' =>'array|required|max:1',
+            ]);
+        }elseif($user->email!= $request->email){
+            $validatedData = $request->validate([
+                'name' => 'required|min:1|max:190',
+                'email' => 'unique:users',
+                'roles' =>'array|required|max:1',
+            ]);
+        }
+        
         $roles_ant = $user->roles;
         $idrol="";
         foreach($roles_ant as $rol){

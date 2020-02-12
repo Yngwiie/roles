@@ -14,8 +14,9 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/df11a4c4b4.js" crossorigin="anonymous"></script>
-    
+    <!-- <script src="https://kit.fontawesome.com/df11a4c4b4.js" crossorigin="anonymous"></script> -->
+    <link href="{{ asset('css/all.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/fontawesome.min.css') }}" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/load.css') }}" rel="stylesheet">
@@ -26,7 +27,9 @@
 <body >   
     <div id="app" >
     @include('mensajes-flash')   
+    
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+            
             <div class="container" style="position: relative;">
                 <a class="navbar-brand animated "href="{{ url('/home') }}">
                     {{ config('Roles y Permisos', 'Roles y Permisos') }}
@@ -34,9 +37,10 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
+                
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- lado izquierdo de la barra de navegación -->
+                    @if(auth()->user()->estado=='verificado')
                     <ul class="navbar-nav mr-auto">
                         <!-- -->
                         @can('roles.index')
@@ -45,14 +49,10 @@
                             </li>
                         @endcan
                         @can('users.index')
-                            <li class="nav-item dropdown ">   
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-friends"></i> Usuarios</a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('users.index') }}">Usuarios Verificados</a>
-                                    <a class="dropdown-item" href="{{ route('users.indexNoVerificados') }}">Usuarios No Verificados</a>
-                                    <a class="dropdown-item" href="{{ route('users.sinrol') }}">Usuarios Sin Rol</a>
-                                </div>
+                            <li class="nav-item " >   
+                                <a class="nav-link" href="{{ route('users.index') }}"><i class="fas fa-user-tag"></i>Usuarios</a>
                             </li>
+                            
                         @endcan
                         @can('users.auditoria')
                             <li class="nav-item " >   
@@ -62,30 +62,33 @@
                         
 
                     </ul>
-
+                    @endif
                     <!-- Lado derecho de la barra de navegación -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Links de autenticación -->
                         @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Inicio Sesión') }}</a>
+                            <li class="nav-item ">
+                                <a class="nav-link active" href="{{ route('login') }}">{{ __('Inicio Sesión') }}</a>
                             </li>
                             @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Registro') }}</a>
+                                <li class="nav-item active">
+                                    <a class="nav-link active" href="{{ route('register') }}">{{ __('Registro') }}</a>
                                 </li>
                             @endif
+                        
                         @else
                             <li class="nav-item dropdown">
-                                @can('bd.respaldar')
-                                    <li class="nav-item " >   
-                                        <a class="nav-link" data-toggle="modal" data-target="#modalRespaldo" href="#"><i class="fas fa-save"></i> Respaldar BD</a>
-                                    </li>
-                                @endcan
+                                @if(auth()->user()->estado=='verificado')
+                                    @can('bd.respaldar')
+                                        <li class="nav-item " >   
+                                            <a class="nav-link" data-toggle="modal" data-target="#modalRespaldo" href="#"><i class="fas fa-save"></i> Respaldar BD</a>
+                                        </li>
+                                    @endcan
+                                @endif
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-
+                        
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     @can('user.editardatospersonales')
                                         <a class="dropdown-item" href="{{route('users.edicionPersonal',auth()->user()->id)}}">
@@ -101,13 +104,16 @@
                                         @csrf
                                     </form>
                                 </div>
+                                
                             </li>
                         @endguest
                     </ul>
                 </div>
+                
             </div>
+            
         </nav>
-
+        
         <main class="py-4 clearfix">
             @yield('content')
         </main>

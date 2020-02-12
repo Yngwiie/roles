@@ -56,7 +56,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Contraseña') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Debe contener al menos 8 caracteres" required autocomplete="new-password">
                                 <i id="mostrar" ontouchend="dejarMostrar()" ontouchstart="mostrarCon()" class="fas fa-eye float-right" style="margin:2px;"></i>
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -69,7 +69,7 @@
                         <div class="form-group row">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirmar Contraseña') }}</label>
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Debe contener al menos 8 caracteres" required autocomplete="new-password">
                                 <i id="mostrar1" ontouchend="dejarMostrarConfirm()" ontouchstart="mostrarConfirm()" class="fas fa-eye float-right" style="margin:2px;"></i> 
 
                             </div>

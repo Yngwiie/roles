@@ -108,6 +108,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function scopeBusqueda_sin_rol($query,$busqueda)
     {
+        $query->where('estado',"verificado");
         $query->where('id','!=',1); 
         if($busqueda!=""){
             $query->where([['name','LIKE',"%$busqueda%"]])

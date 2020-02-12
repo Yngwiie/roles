@@ -9,7 +9,7 @@
                     <strong><i class="fas fa-file-medical-alt fa-2x"></i> Auditoria</strong>                    
                     {!! Form::open(['route'=>'users.log','method' =>'GET',
                     'class'=>'form-inline float-right']) !!}
-                        <label for="name" class="col-form-label" style="padding-right: 5px;" >Busqueda con Fechas</label>
+                        <label for="name" class="col-form-label" style="padding-right: 5px;" >Búsqueda por fechas</label>
                         <input autocomplete="off" name="chec" style="margin-right: 5px;" type="checkbox" id="chec" onChange="comprobar(this);" />
                         {!! Form::text('busqueda',null,['class'=>'form-control form-control mr-3 w-26',
                         'placeholder'=>'nombre o rut','aria-label'=>'Search'])!!}

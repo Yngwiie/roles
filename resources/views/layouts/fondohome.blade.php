@@ -39,6 +39,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- lado izquierdo de la barra de navegación -->
+                    
                     <ul class="navbar-nav mr-auto">
                         @can('roles.index')
                             <li class="nav-item " >   
@@ -46,13 +47,8 @@
                             </li>
                         @endcan
                         @can('users.index')
-                            <li class="nav-item dropdown ">   
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-friends"></i> Usuarios</a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('users.index') }}">Usuarios Verificados</a>
-                                    <a class="dropdown-item" href="{{ route('users.indexNoVerificados') }}">Usuarios No Verificados</a>
-                                    <a class="dropdown-item" href="{{ route('users.sinrol') }}">Usuarios Sin Rol</a>
-                                </div>
+                            <li class="nav-item " >   
+                                <a class="nav-link" href="{{ route('users.index') }}"><i class="fas fa-user-tag"></i>Usuarios</a>
                             </li>
                         @endcan
                         @can('users.auditoria')
@@ -62,26 +58,28 @@
                         @endcan
 
                     </ul>
-
+                    
                     <!-- Lado derecho de la barra de navegación -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Links de autenticación -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Inicio Sesión') }}</a>
+                                <a class="nav-link active" href="{{ route('login') }}">{{ __('Inicio Sesión') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Registro') }}</a>
+                                    <a class="nav-link active" href="{{ route('register') }}">{{ __('Registro') }}</a>
                                 </li>
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                @can('bd.respaldar')
-                                    <li class="nav-item " >   
-                                    <a class="nav-link" data-toggle="modal" data-target="#modalRespaldo" href="#"><i class="fas fa-save"></i> Respaldar BD</a>
-                                    </li>
-                                @endcan
+                                
+                                    @can('bd.respaldar')
+                                        <li class="nav-item " >   
+                                        <a class="nav-link" data-toggle="modal" data-target="#modalRespaldo" href="#"><i class="fas fa-save"></i> Respaldar BD</a>
+                                        </li>
+                                    @endcan
+                                
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle active" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>

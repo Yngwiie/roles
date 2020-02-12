@@ -105,80 +105,49 @@ class RoleController extends Controller
      */
     public function update(Request $request,Role $role)
     {
-        if($role->slug == $request->slug && $role->name == $request->name){
-            $datos_antiguos = $this->convertirRolAstring($role);
-            //actualizar rol
-            $role->update($request->all());
-            //actualizar permisos
-            $role->permissions()->sync($request->get('permissions'));
-            $roles = Role::all()->paginate(15);
-
-            $datos_nuevos = $this->convertirRolAstring($role);
-            //llamo a la funcion ara crear una nueva accion en la tabla Log
-            $this->nuevaAccion('actualizar rol',$datos_nuevos,$datos_antiguos); 
-
-            return redirect()->route('roles.index',$roles)
-                ->with('success','Rol actualizado con éxito');  
-        }
+        $nombreantiguo = $this->eliminar_acentos($role->name);
+        $nombrenuevo = $this->eliminar_acentos($request->name);
+        
+        //no validar nada si se mantienen los mismos parametros
+        if($role->slug == $request->slug && $nombreantiguo == $nombrenuevo){
+            
+        }   
+        //solo validar el nombre si los slugs son iguales
         elseif($role->slug == $request->slug){
             $validatedData = $request->validate([
                 'name' => 'required|unique:roles|min:3|max:190',
             ]);
-            $datos_antiguos = $this->convertirRolAstring($role);
-            //actualizar rol
-            $role->update($request->all());
-
-            //actualizar permisos
-            $role->permissions()->sync($request->get('permissions'));
-            $roles = Role::all()->paginate(15);
-
-            $datos_nuevos = $this->convertirRolAstring($role);
-            //llamo a la funcion ara crear una nueva accion en la tabla Log
-            $this->nuevaAccion('actualizar rol',$datos_nuevos,$datos_antiguos); 
-            return redirect()->route('roles.index',$roles)
-                ->with('success','Rol actualizado con éxito');  
+            
         }
-        elseif($role->name == $request->name){
+        //validar solo los slugs si los nombres son iguales
+        elseif($nombreantiguo == $nombrenuevo){
              
             $validatedData = $request->validate([
                 'slug' => 'required|unique:roles|max:18|min:3',
             ]);
-             $datos_antiguos = $this->convertirRolAstring($role);
-             //actualizar rol
-             $role->update($request->all());
-
-             //actualizar permisos
-             $role->permissions()->sync($request->get('permissions'));
- 
-             $roles = Role::all()->paginate(15);
-
-             $datos_nuevos = $this->convertirRolAstring($role);
-             //llamo a la funcion ara crear una nueva accion en la tabla Log
-             $this->nuevaAccion('actualizar rol',$datos_nuevos,$datos_antiguos); 
-             return redirect()->route('roles.index',$roles)
-                ->with('success','Rol actualizado con éxito');  
         }
+        //si ambos son diferentes
         else{
             $validatedData = $request->validate([
                 'slug' => 'required|unique:roles|max:18|min:3',
                 'name' => 'required|unique:roles|min:3|max:190',
             ]);
-            $datos_antiguos = $this->convertirRolAstring($role);
-            //actualizar rol
-            $role->update($request->all());
-
-            //actualizar permisos
-            $role->permissions()->sync($request->get('permissions'));
-
-
-            $datos_nuevos = $this->convertirRolAstring($role);
-            //llamo a la funcion ara crear una nueva accion en la tabla Log
-            $this->nuevaAccion('actualizar rol',$datos_nuevos,$datos_antiguos); 
-            $roles = Role::all()->paginate(15);
-            return redirect()->route('roles.index',$roles)
-                ->with('success','Rol actualizado con éxito');  
+            
         }
-        
+        $datos_antiguos = $this->convertirRolAstring($role);
+        //actualizar rol
+        $role->update($request->all());
+
+        //actualizar permisos
+        $role->permissions()->sync($request->get('permissions'));
+
+
+        $datos_nuevos = $this->convertirRolAstring($role);
+        //llamo a la funcion ara crear una nueva accion en la tabla Log
+        $this->nuevaAccion('actualizar rol',$datos_nuevos,$datos_antiguos); 
+        $roles = Role::all()->paginate(15);
+        return redirect()->route('roles.index',$roles)
+            ->with('success','Rol actualizado con éxito');  
         
         
     }
@@ -217,5 +186,53 @@ class RoleController extends Controller
 
         return $string;
     }
-
+    
+   /**
+    * Funcion para eliminar acentos.
+    * @param mixed $cadena
+    * 
+    * @return void
+    */
+    function eliminar_acentos($cadena){
+		
+		//Reemplazamos la A y a
+		$cadena = str_replace(
+		array('Á', 'À', 'Â', 'Ä', 'á', 'à', 'ä', 'â', 'ª'),
+		array('A', 'A', 'A', 'A', 'a', 'a', 'a', 'a', 'a'),
+		$cadena
+		);
+ 
+		//Reemplazamos la E y e
+		$cadena = str_replace(
+		array('É', 'È', 'Ê', 'Ë', 'é', 'è', 'ë', 'ê'),
+		array('E', 'E', 'E', 'E', 'e', 'e', 'e', 'e'),
+		$cadena );
+ 
+		//Reemplazamos la I y i
+		$cadena = str_replace(
+		array('Í', 'Ì', 'Ï', 'Î', 'í', 'ì', 'ï', 'î'),
+		array('I', 'I', 'I', 'I', 'i', 'i', 'i', 'i'),
+		$cadena );
+ 
+		//Reemplazamos la O y o
+		$cadena = str_replace(
+		array('Ó', 'Ò', 'Ö', 'Ô', 'ó', 'ò', 'ö', 'ô'),
+		array('O', 'O', 'O', 'O', 'o', 'o', 'o', 'o'),
+		$cadena );
+ 
+		//Reemplazamos la U y u
+		$cadena = str_replace(
+		array('Ú', 'Ù', 'Û', 'Ü', 'ú', 'ù', 'ü', 'û'),
+		array('U', 'U', 'U', 'U', 'u', 'u', 'u', 'u'),
+		$cadena );
+ 
+		//Reemplazamos la N, n, C y c
+		$cadena = str_replace(
+		array('Ñ', 'ñ', 'Ç', 'ç'),
+		array('N', 'n', 'C', 'c'),
+		$cadena
+		);
+		
+		return $cadena;
+	}
 }
